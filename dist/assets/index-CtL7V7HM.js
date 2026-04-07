@@ -1,53 +1,15 @@
-export function initApp(): void {
-  const app = document.getElementById('app');
-
-  if (!app) return;
-
-  app.innerHTML = `
-    ${createParticlesLayer()}
-    ${createNavbar()}
-    ${createHero()}
-    ${createAbout()}
-    ${createExperience()}
-    ${createEducation()}
-    ${createSkills()}
-    ${createProjects()}
-    ${createContact()}
-    ${createFooter()}
-  `;
-
-  // Initialize all interactive features
-  initThemeToggle();
-  initTypingAnimation();
-  initScrollAnimations();
-  initContactForm();
-  initSmoothScroll();
-  initParticles();
-}
-
-function createParticlesLayer(): string {
-  return '<div class="particles" id="particles" aria-hidden="true"></div>';
-}
-
-const PROFILE_CONFIG = {
-  // Place your photo in public/ and update this path when needed.
-  imagePath: 'sp.jpeg',
-  alt: 'Pranjal Tiwari profile picture'
-};
-
-const EXPERIENCE_DATES = {
-  zebraffeStart: 'Dec 2024',
-  atrivisStart: 'Sep 2024',
-  atrivisEnd: 'Nov 2024'
-};
-
-function getPublicAssetUrl(path: string): string {
-  const cleanedPath = path.replace(/^\/+/, '');
-  return `${import.meta.env.BASE_URL}${cleanedPath}`;
-}
-
-function createNavbar(): string {
-  return `
+(function(){const i=document.createElement("link").relList;if(i&&i.supports&&i.supports("modulepreload"))return;for(const s of document.querySelectorAll('link[rel="modulepreload"]'))t(s);new MutationObserver(s=>{for(const n of s)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&t(o)}).observe(document,{childList:!0,subtree:!0});function a(s){const n={};return s.integrity&&(n.integrity=s.integrity),s.referrerPolicy&&(n.referrerPolicy=s.referrerPolicy),s.crossOrigin==="use-credentials"?n.credentials="include":s.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function t(s){if(s.ep)return;s.ep=!0;const n=a(s);fetch(s.href,n)}})();function l(){const e=document.getElementById("app");e&&(e.innerHTML=`
+    ${r()}
+    ${h()}
+    ${v()}
+    ${m()}
+    ${g()}
+    ${u()}
+    ${f()}
+    ${b()}
+    ${k()}
+    ${y()}
+  `,T(),S(),w(),P(),I(),j())}function r(){return'<div class="particles" id="particles" aria-hidden="true"></div>'}const d={imagePath:"sp.jpeg",alt:"Pranjal Tiwari profile picture"},c={zebraffeStart:"Dec 2024",atrivisStart:"Sep 2024",atrivisEnd:"Nov 2024"};function p(e){return`/portfolio/${e.replace(/^\/+/,"")}`}function h(){return`
     <nav class="navbar" id="navbar">
       <div class="nav-container">
         <h1 class="logo">PT</h1>
@@ -68,14 +30,7 @@ function createNavbar(): string {
         </button>
       </div>
     </nav>
-  `;
-}
-
-function createHero(): string {
-  const { imagePath, alt } = PROFILE_CONFIG;
-  const resolvedImagePath = getPublicAssetUrl(imagePath);
-
-  return `
+  `}function v(){const{imagePath:e,alt:i}=d;return`
     <section id="home" class="hero">
       <div class="hero-layout">
         <div class="hero-content">
@@ -109,16 +64,12 @@ function createHero(): string {
         <div class="hero-image fade-in">
           <div class="profile-image-container">
             <div class="image-border"></div>
-            <img class="profile-image" src="${resolvedImagePath}" alt="${alt}">
+            <img class="profile-image" src="${p(e)}" alt="${i}">
           </div>
         </div>
       </div>
     </section>
-  `;
-}
-
-function createAbout(): string {
-  return `
+  `}function m(){return`
     <section id="about" class="about section-padding">
       <div class="container">
         <h2 class="section-title">About Me</h2>
@@ -144,14 +95,7 @@ function createAbout(): string {
         </div>
       </div>
     </section>
-  `;
-}
-
-function createExperience(): string {
-  const zebraffeDuration = `${EXPERIENCE_DATES.zebraffeStart} - Present`;
-  const atrivisDuration = `${EXPERIENCE_DATES.atrivisStart} - ${EXPERIENCE_DATES.atrivisEnd} (3 Months Internship)`;
-
-  return `
+  `}function g(){const e=`${c.zebraffeStart} - Present`,i=`${c.atrivisStart} - ${c.atrivisEnd} (3 Months Internship)`;return`
     <section id="experience" class="experience section-padding">
       <div class="container">
         <h2 class="section-title">Professional Experience</h2>
@@ -171,7 +115,7 @@ function createExperience(): string {
             </div>
             <div class="experience-right">
               <span class="duration-badge">
-                <i class="fas fa-calendar"></i> ${zebraffeDuration}
+                <i class="fas fa-calendar"></i> ${e}
               </span>
             </div>
           </div>
@@ -215,7 +159,7 @@ function createExperience(): string {
             </div>
             <div class="experience-right">
               <span class="duration-badge">
-                <i class="fas fa-calendar"></i> ${atrivisDuration}
+                <i class="fas fa-calendar"></i> ${i}
               </span>
             </div>
           </div>
@@ -290,12 +234,7 @@ function createExperience(): string {
         </div>
       </div>
     </section>
-  `;
-}
-
-
-function createEducation(): string {
-  return `
+  `}function u(){return`
     <section id="education" class="education section-padding">
       <div class="container">
         <h2 class="section-title">Education</h2>
@@ -330,162 +269,56 @@ function createEducation(): string {
         </div>
       </div>
     </section>
-  `;
-}
-
-function createSkills(): string {
-  const skillCategories = [
-    {
-      category: 'Programming Languages',
-      skills: [
-        { name: 'JavaScript/Node.js', level: 90 },
-        { name: 'Python', level: 85 },
-        { name: 'Java', level: 80 },
-        { name: 'C', level: 75 }
-      ]
-    },
-    {
-      category: 'Web Development (MERN Stack)',
-      skills: [
-        { name: 'React', level: 85 },
-        { name: 'Node.js & Express', level: 90 },
-        { name: 'MongoDB', level: 85 },
-        { name: 'REST APIs', level: 85 }
-      ]
-    },
-    {
-      category: 'DevOps & Cloud',
-      skills: [
-        { name: 'Docker', level: 75 },
-        { name: 'Kubernetes', level: 70 },
-        { name: 'Linux Administration', level: 80 },
-        { name: 'Git/GitHub', level: 85 }
-      ]
-    },
-    {
-      category: 'Database & Caching',
-      skills: [
-        { name: 'MongoDB', level: 85 },
-        { name: 'Redis', level: 80 },
-        { name: 'MySQL', level: 80 }
-      ]
-    },
-    {
-      category: 'IoT & Real-time Systems',
-      skills: [
-        { name: 'TCP/IP Protocols', level: 85 },
-        { name: 'Socket.io/WebSockets', level: 85 },
-        { name: 'GPS Device Integration', level: 90 },
-        { name: 'Microservices', level: 80 }
-      ]
-    }
-  ];
-
-  const skillsHTML = skillCategories.map(category => `
-    <div class="skill-category">
-      <h3 class="skill-category-title">${category.category}</h3>
-      ${category.skills.map(skill => `
-        <div class="skill-item">
-          <div class="skill-info">
-            <span class="skill-name">${skill.name}</span>
-            <span class="skill-percentage">${skill.level}%</span>
-          </div>
-          <div class="skill-bar">
-            <div class="skill-progress" data-progress="${skill.level}"></div>
-          </div>
-        </div>
-      `).join('')}
-    </div>
-  `).join('');
-
-  return `
+  `}function f(){return`
     <section id="skills" class="skills section-padding">
       <div class="container">
         <h2 class="section-title">Skills & Technologies</h2>
         <div class="skills-grid">
-          ${skillsHTML}
+          ${[{category:"Programming Languages",skills:[{name:"JavaScript/Node.js",level:90},{name:"Python",level:85},{name:"Java",level:80},{name:"C",level:75}]},{category:"Web Development (MERN Stack)",skills:[{name:"React",level:85},{name:"Node.js & Express",level:90},{name:"MongoDB",level:85},{name:"REST APIs",level:85}]},{category:"DevOps & Cloud",skills:[{name:"Docker",level:75},{name:"Kubernetes",level:70},{name:"Linux Administration",level:80},{name:"Git/GitHub",level:85}]},{category:"Database & Caching",skills:[{name:"MongoDB",level:85},{name:"Redis",level:80},{name:"MySQL",level:80}]},{category:"IoT & Real-time Systems",skills:[{name:"TCP/IP Protocols",level:85},{name:"Socket.io/WebSockets",level:85},{name:"GPS Device Integration",level:90},{name:"Microservices",level:80}]}].map(a=>`
+    <div class="skill-category">
+      <h3 class="skill-category-title">${a.category}</h3>
+      ${a.skills.map(t=>`
+        <div class="skill-item">
+          <div class="skill-info">
+            <span class="skill-name">${t.name}</span>
+            <span class="skill-percentage">${t.level}%</span>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-progress="${t.level}"></div>
+          </div>
+        </div>
+      `).join("")}
+    </div>
+  `).join("")}
         </div>
       </div>
     </section>
-  `;
-}
-
-function createProjects(): string {
-  const projects = [
-    {
-      icon: 'fa-code-branch',
-      title: 'DOOCS LeetCode Website',
-      description: 'Open source contribution as website developer for DOOCS organization. Managing website orientation, providing LeetCode solutions, and optimizing database loading speed for better performance.',
-      tech: ['Web Development', 'Database Optimization', 'Open Source'],
-      github: 'https://github.com/doocs',
-      demo: 'https://github.com/doocs/leetcode'
-    },
-    {
-      icon: 'fa-laptop-code',
-      title: 'TheAlgorithms Website Maintainer',
-      description: 'Part of website_maintainers and algorithms-explanation_maintainers team. Improvising the website and implementing Docker containerization for cross-platform compatibility.',
-      tech: ['Docker', 'Web Development', 'DevOps', 'Open Source'],
-      github: 'https://github.com/TheAlgorithms',
-      demo: 'https://the-algorithms.com'
-    },
-    {
-      icon: 'fa-book',
-      title: 'Library Management System',
-      description: 'Full-stack GUI application with Tkinter and MySQL. Complete frontend and backend integration for managing library data with easy update and upgrade capabilities.',
-      tech: ['Python', 'Tkinter', 'MySQL', 'GUI Development'],
-      github: 'https://github.com/pranjal030404',
-      demo: '#'
-    },
-    {
-      icon: 'fa-youtube',
-      title: 'YouTube Clone',
-      description: 'GUI-based YouTube clone using Tailwind CSS with YouTube API integration. Features working like/dislike functionality and complete backend integration.',
-      tech: ['Tailwind CSS', 'API Integration', 'JavaScript', 'Backend'],
-      github: 'https://github.com/pranjal030404',
-      demo: '#'
-    },
-    {
-      icon: 'fa-gamepad',
-      title: 'Snake Game',
-      description: 'Classic snake game built with Python using Tkinter library. Custom GUI with dynamic snake movement and food collection mechanics.',
-      tech: ['Python', 'Tkinter', 'Game Development'],
-      github: 'https://github.com/pranjal030404',
-      demo: '#'
-    }
-  ];
-
-  const projectsHTML = projects.map(project => `
-    <div class="project-card">
-      <div class="project-icon">
-        <i class="fas ${project.icon}"></i>
-      </div>
-      <h3>${project.title}</h3>
-      <p class="project-description">${project.description}</p>
-      <div class="tech-stack">
-        ${project.tech.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
-      </div>
-      <div class="project-links">
-        <a href="${project.github}" target="_blank">
-          <i class="fab fa-github"></i> View Project
-        </a>
-      </div>
-    </div>
-  `).join('');
-
-  return `
+  `}function b(){return`
     <section id="projects" class="projects section-padding">
       <div class="container">
         <h2 class="section-title">Additional Projects</h2>
         <div class="projects-grid">
-          ${projectsHTML}
+          ${[{icon:"fa-code-branch",title:"DOOCS LeetCode Website",description:"Open source contribution as website developer for DOOCS organization. Managing website orientation, providing LeetCode solutions, and optimizing database loading speed for better performance.",tech:["Web Development","Database Optimization","Open Source"],github:"https://github.com/doocs",demo:"https://github.com/doocs/leetcode"},{icon:"fa-laptop-code",title:"TheAlgorithms Website Maintainer",description:"Part of website_maintainers and algorithms-explanation_maintainers team. Improvising the website and implementing Docker containerization for cross-platform compatibility.",tech:["Docker","Web Development","DevOps","Open Source"],github:"https://github.com/TheAlgorithms",demo:"https://the-algorithms.com"},{icon:"fa-book",title:"Library Management System",description:"Full-stack GUI application with Tkinter and MySQL. Complete frontend and backend integration for managing library data with easy update and upgrade capabilities.",tech:["Python","Tkinter","MySQL","GUI Development"],github:"https://github.com/pranjal030404",demo:"#"},{icon:"fa-youtube",title:"YouTube Clone",description:"GUI-based YouTube clone using Tailwind CSS with YouTube API integration. Features working like/dislike functionality and complete backend integration.",tech:["Tailwind CSS","API Integration","JavaScript","Backend"],github:"https://github.com/pranjal030404",demo:"#"},{icon:"fa-gamepad",title:"Snake Game",description:"Classic snake game built with Python using Tkinter library. Custom GUI with dynamic snake movement and food collection mechanics.",tech:["Python","Tkinter","Game Development"],github:"https://github.com/pranjal030404",demo:"#"}].map(a=>`
+    <div class="project-card">
+      <div class="project-icon">
+        <i class="fas ${a.icon}"></i>
+      </div>
+      <h3>${a.title}</h3>
+      <p class="project-description">${a.description}</p>
+      <div class="tech-stack">
+        ${a.tech.map(t=>`<span class="tech-tag">${t}</span>`).join("")}
+      </div>
+      <div class="project-links">
+        <a href="${a.github}" target="_blank">
+          <i class="fab fa-github"></i> View Project
+        </a>
+      </div>
+    </div>
+  `).join("")}
         </div>
       </div>
     </section>
-  `;
-}
-
-function createContact(): string {
-  return `
+  `}function k(){return`
     <section id="contact" class="contact section-padding">
       <div class="container">
         <h2 class="section-title">Get In Touch</h2>
@@ -542,11 +375,7 @@ function createContact(): string {
         </div>
       </div>
     </section>
-  `;
-}
-
-function createFooter(): string {
-  return `
+  `}function y(){return`
     <footer class="footer">
       <p>&copy; 2025 Pranjal Tiwari. All rights reserved.</p>
       <div class="footer-links">
@@ -555,112 +384,4 @@ function createFooter(): string {
         <a href="mailto:pranjaltiwari69058@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
       </div>
     </footer>
-  `;
-}
-
-// Interactive Functions
-function initThemeToggle(): void {
-  const themeToggle = document.getElementById('themeToggle');
-  const body = document.body;
-
-  body.classList.add('dark-mode');
-
-  themeToggle?.addEventListener('click', () => {
-    body.classList.toggle('dark-mode');
-    body.classList.toggle('light-mode');
-
-    const icon = themeToggle.querySelector('i');
-    if (icon) {
-      icon.className = body.classList.contains('dark-mode') 
-        ? 'fas fa-sun' 
-        : 'fas fa-moon';
-    }
-  });
-}
-
-function initTypingAnimation(): void {
-  const typingText = document.getElementById('typingText');
-  const textToType = 'Full Stack Developer & IoT Specialist';
-  let charIndex = 0;
-
-  function typeText() {
-    if (typingText && charIndex < textToType.length) {
-      typingText.textContent += textToType.charAt(charIndex);
-      charIndex++;
-      setTimeout(typeText, 100);
-    }
-  }
-
-  setTimeout(typeText, 500);
-}
-
-function initScrollAnimations(): void {
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-
-        if (entry.target.classList.contains('skill-item')) {
-          const progressBar = entry.target.querySelector('.skill-progress') as HTMLElement;
-          const progress = progressBar?.getAttribute('data-progress');
-          if (progressBar && progress) {
-            setTimeout(() => {
-              progressBar.style.width = progress + '%';
-            }, 200);
-          }
-        }
-      }
-    });
-  }, observerOptions);
-
-  document.querySelectorAll('.fade-in, .skill-item, .project-card, .education-card, .experience-item').forEach(el => {
-    observer.observe(el);
-  });
-}
-
-function initContactForm(): void {
-  const contactForm = document.getElementById('contactForm') as HTMLFormElement;
-  const successMessage = document.getElementById('successMessage');
-
-  contactForm?.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    successMessage?.classList.add('show');
-    contactForm.reset();
-
-    setTimeout(() => {
-      successMessage?.classList.remove('show');
-    }, 3000);
-  });
-}
-
-function initSmoothScroll(): void {
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', (e) => {
-      e.preventDefault();
-      const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
-      const target = href ? document.querySelector(href) : null;
-      target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-}
-
-function initParticles(): void {
-  const particlesContainer = document.getElementById('particles');
-  const particleCount = 50;
-
-  for (let i = 0; i < particleCount; i++) {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    particle.style.left = Math.random() * 100 + '%';
-    particle.style.top = Math.random() * 100 + '%';
-    particle.style.animationDelay = Math.random() * 20 + 's';
-    particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
-    particlesContainer?.appendChild(particle);
-  }
-}
+  `}function T(){const e=document.getElementById("themeToggle"),i=document.body;i.classList.add("dark-mode"),e==null||e.addEventListener("click",()=>{i.classList.toggle("dark-mode"),i.classList.toggle("light-mode");const a=e.querySelector("i");a&&(a.className=i.classList.contains("dark-mode")?"fas fa-sun":"fas fa-moon")})}function S(){const e=document.getElementById("typingText"),i="Full Stack Developer & IoT Specialist";let a=0;function t(){e&&a<i.length&&(e.textContent+=i.charAt(a),a++,setTimeout(t,100))}setTimeout(t,500)}function w(){const e={threshold:.1,rootMargin:"0px 0px -100px 0px"},i=new IntersectionObserver(a=>{a.forEach(t=>{if(t.isIntersecting&&(t.target.classList.add("visible"),t.target.classList.contains("skill-item"))){const s=t.target.querySelector(".skill-progress"),n=s==null?void 0:s.getAttribute("data-progress");s&&n&&setTimeout(()=>{s.style.width=n+"%"},200)}})},e);document.querySelectorAll(".fade-in, .skill-item, .project-card, .education-card, .experience-item").forEach(a=>{i.observe(a)})}function P(){const e=document.getElementById("contactForm"),i=document.getElementById("successMessage");e==null||e.addEventListener("submit",a=>{a.preventDefault(),i==null||i.classList.add("show"),e.reset(),setTimeout(()=>{i==null||i.classList.remove("show")},3e3)})}function I(){document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",i=>{i.preventDefault();const a=i.currentTarget.getAttribute("href"),t=a?document.querySelector(a):null;t==null||t.scrollIntoView({behavior:"smooth",block:"start"})})})}function j(){const e=document.getElementById("particles"),i=50;for(let a=0;a<i;a++){const t=document.createElement("div");t.className="particle",t.style.left=Math.random()*100+"%",t.style.top=Math.random()*100+"%",t.style.animationDelay=Math.random()*20+"s",t.style.animationDuration=Math.random()*10+15+"s",e==null||e.appendChild(t)}}document.addEventListener("DOMContentLoaded",()=>{l()});
