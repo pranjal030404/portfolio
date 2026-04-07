@@ -285,6 +285,41 @@ body.light-mode {
   box-shadow: 0 25px 80px rgba(99, 102, 241, 0.6);
 }
 
+.profile-placeholder {
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profile-placeholder .image-border {
+  opacity: 0.85;
+}
+
+.profile-initials {
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(4rem, 12vw, 7rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--text-light);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.95), rgba(14, 165, 233, 0.85));
+  border: 5px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 60px rgba(99, 102, 241, 0.4);
+  position: relative;
+  z-index: 2;
+}
+
+.profile-caption {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
 .image-border {
   position: absolute;
   width: 380px;
