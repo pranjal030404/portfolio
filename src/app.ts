@@ -535,9 +535,9 @@ function createContact(): string {
               <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
             </div>
 
-            <button type="submit" class="submit-button">Send Message</button>
+            <button type="submit" class="submit-button">Send on WhatsApp</button>
 
-            <p class="success-message" id="successMessage">Message sent successfully!</p>
+            <p class="success-message" id="successMessage">Opening WhatsApp...</p>
           </form>
         </div>
       </div>
@@ -626,9 +626,24 @@ function initScrollAnimations(): void {
 function initContactForm(): void {
   const contactForm = document.getElementById('contactForm') as HTMLFormElement;
   const successMessage = document.getElementById('successMessage');
+  const whatsappNumber = '918400095088';
 
   contactForm?.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    const formData = new FormData(contactForm);
+    const name = (formData.get('name') as string)?.trim() || 'there';
+    const email = (formData.get('email') as string)?.trim() || '';
+    const message = (formData.get('message') as string)?.trim() || '';
+
+    const whatsappText = [
+      `Hi, I'm ${name}.`,
+      email ? `Email: ${email}` : '',
+      message
+    ].filter(Boolean).join('\n');
+
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappText)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
 
     successMessage?.classList.add('show');
     contactForm.reset();

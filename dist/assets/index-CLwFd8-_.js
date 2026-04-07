@@ -1,15 +1,15 @@
-(function(){const i=document.createElement("link").relList;if(i&&i.supports&&i.supports("modulepreload"))return;for(const s of document.querySelectorAll('link[rel="modulepreload"]'))t(s);new MutationObserver(s=>{for(const n of s)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&t(o)}).observe(document,{childList:!0,subtree:!0});function a(s){const n={};return s.integrity&&(n.integrity=s.integrity),s.referrerPolicy&&(n.referrerPolicy=s.referrerPolicy),s.crossOrigin==="use-credentials"?n.credentials="include":s.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function t(s){if(s.ep)return;s.ep=!0;const n=a(s);fetch(s.href,n)}})();function l(){const e=document.getElementById("app");e&&(e.innerHTML=`
-    ${r()}
-    ${h()}
-    ${v()}
-    ${m()}
+(function(){const i=document.createElement("link").relList;if(i&&i.supports&&i.supports("modulepreload"))return;for(const s of document.querySelectorAll('link[rel="modulepreload"]'))t(s);new MutationObserver(s=>{for(const n of s)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&t(o)}).observe(document,{childList:!0,subtree:!0});function a(s){const n={};return s.integrity&&(n.integrity=s.integrity),s.referrerPolicy&&(n.referrerPolicy=s.referrerPolicy),s.crossOrigin==="use-credentials"?n.credentials="include":s.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function t(s){if(s.ep)return;s.ep=!0;const n=a(s);fetch(s.href,n)}})();function v(){const e=document.getElementById("app");e&&(e.innerHTML=`
     ${g()}
-    ${u()}
-    ${f()}
     ${b()}
     ${k()}
     ${y()}
-  `,T(),S(),w(),P(),I(),j())}function r(){return'<div class="particles" id="particles" aria-hidden="true"></div>'}const d={imagePath:"sp.jpeg",alt:"Pranjal Tiwari profile picture"},c={zebraffeStart:"Dec 2024",atrivisStart:"Sep 2024",atrivisEnd:"Nov 2024"};function p(e){return`/portfolio/${e.replace(/^\/+/,"")}`}function h(){return`
+    ${T()}
+    ${w()}
+    ${S()}
+    ${P()}
+    ${I()}
+    ${j()}
+  `,D(),E(),x(),C(),L(),M())}function g(){return'<div class="particles" id="particles" aria-hidden="true"></div>'}const u={imagePath:"sp.jpeg",alt:"Pranjal Tiwari profile picture"},c={zebraffeStart:"Dec 2024",atrivisStart:"Sep 2024",atrivisEnd:"Nov 2024"};function f(e){return`/portfolio/${e.replace(/^\/+/,"")}`}function b(){return`
     <nav class="navbar" id="navbar">
       <div class="nav-container">
         <h1 class="logo">PT</h1>
@@ -30,7 +30,7 @@
         </button>
       </div>
     </nav>
-  `}function v(){const{imagePath:e,alt:i}=d;return`
+  `}function k(){const{imagePath:e,alt:i}=u;return`
     <section id="home" class="hero">
       <div class="hero-layout">
         <div class="hero-content">
@@ -64,12 +64,12 @@
         <div class="hero-image fade-in">
           <div class="profile-image-container">
             <div class="image-border"></div>
-            <img class="profile-image" src="${p(e)}" alt="${i}">
+            <img class="profile-image" src="${f(e)}" alt="${i}">
           </div>
         </div>
       </div>
     </section>
-  `}function m(){return`
+  `}function y(){return`
     <section id="about" class="about section-padding">
       <div class="container">
         <h2 class="section-title">About Me</h2>
@@ -95,7 +95,7 @@
         </div>
       </div>
     </section>
-  `}function g(){const e=`${c.zebraffeStart} - Present`,i=`${c.atrivisStart} - ${c.atrivisEnd} (3 Months Internship)`;return`
+  `}function T(){const e=`${c.zebraffeStart} - Present`,i=`${c.atrivisStart} - ${c.atrivisEnd} (3 Months Internship)`;return`
     <section id="experience" class="experience section-padding">
       <div class="container">
         <h2 class="section-title">Professional Experience</h2>
@@ -234,7 +234,7 @@
         </div>
       </div>
     </section>
-  `}function u(){return`
+  `}function w(){return`
     <section id="education" class="education section-padding">
       <div class="container">
         <h2 class="section-title">Education</h2>
@@ -269,7 +269,7 @@
         </div>
       </div>
     </section>
-  `}function f(){return`
+  `}function S(){return`
     <section id="skills" class="skills section-padding">
       <div class="container">
         <h2 class="section-title">Skills & Technologies</h2>
@@ -293,7 +293,7 @@
         </div>
       </div>
     </section>
-  `}function b(){return`
+  `}function P(){return`
     <section id="projects" class="projects section-padding">
       <div class="container">
         <h2 class="section-title">Additional Projects</h2>
@@ -318,7 +318,7 @@
         </div>
       </div>
     </section>
-  `}function k(){return`
+  `}function I(){return`
     <section id="contact" class="contact section-padding">
       <div class="container">
         <h2 class="section-title">Get In Touch</h2>
@@ -368,14 +368,14 @@
               <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
             </div>
 
-            <button type="submit" class="submit-button">Send Message</button>
+            <button type="submit" class="submit-button">Send on WhatsApp</button>
 
-            <p class="success-message" id="successMessage">Message sent successfully!</p>
+            <p class="success-message" id="successMessage">Opening WhatsApp...</p>
           </form>
         </div>
       </div>
     </section>
-  `}function y(){return`
+  `}function j(){return`
     <footer class="footer">
       <p>&copy; 2025 Pranjal Tiwari. All rights reserved.</p>
       <div class="footer-links">
@@ -384,4 +384,5 @@
         <a href="mailto:pranjaltiwari69058@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
       </div>
     </footer>
-  `}function T(){const e=document.getElementById("themeToggle"),i=document.body;i.classList.add("dark-mode"),e==null||e.addEventListener("click",()=>{i.classList.toggle("dark-mode"),i.classList.toggle("light-mode");const a=e.querySelector("i");a&&(a.className=i.classList.contains("dark-mode")?"fas fa-sun":"fas fa-moon")})}function S(){const e=document.getElementById("typingText"),i="Full Stack Developer & IoT Specialist";let a=0;function t(){e&&a<i.length&&(e.textContent+=i.charAt(a),a++,setTimeout(t,100))}setTimeout(t,500)}function w(){const e={threshold:.1,rootMargin:"0px 0px -100px 0px"},i=new IntersectionObserver(a=>{a.forEach(t=>{if(t.isIntersecting&&(t.target.classList.add("visible"),t.target.classList.contains("skill-item"))){const s=t.target.querySelector(".skill-progress"),n=s==null?void 0:s.getAttribute("data-progress");s&&n&&setTimeout(()=>{s.style.width=n+"%"},200)}})},e);document.querySelectorAll(".fade-in, .skill-item, .project-card, .education-card, .experience-item").forEach(a=>{i.observe(a)})}function P(){const e=document.getElementById("contactForm"),i=document.getElementById("successMessage");e==null||e.addEventListener("submit",a=>{a.preventDefault(),i==null||i.classList.add("show"),e.reset(),setTimeout(()=>{i==null||i.classList.remove("show")},3e3)})}function I(){document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",i=>{i.preventDefault();const a=i.currentTarget.getAttribute("href"),t=a?document.querySelector(a):null;t==null||t.scrollIntoView({behavior:"smooth",block:"start"})})})}function j(){const e=document.getElementById("particles"),i=50;for(let a=0;a<i;a++){const t=document.createElement("div");t.className="particle",t.style.left=Math.random()*100+"%",t.style.top=Math.random()*100+"%",t.style.animationDelay=Math.random()*20+"s",t.style.animationDuration=Math.random()*10+15+"s",e==null||e.appendChild(t)}}document.addEventListener("DOMContentLoaded",()=>{l()});
+  `}function D(){const e=document.getElementById("themeToggle"),i=document.body;i.classList.add("dark-mode"),e==null||e.addEventListener("click",()=>{i.classList.toggle("dark-mode"),i.classList.toggle("light-mode");const a=e.querySelector("i");a&&(a.className=i.classList.contains("dark-mode")?"fas fa-sun":"fas fa-moon")})}function E(){const e=document.getElementById("typingText"),i="Full Stack Developer & IoT Specialist";let a=0;function t(){e&&a<i.length&&(e.textContent+=i.charAt(a),a++,setTimeout(t,100))}setTimeout(t,500)}function x(){const e={threshold:.1,rootMargin:"0px 0px -100px 0px"},i=new IntersectionObserver(a=>{a.forEach(t=>{if(t.isIntersecting&&(t.target.classList.add("visible"),t.target.classList.contains("skill-item"))){const s=t.target.querySelector(".skill-progress"),n=s==null?void 0:s.getAttribute("data-progress");s&&n&&setTimeout(()=>{s.style.width=n+"%"},200)}})},e);document.querySelectorAll(".fade-in, .skill-item, .project-card, .education-card, .experience-item").forEach(a=>{i.observe(a)})}function C(){const e=document.getElementById("contactForm"),i=document.getElementById("successMessage"),a="918400095088";e==null||e.addEventListener("submit",t=>{var l,r,d;t.preventDefault();const s=new FormData(e),n=((l=s.get("name"))==null?void 0:l.trim())||"there",o=((r=s.get("email"))==null?void 0:r.trim())||"",p=((d=s.get("message"))==null?void 0:d.trim())||"",h=[`Hi, I'm ${n}.`,o?`Email: ${o}`:"",p].filter(Boolean).join(`
+`),m=`https://wa.me/${a}?text=${encodeURIComponent(h)}`;window.open(m,"_blank","noopener,noreferrer"),i==null||i.classList.add("show"),e.reset(),setTimeout(()=>{i==null||i.classList.remove("show")},3e3)})}function L(){document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",i=>{i.preventDefault();const a=i.currentTarget.getAttribute("href"),t=a?document.querySelector(a):null;t==null||t.scrollIntoView({behavior:"smooth",block:"start"})})})}function M(){const e=document.getElementById("particles"),i=50;for(let a=0;a<i;a++){const t=document.createElement("div");t.className="particle",t.style.left=Math.random()*100+"%",t.style.top=Math.random()*100+"%",t.style.animationDelay=Math.random()*20+"s",t.style.animationDuration=Math.random()*10+15+"s",e==null||e.appendChild(t)}}document.addEventListener("DOMContentLoaded",()=>{v()});
