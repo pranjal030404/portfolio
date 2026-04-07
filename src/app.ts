@@ -29,22 +29,14 @@ function createParticlesLayer(): string {
   return '<div class="particles" id="particles" aria-hidden="true"></div>';
 }
 
-const PROFILE_CONFIG = {
-  // Place your photo in public/ and update this path when needed.
-  imagePath: 'sp.jpeg',
-  alt: 'Pranjal Tiwari profile picture'
-};
+const PROFILE_IMAGE_URL = new URL('../sp.jpeg', import.meta.url).href;
+const PROFILE_IMAGE_ALT = 'Pranjal Tiwari profile picture';
 
 const EXPERIENCE_DATES = {
   zebraffeStart: 'Dec 2024',
   atrivisStart: 'Sep 2024',
   atrivisEnd: 'Nov 2024'
 };
-
-function getPublicAssetUrl(path: string): string {
-  const cleanedPath = path.replace(/^\/+/, '');
-  return `${import.meta.env.BASE_URL}${cleanedPath}`;
-}
 
 function createNavbar(): string {
   return `
@@ -72,9 +64,6 @@ function createNavbar(): string {
 }
 
 function createHero(): string {
-  const { imagePath, alt } = PROFILE_CONFIG;
-  const resolvedImagePath = getPublicAssetUrl(imagePath);
-
   return `
     <section id="home" class="hero">
       <div class="hero-layout">
@@ -109,7 +98,7 @@ function createHero(): string {
         <div class="hero-image fade-in">
           <div class="profile-image-container">
             <div class="image-border"></div>
-            <img class="profile-image" src="${resolvedImagePath}" alt="${alt}">
+            <img class="profile-image" src="${PROFILE_IMAGE_URL}" alt="${PROFILE_IMAGE_ALT}">
           </div>
         </div>
       </div>

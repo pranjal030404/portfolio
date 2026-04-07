@@ -25,6 +25,8 @@ export function initApp() {
 function createParticlesLayer() {
     return '<div class="particles" id="particles" aria-hidden="true"></div>';
 }
+const PROFILE_IMAGE_URL = new URL('../sp.jpeg', import.meta.url).href;
+const PROFILE_IMAGE_ALT = 'Pranjal Tiwari profile picture';
 const EXPERIENCE_DATES = {
     zebraffeStart: 'Dec 2024',
     atrivisStart: 'Sep 2024',
@@ -87,10 +89,9 @@ function createHero() {
         </div>
 
         <div class="hero-image fade-in">
-          <div class="profile-image-container profile-placeholder">
+          <div class="profile-image-container">
             <div class="image-border"></div>
-            <div class="profile-initials" aria-hidden="true">PT</div>
-            <p class="profile-caption">Pranjal Tiwari</p>
+            <img class="profile-image" src="${PROFILE_IMAGE_URL}" alt="${PROFILE_IMAGE_ALT}">
           </div>
         </div>
       </div>
