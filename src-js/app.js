@@ -167,6 +167,17 @@ function createExperience() {
               </p>
             </div>
 
+            <div class="project-highlight">
+              <h4><i class="fas fa-store"></i> Franchise Platform</h4>
+              <p class="project-desc">
+                Worked on the Zebraffe franchise project to support live business workflows, site updates, and
+                production stability for the company portal.
+              </p>
+              <p class="project-desc">
+                <a href="https://in.zebraffe.net/" target="_blank" rel="noopener noreferrer">https://in.zebraffe.net/</a>
+              </p>
+            </div>
+
             <div class="tech-stack">
               <h5><i class="fas fa-code"></i> Technologies Used</h5>
               <div class="tech-badges">
@@ -216,7 +227,7 @@ function createExperience() {
                 <div class="highlight-card">
                   <i class="fas fa-microchip"></i>
                   <h5>Protocol Development</h5>
-                  <p>Built GT06/Concox GPS device protocol parser with TCP server for real-time data streaming</p>
+                  <p>Built GT06/Concox/Prithivi GPS device protocol parser with TCP server for real-time data streaming</p>
                 </div>
                 <div class="highlight-card">
                   <i class="fas fa-project-diagram"></i>
@@ -259,6 +270,7 @@ function createExperience() {
                 <span class="tech-badge">Socket.io</span>
                 <span class="tech-badge">Express.js</span>
                 <span class="tech-badge">TCP/IP</span>
+                <span class="tech-badge">Prithivi Protocol</span>
                 <span class="tech-badge">Microservices</span>
                 <span class="tech-badge">Leaflet.js</span>
                 <span class="tech-badge">Docker</span>
@@ -385,6 +397,30 @@ function createSkills() {
 }
 function createProjects() {
     const projects = [
+    {
+      icon: 'fa-store',
+      title: 'Zebraffe Franchise Platform',
+      description: 'Live franchise portal worked on for Zebraffe Technologies Limited, covering business workflows, updates, and production support.',
+      tech: ['React', 'Node.js', 'Express.js', 'Production Support'],
+      github: '#',
+      demo: 'https://in.zebraffe.net/'
+    },
+    {
+      icon: 'fa-car',
+      title: 'Vehicle Fitness Platform',
+      description: 'Production vehicle fitness platform built and maintained at Zebraffe Technologies Limited for fitness workflows and operational tracking.',
+      tech: ['React', 'Node.js', 'Express.js', 'MongoDB'],
+      github: '#',
+      demo: 'https://stg.vehiclefitness.gocarriage.com/'
+    },
+    {
+      icon: 'fa-rocket',
+      title: 'GPS Tracking & IoT Management System',
+      description: 'Real-time GPS tracking platform developed during the Atrivis internship with live monitoring, analytics, and IoT workflows.',
+      tech: ['React', 'Node.js', 'MongoDB', 'Socket.io', 'Prithivi Protocol'],
+      github: '#',
+      demo: 'http://139.59.13.130:5173/login'
+    },
         {
             icon: 'fa-code-branch',
             title: 'DOOCS LeetCode Website',
@@ -426,7 +462,21 @@ function createProjects() {
             demo: '#'
         }
     ];
-    const projectsHTML = projects.map(project => `
+    const projectsHTML = projects.map(project => {
+        const projectLinks = [
+            project.github && project.github !== '#'
+                ? `<a href="${project.github}" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-github"></i> Source Code
+        </a>`
+                : '',
+            project.demo && project.demo !== '#'
+                ? `<a href="${project.demo}" target="_blank" rel="noopener noreferrer">
+          <i class="fas fa-arrow-up-right-from-square"></i> Live Site
+        </a>`
+                : ''
+        ].filter(Boolean).join('');
+
+        return `
     <div class="project-card">
       <div class="project-icon">
         <i class="fas ${project.icon}"></i>
@@ -437,16 +487,15 @@ function createProjects() {
         ${project.tech.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
       </div>
       <div class="project-links">
-        <a href="${project.github}" target="_blank">
-          <i class="fab fa-github"></i> View Project
-        </a>
+        ${projectLinks}
       </div>
     </div>
-  `).join('');
+  `;
+    }).join('');
     return `
     <section id="projects" class="projects section-padding">
       <div class="container">
-        <h2 class="section-title">Additional Projects</h2>
+        <h2 class="section-title">Projects</h2>
         <div class="projects-grid">
           ${projectsHTML}
         </div>
