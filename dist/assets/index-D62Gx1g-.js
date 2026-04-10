@@ -1,15 +1,15 @@
-(function(){const i=document.createElement("link").relList;if(i&&i.supports&&i.supports("modulepreload"))return;for(const s of document.querySelectorAll('link[rel="modulepreload"]'))t(s);new MutationObserver(s=>{for(const n of s)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&t(o)}).observe(document,{childList:!0,subtree:!0});function a(s){const n={};return s.integrity&&(n.integrity=s.integrity),s.referrerPolicy&&(n.referrerPolicy=s.referrerPolicy),s.crossOrigin==="use-credentials"?n.credentials="include":s.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function t(s){if(s.ep)return;s.ep=!0;const n=a(s);fetch(s.href,n)}})();function p(){const e=document.getElementById("app");e&&(e.innerHTML=`
+(function(){const a=document.createElement("link").relList;if(a&&a.supports&&a.supports("modulepreload"))return;for(const s of document.querySelectorAll('link[rel="modulepreload"]'))t(s);new MutationObserver(s=>{for(const n of s)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&t(o)}).observe(document,{childList:!0,subtree:!0});function e(s){const n={};return s.integrity&&(n.integrity=s.integrity),s.referrerPolicy&&(n.referrerPolicy=s.referrerPolicy),s.crossOrigin==="use-credentials"?n.credentials="include":s.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function t(s){if(s.ep)return;s.ep=!0;const n=e(s);fetch(s.href,n)}})();function p(){const i=document.getElementById("app");i&&(i.innerHTML=`
     ${h()}
-    ${g()}
-    ${u()}
     ${f()}
+    ${v()}
+    ${u()}
     ${b()}
     ${k()}
     ${y()}
-    ${T()}
     ${w()}
     ${S()}
-  `,I(),j(),P(),E(),D(),x())}function h(){return'<div class="particles" id="particles" aria-hidden="true"></div>'}const m=new URL("/portfolio/assets/sp-BTbNHOwj.jpeg",import.meta.url).href,v="Pranjal Tiwari profile picture",c={zebraffeStart:"Dec 2024",atrivisStart:"Sep 2024",atrivisEnd:"Nov 2024"};function g(){return`
+    ${T()}
+  `,P(),j(),I(),E(),D(),L())}function h(){return'<div class="particles" id="particles" aria-hidden="true"></div>'}const m=new URL("/portfolio/assets/sp-BTbNHOwj.jpeg",import.meta.url).href,g="Pranjal Tiwari profile picture",c={zebraffeStart:"Dec 2024",atrivisStart:"Sep 2024",atrivisEnd:"Nov 2024"};function f(){return`
     <nav class="navbar" id="navbar">
       <div class="nav-container">
         <h1 class="logo">PT</h1>
@@ -30,7 +30,7 @@
         </button>
       </div>
     </nav>
-  `}function u(){return`
+  `}function v(){return`
     <section id="home" class="hero">
       <div class="hero-layout">
         <div class="hero-content">
@@ -64,12 +64,12 @@
         <div class="hero-image fade-in">
           <div class="profile-image-container">
             <div class="image-border"></div>
-            <img class="profile-image" src="${m}" alt="${v}">
+            <img class="profile-image" src="${m}" alt="${g}">
           </div>
         </div>
       </div>
     </section>
-  `}function f(){return`
+  `}function u(){return`
     <section id="about" class="about section-padding">
       <div class="container">
         <h2 class="section-title">About Me</h2>
@@ -95,7 +95,7 @@
         </div>
       </div>
     </section>
-  `}function b(){const e=`${c.zebraffeStart} - Present`,i=`${c.atrivisStart} - ${c.atrivisEnd} (3 Months Internship)`;return`
+  `}function b(){const i=`${c.zebraffeStart} - Present`,a=`${c.atrivisStart} - ${c.atrivisEnd} (3 Months Internship)`;return`
     <section id="experience" class="experience section-padding">
       <div class="container">
         <h2 class="section-title">Professional Experience</h2>
@@ -115,7 +115,7 @@
             </div>
             <div class="experience-right">
               <span class="duration-badge">
-                <i class="fas fa-calendar"></i> ${e}
+                <i class="fas fa-calendar"></i> ${i}
               </span>
             </div>
           </div>
@@ -129,6 +129,17 @@
               </p>
               <p class="project-desc">
                 <a href="https://stg.vehiclefitness.gocarriage.com/" target="_blank" rel="noopener noreferrer">https://stg.vehiclefitness.gocarriage.com/</a>
+              </p>
+            </div>
+
+            <div class="project-highlight">
+              <h4><i class="fas fa-store"></i> Franchise Platform</h4>
+              <p class="project-desc">
+                Worked on the Zebraffe franchise project to support live business workflows, site updates, and
+                production stability for the company portal.
+              </p>
+              <p class="project-desc">
+                <a href="https://in.zebraffe.net/" target="_blank" rel="noopener noreferrer">https://in.zebraffe.net/</a>
               </p>
             </div>
 
@@ -159,7 +170,7 @@
             </div>
             <div class="experience-right">
               <span class="duration-badge">
-                <i class="fas fa-calendar"></i> ${i}
+                <i class="fas fa-calendar"></i> ${a}
               </span>
             </div>
           </div>
@@ -181,7 +192,7 @@
                 <div class="highlight-card">
                   <i class="fas fa-microchip"></i>
                   <h5>Protocol Development</h5>
-                  <p>Built GT06/Concox GPS device protocol parser with TCP server for real-time data streaming</p>
+                  <p>Built GT06/Concox/Prithivi GPS device protocol parser with TCP server for real-time data streaming</p>
                 </div>
                 <div class="highlight-card">
                   <i class="fas fa-project-diagram"></i>
@@ -224,6 +235,7 @@
                 <span class="tech-badge">Socket.io</span>
                 <span class="tech-badge">Express.js</span>
                 <span class="tech-badge">TCP/IP</span>
+                <span class="tech-badge">Prithivi Protocol</span>
                 <span class="tech-badge">Microservices</span>
                 <span class="tech-badge">Leaflet.js</span>
                 <span class="tech-badge">Docker</span>
@@ -274,10 +286,10 @@
       <div class="container">
         <h2 class="section-title">Skills & Technologies</h2>
         <div class="skills-grid">
-          ${[{category:"Programming Languages",skills:[{name:"JavaScript/Node.js",level:90},{name:"Python",level:85},{name:"Java",level:80},{name:"C",level:75}]},{category:"Web Development (MERN Stack)",skills:[{name:"React",level:85},{name:"Node.js & Express",level:90},{name:"MongoDB",level:85},{name:"REST APIs",level:85}]},{category:"DevOps & Cloud",skills:[{name:"Docker",level:75},{name:"Kubernetes",level:70},{name:"Linux Administration",level:80},{name:"Git/GitHub",level:85}]},{category:"Database & Caching",skills:[{name:"MongoDB",level:85},{name:"Redis",level:80},{name:"MySQL",level:80}]},{category:"IoT & Real-time Systems",skills:[{name:"TCP/IP Protocols",level:85},{name:"Socket.io/WebSockets",level:85},{name:"GPS Device Integration",level:90},{name:"Microservices",level:80}]}].map(a=>`
+          ${[{category:"Programming Languages",skills:[{name:"JavaScript/Node.js",level:90},{name:"Python",level:85},{name:"Java",level:80},{name:"C",level:75}]},{category:"Web Development (MERN Stack)",skills:[{name:"React",level:85},{name:"Node.js & Express",level:90},{name:"MongoDB",level:85},{name:"REST APIs",level:85}]},{category:"DevOps & Cloud",skills:[{name:"Docker",level:75},{name:"Kubernetes",level:70},{name:"Linux Administration",level:80},{name:"Git/GitHub",level:85}]},{category:"Database & Caching",skills:[{name:"MongoDB",level:85},{name:"Redis",level:80},{name:"MySQL",level:80}]},{category:"IoT & Real-time Systems",skills:[{name:"TCP/IP Protocols",level:85},{name:"Socket.io/WebSockets",level:85},{name:"GPS Device Integration",level:90},{name:"Microservices",level:80}]}].map(e=>`
     <div class="skill-category">
-      <h3 class="skill-category-title">${a.category}</h3>
-      ${a.skills.map(t=>`
+      <h3 class="skill-category-title">${e.category}</h3>
+      ${e.skills.map(t=>`
         <div class="skill-item">
           <div class="skill-info">
             <span class="skill-name">${t.name}</span>
@@ -293,32 +305,34 @@
         </div>
       </div>
     </section>
-  `}function T(){return`
+  `}function w(){return`
     <section id="projects" class="projects section-padding">
       <div class="container">
-        <h2 class="section-title">Additional Projects</h2>
+        <h2 class="section-title">Projects</h2>
         <div class="projects-grid">
-          ${[{icon:"fa-code-branch",title:"DOOCS LeetCode Website",description:"Open source contribution as website developer for DOOCS organization. Managing website orientation, providing LeetCode solutions, and optimizing database loading speed for better performance.",tech:["Web Development","Database Optimization","Open Source"],github:"https://github.com/doocs",demo:"https://github.com/doocs/leetcode"},{icon:"fa-laptop-code",title:"TheAlgorithms Website Maintainer",description:"Part of website_maintainers and algorithms-explanation_maintainers team. Improvising the website and implementing Docker containerization for cross-platform compatibility.",tech:["Docker","Web Development","DevOps","Open Source"],github:"https://github.com/TheAlgorithms",demo:"https://the-algorithms.com"},{icon:"fa-book",title:"Library Management System",description:"Full-stack GUI application with Tkinter and MySQL. Complete frontend and backend integration for managing library data with easy update and upgrade capabilities.",tech:["Python","Tkinter","MySQL","GUI Development"],github:"https://github.com/pranjal030404",demo:"#"},{icon:"fa-youtube",title:"YouTube Clone",description:"GUI-based YouTube clone using Tailwind CSS with YouTube API integration. Features working like/dislike functionality and complete backend integration.",tech:["Tailwind CSS","API Integration","JavaScript","Backend"],github:"https://github.com/pranjal030404",demo:"#"},{icon:"fa-gamepad",title:"Snake Game",description:"Classic snake game built with Python using Tkinter library. Custom GUI with dynamic snake movement and food collection mechanics.",tech:["Python","Tkinter","Game Development"],github:"https://github.com/pranjal030404",demo:"#"}].map(a=>`
+          ${[{icon:"fa-store",title:"Zebraffe Franchise Platform",description:"Live franchise portal worked on for Zebraffe Technologies Limited, covering business workflows, updates, and production support.",tech:["React","Node.js","Express.js","Production Support"],github:"#",demo:"https://in.zebraffe.net/"},{icon:"fa-car",title:"Vehicle Fitness Platform",description:"Production vehicle fitness platform built and maintained at Zebraffe Technologies Limited for fitness workflows and operational tracking.",tech:["React","Node.js","Express.js","MongoDB"],github:"#",demo:"https://stg.vehiclefitness.gocarriage.com/"},{icon:"fa-rocket",title:"GPS Tracking & IoT Management System",description:"Real-time GPS tracking platform developed during the Atrivis internship with live monitoring, analytics, and IoT workflows.",tech:["React","Node.js","MongoDB","Socket.io","Prithivi Protocol"],github:"#",demo:"http://139.59.13.130:5173/login"},{icon:"fa-code-branch",title:"DOOCS LeetCode Website",description:"Open source contribution as website developer for DOOCS organization. Managing website orientation, providing LeetCode solutions, and optimizing database loading speed for better performance.",tech:["Web Development","Database Optimization","Open Source"],github:"https://github.com/doocs",demo:"https://github.com/doocs/leetcode"},{icon:"fa-laptop-code",title:"TheAlgorithms Website Maintainer",description:"Part of website_maintainers and algorithms-explanation_maintainers team. Improvising the website and implementing Docker containerization for cross-platform compatibility.",tech:["Docker","Web Development","DevOps","Open Source"],github:"https://github.com/TheAlgorithms",demo:"https://the-algorithms.com"},{icon:"fa-book",title:"Library Management System",description:"Full-stack GUI application with Tkinter and MySQL. Complete frontend and backend integration for managing library data with easy update and upgrade capabilities.",tech:["Python","Tkinter","MySQL","GUI Development"],github:"https://github.com/pranjal030404",demo:"#"},{icon:"fa-youtube",title:"YouTube Clone",description:"GUI-based YouTube clone using Tailwind CSS with YouTube API integration. Features working like/dislike functionality and complete backend integration.",tech:["Tailwind CSS","API Integration","JavaScript","Backend"],github:"https://github.com/pranjal030404",demo:"#"},{icon:"fa-gamepad",title:"Snake Game",description:"Classic snake game built with Python using Tkinter library. Custom GUI with dynamic snake movement and food collection mechanics.",tech:["Python","Tkinter","Game Development"],github:"https://github.com/pranjal030404",demo:"#"}].map(e=>{const t=[e.github&&e.github!=="#"?`<a href="${e.github}" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-github"></i> Source Code
+        </a>`:"",e.demo&&e.demo!=="#"?`<a href="${e.demo}" target="_blank" rel="noopener noreferrer">
+          <i class="fas fa-arrow-up-right-from-square"></i> Live Site
+        </a>`:""].filter(Boolean).join("");return`
     <div class="project-card">
       <div class="project-icon">
-        <i class="fas ${a.icon}"></i>
+        <i class="fas ${e.icon}"></i>
       </div>
-      <h3>${a.title}</h3>
-      <p class="project-description">${a.description}</p>
+      <h3>${e.title}</h3>
+      <p class="project-description">${e.description}</p>
       <div class="tech-stack">
-        ${a.tech.map(t=>`<span class="tech-tag">${t}</span>`).join("")}
+        ${e.tech.map(s=>`<span class="tech-tag">${s}</span>`).join("")}
       </div>
       <div class="project-links">
-        <a href="${a.github}" target="_blank">
-          <i class="fab fa-github"></i> View Project
-        </a>
+        ${t}
       </div>
     </div>
-  `).join("")}
+  `}).join("")}
         </div>
       </div>
     </section>
-  `}function w(){return`
+  `}function S(){return`
     <section id="contact" class="contact section-padding">
       <div class="container">
         <h2 class="section-title">Get In Touch</h2>
@@ -375,7 +389,7 @@
         </div>
       </div>
     </section>
-  `}function S(){return`
+  `}function T(){return`
     <footer class="footer">
       <p>&copy; 2025 Pranjal Tiwari. All rights reserved.</p>
       <div class="footer-links">
@@ -384,5 +398,5 @@
         <a href="mailto:pranjaltiwari69058@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
       </div>
     </footer>
-  `}function I(){const e=document.getElementById("themeToggle"),i=document.body;i.classList.add("dark-mode"),e==null||e.addEventListener("click",()=>{i.classList.toggle("dark-mode"),i.classList.toggle("light-mode");const a=e.querySelector("i");a&&(a.className=i.classList.contains("dark-mode")?"fas fa-sun":"fas fa-moon")})}function j(){const e=document.getElementById("typingText"),i="Full Stack Developer & IoT Specialist";let a=0;function t(){e&&a<i.length&&(e.textContent+=i.charAt(a),a++,setTimeout(t,100))}setTimeout(t,500)}function P(){const e={threshold:.1,rootMargin:"0px 0px -100px 0px"},i=new IntersectionObserver(a=>{a.forEach(t=>{if(t.isIntersecting&&(t.target.classList.add("visible"),t.target.classList.contains("skill-item"))){const s=t.target.querySelector(".skill-progress"),n=s==null?void 0:s.getAttribute("data-progress");s&&n&&setTimeout(()=>{s.style.width=n+"%"},200)}})},e);document.querySelectorAll(".fade-in, .skill-item, .project-card, .education-card, .experience-item").forEach(a=>{i.observe(a)})}function E(){const e=document.getElementById("contactForm"),i=document.getElementById("successMessage"),a="918400095088";e==null||e.addEventListener("submit",t=>{t.preventDefault();const s=new FormData(e),n=String(s.get("name")||"").trim()||"there",o=String(s.get("email")||"").trim(),r=String(s.get("message")||"").trim(),l=[`Hi, I'm ${n}.`,o?`Email: ${o}`:"",r].filter(Boolean).join(`
-`),d=`https://wa.me/${a}?text=${encodeURIComponent(l)}`;window.open(d,"_blank","noopener,noreferrer"),i==null||i.classList.add("show"),e.reset(),setTimeout(()=>{i==null||i.classList.remove("show")},3e3)})}function D(){document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",i=>{i.preventDefault();const a=i.currentTarget.getAttribute("href"),t=a?document.querySelector(a):null;t==null||t.scrollIntoView({behavior:"smooth",block:"start"})})})}function x(){const e=document.getElementById("particles"),i=50;for(let a=0;a<i;a++){const t=document.createElement("div");t.className="particle",t.style.left=Math.random()*100+"%",t.style.top=Math.random()*100+"%",t.style.animationDelay=Math.random()*20+"s",t.style.animationDuration=Math.random()*10+15+"s",e==null||e.appendChild(t)}}document.addEventListener("DOMContentLoaded",()=>{p()});
+  `}function P(){const i=document.getElementById("themeToggle"),a=document.body;a.classList.add("dark-mode"),i==null||i.addEventListener("click",()=>{a.classList.toggle("dark-mode"),a.classList.toggle("light-mode");const e=i.querySelector("i");e&&(e.className=a.classList.contains("dark-mode")?"fas fa-sun":"fas fa-moon")})}function j(){const i=document.getElementById("typingText"),a="Full Stack Developer & IoT Specialist";let e=0;function t(){i&&e<a.length&&(i.textContent+=a.charAt(e),e++,setTimeout(t,100))}setTimeout(t,500)}function I(){const i={threshold:.1,rootMargin:"0px 0px -100px 0px"},a=new IntersectionObserver(e=>{e.forEach(t=>{if(t.isIntersecting&&(t.target.classList.add("visible"),t.target.classList.contains("skill-item"))){const s=t.target.querySelector(".skill-progress"),n=s==null?void 0:s.getAttribute("data-progress");s&&n&&setTimeout(()=>{s.style.width=n+"%"},200)}})},i);document.querySelectorAll(".fade-in, .skill-item, .project-card, .education-card, .experience-item").forEach(e=>{a.observe(e)})}function E(){const i=document.getElementById("contactForm"),a=document.getElementById("successMessage"),e="918400095088";i==null||i.addEventListener("submit",t=>{t.preventDefault();const s=new FormData(i),n=String(s.get("name")||"").trim()||"there",o=String(s.get("email")||"").trim(),r=String(s.get("message")||"").trim(),l=[`Hi, I'm ${n}.`,o?`Email: ${o}`:"",r].filter(Boolean).join(`
+`),d=`https://wa.me/${e}?text=${encodeURIComponent(l)}`;window.open(d,"_blank","noopener,noreferrer"),a==null||a.classList.add("show"),i.reset(),setTimeout(()=>{a==null||a.classList.remove("show")},3e3)})}function D(){document.querySelectorAll('a[href^="#"]').forEach(i=>{i.addEventListener("click",a=>{a.preventDefault();const e=a.currentTarget.getAttribute("href"),t=e?document.querySelector(e):null;t==null||t.scrollIntoView({behavior:"smooth",block:"start"})})})}function L(){const i=document.getElementById("particles"),a=50;for(let e=0;e<a;e++){const t=document.createElement("div");t.className="particle",t.style.left=Math.random()*100+"%",t.style.top=Math.random()*100+"%",t.style.animationDelay=Math.random()*20+"s",t.style.animationDuration=Math.random()*10+15+"s",i==null||i.appendChild(t)}}document.addEventListener("DOMContentLoaded",()=>{p()});
