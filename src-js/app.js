@@ -421,6 +421,14 @@ function createProjects() {
       github: '#',
       demo: 'http://139.59.13.130:5173/login'
     },
+    {
+      icon: 'fa-users',
+      title: 'CRM Frontend (EMS Portal)',
+      description: 'Frontend CRM/EMS portal for employee management workflows including authentication and dashboard-based operations.',
+      tech: ['CRM', 'Employee Management System', 'Frontend'],
+      github: '#',
+      demo: 'https://crm-frontend-omega-eight.vercel.app'
+    },
         {
             icon: 'fa-code-branch',
             title: 'DOOCS LeetCode Website',
