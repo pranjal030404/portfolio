@@ -1021,7 +1021,14 @@ body.light .terrain { opacity: 0.35; }
   gap: 1rem;
   padding-block: 0.6875rem;
   border-bottom: 1px solid var(--border-soft);
+  align-items: start;
 }
+
+/* script adds a copy button after the link on the rows that carry one — it
+   needs a column of its own, or it becomes a third grid item and drops to
+   the next row under the label */
+.contact-links li:has(.copy) { grid-template-columns: 88px minmax(0, 1fr) auto; }
+.contact-links .copy { margin-left: 0; align-self: start; }
 
 .contact-links span { font-family: var(--mono); font-size: 10px; color: var(--muted); padding-top: 3px; }
 .contact-links a { font-size: 14px; overflow-wrap: anywhere; border-bottom: 1px solid var(--border); transition: color 0.18s, border-color 0.18s; }
