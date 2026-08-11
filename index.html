@@ -1,15 +1,519 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Full Stack Developer</title>
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-    <link rel="stylesheet" href="./src/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pranjal Tiwari — Software Developer</title>
+<meta name="description" content="Software developer in Noida. I build web systems, APIs and real-time infrastructure — backend services, GPS device pipelines and the software in between.">
+<meta name="theme-color" content="#16130F">
+<link rel="canonical" href="https://pranjal030404.github.io/portfolio/">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Pranjal Tiwari — Software Developer">
+<meta property="og:description" content="I build web systems, APIs and real-time infrastructure. Most of my work sits between a request, a database and a device.">
+<meta property="og:url" content="https://pranjal030404.github.io/portfolio/">
+<meta property="og:image" content="https://pranjal030404.github.io/portfolio/sp.jpeg">
+<meta property="og:locale" content="en_IN">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pranjal Tiwari — Software Developer">
+<meta name="twitter:description" content="I build web systems, APIs and real-time infrastructure.">
+<meta name="twitter:image" content="https://pranjal030404.github.io/portfolio/sp.jpeg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
 </head>
 <body>
-    <div id="app"></div>
-    <script type="module" src="./src-js/main.js"></script>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ══════════════════════════════════════════════════ masthead ══ -->
+<header class="masthead">
+  <div class="masthead-in">
+    <a class="ident" href="#top">
+      <span class="ident-name">Pranjal Tiwari</span>
+      <span class="ident-role">Software Developer</span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Sections">
+      <ul>
+        <li><a href="#system">System</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#stack">Stack</a></li>
+        <li><a href="#lab">Lab</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="masthead-tools">
+      <button class="tool" id="theme" type="button" aria-label="Switch to light theme" aria-pressed="false">
+        <span class="tool-mark" aria-hidden="true"></span>
+      </button>
+      <button class="tool tool-menu" id="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+        <span class="bars" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ══════════════════════════════════════════════════════ hero ══ -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+
+    <div class="hero-text">
+      <p class="hero-id">Pranjal Tiwari <span aria-hidden="true">·</span> Software Developer</p>
+
+      <h1 class="hero-statement">
+        I build web systems, APIs<br>
+        and <em>real-time infrastructure.</em>
+      </h1>
+
+      <p class="hero-sub">
+        Most of my work sits between a request, a database and a device.
+      </p>
+
+      <p class="hero-actions">
+        <a class="cta" href="#work">View my work <span aria-hidden="true">→</span></a>
+        <a class="cta cta-quiet" href="#contact">Get in touch <span aria-hidden="true">→</span></a>
+      </p>
+
+      <p class="hero-detail">
+        Based in Noida, India. Currently building production systems at
+        Zebraffe Technologies.
+        <span class="hero-links">
+          <a href="https://github.com/pranjal030404" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/prajal030404" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </span>
+      </p>
+    </div>
+
+    <figure class="portrait">
+      <img src="./sp.jpeg" alt="Pranjal Tiwari" width="460" height="460" fetchpriority="high">
+      <figcaption>Noida, 2026</figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ system ══ -->
+<section class="system" id="system">
+  <div class="wrap">
+    <div class="system-head">
+      <h2>From a device on a truck<br>to a dot on a map</h2>
+      <p>
+        A GPS tracking platform I built at Atrivis. Trackers in the field talk
+        to it over raw TCP; a browser somewhere else shows where they are.
+        These are the eight things in between.
+      </p>
+    </div>
+
+    <ol class="flow">
+      <li>
+        <span class="step"><i>01</i><b>GPS device</b><em>Vehicle tracker in the field</em></span>
+      </li>
+      <li>
+        <span class="step"><i>02</i><b>TCP socket</b><em>Long-lived connection</em></span>
+        <aside class="note">
+          <h3>Not HTTP</h3>
+          <p>Trackers open a socket and hold it. The server reads whatever
+             arrives, whenever it arrives — there is no request to respond to.</p>
+        </aside>
+      </li>
+      <li>
+        <span class="step"><i>03</i><b>GT06 / Concox frame</b><em>Binary payload</em></span>
+        <aside class="note">
+          <h3>Raw device frame</h3>
+          <p>Start bits, protocol number, payload, checksum. A bad checksum is
+             cheaper to throw away than a corrupted position is to explain.</p>
+        </aside>
+      </li>
+      <li>
+        <span class="step"><i>04</i><b>Parser</b><em>Decode and validate</em></span>
+        <aside class="note">
+          <h3>Decode</h3>
+          <p>Out comes position, speed, heading and status — the first point in
+             the chain where the data means anything.</p>
+        </aside>
+      </li>
+      <li>
+        <span class="step"><i>05</i><b>Redis stream</b><em>Queue</em></span>
+        <aside class="note">
+          <h3>Decouple ingestion</h3>
+          <p>Ingest never waits for processing. A slow consumer falls behind and
+             catches up; it doesn't drop packets or take the socket server down.</p>
+        </aside>
+      </li>
+      <li>
+        <span class="step"><i>06</i><b>Node.js service</b><em>Geofences, alerts, trips</em></span>
+      </li>
+      <li>
+        <span class="step"><i>07</i><b>MongoDB</b><em>Position history</em></span>
+        <aside class="note">
+          <h3>Persist</h3>
+          <p>Route playback, distance and speed analytics all read from here.</p>
+        </aside>
+      </li>
+      <li>
+        <span class="step"><i>08</i><b>Live map</b><em>React · Leaflet</em></span>
+        <aside class="note">
+          <h3>Present</h3>
+          <p>Anything happening right now goes straight out over Socket.io to
+             the dashboard, and the dot moves.</p>
+        </aside>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════ about ══ -->
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="about-top">
+      <h2 class="about-statement">
+        I like the parts of software you<br>
+        don't notice when they're working.
+      </h2>
+
+      <div class="about-text">
+        <p>
+          APIs, services, queues, device protocols, and the production bugs that
+          only show up with real traffic. I've spent most of my time on vehicle
+          and GPS systems, which means a lot of the software I write has to cope
+          with hardware that reports on its own schedule.
+        </p>
+        <p>
+          Day to day that's Node.js, React and MongoDB. Before Zebraffe I spent
+          three months at Atrivis building the tracking platform above, which is
+          where I learned how differently software behaves once something
+          physical is attached to it.
+        </p>
+      </div>
+    </div>
+
+    <dl class="now">
+      <div>
+        <dt>Now</dt>
+        <dd>Software Developer · Zebraffe Technologies</dd>
+      </div>
+      <div>
+        <dt>Studying</dt>
+        <dd>BTech CSE · BBDIT · 2022—2026</dd>
+      </div>
+      <div>
+        <dt>Based</dt>
+        <dd>Noida, India</dd>
+      </div>
+      <div>
+        <dt>Open source</dt>
+        <dd>
+          <a href="https://github.com/doocs" target="_blank" rel="noopener noreferrer">DOOCS</a> ·
+          <a href="https://github.com/TheAlgorithms" target="_blank" rel="noopener noreferrer">TheAlgorithms</a>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════ experience ══ -->
+<section class="experience" id="experience">
+  <div class="wrap">
+    <h2 class="head">Experience</h2>
+
+    <article class="record record-now">
+      <p class="record-when">2024 <span aria-hidden="true">—</span> now</p>
+      <div class="record-body">
+        <h3>Software Developer</h3>
+        <p class="record-org">Zebraffe Technologies Limited</p>
+        <p class="record-text">
+          Two production platforms — a vehicle fitness system and the company
+          franchise portal. I build features on both and I'm the one who finds
+          out why something broke.
+        </p>
+        <p class="record-tech">
+          React · Node.js · Express · MongoDB · REST APIs · Production debugging · Deployment
+        </p>
+        <p class="record-links">
+          <a href="https://stg.vehiclefitness.gocarriage.com/" target="_blank" rel="noopener noreferrer">vehiclefitness.gocarriage.com</a>
+          <a href="https://in.zebraffe.net/" target="_blank" rel="noopener noreferrer">in.zebraffe.net</a>
+        </p>
+      </div>
+    </article>
+
+    <article class="record">
+      <p class="record-when">2024</p>
+      <div class="record-body">
+        <h3>MERN Stack Developer Intern</h3>
+        <p class="record-org">Atrivis Technologies · Noida Sector 63 · 3 months</p>
+        <p class="record-text">
+          Built the GPS tracking platform end to end, from the socket that
+          accepts device connections up to the map the operator watches.
+        </p>
+        <p class="record-tech">
+          GT06 / Concox parser · TCP socket server · Redis Streams · Socket.io · MongoDB · React · Leaflet
+        </p>
+        <p class="record-links">
+          <a href="http://139.59.13.130:5173/login" target="_blank" rel="noopener noreferrer">Live platform</a>
+        </p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ work ══ -->
+<section class="work" id="work">
+  <div class="wrap">
+    <h2 class="head">Selected work</h2>
+
+    <!-- tier 1 — the case study -->
+    <article class="case">
+      <p class="case-no">01</p>
+      <div class="case-body">
+        <h3>GPS Tracking &amp; IoT Platform</h3>
+        <p class="case-meta">Atrivis Technologies · Production</p>
+        <p class="case-text">
+          A real-time vehicle tracking system built around raw TCP device
+          connections, GT06 and Concox frame parsing, Redis Streams, Node.js and
+          MongoDB. Live positions, route playback with speed and distance, and
+          geofence alerting.
+        </p>
+        <p class="case-tech">Node.js · Redis · MongoDB · Socket.io · React · Leaflet</p>
+
+        <details class="arch">
+          <summary>View architecture</summary>
+          <ol class="arch-chain">
+            <li>TCP socket</li>
+            <li>GT06 / Concox frame</li>
+            <li>Parser</li>
+            <li>Redis Stream</li>
+            <li>Node.js</li>
+            <li>MongoDB</li>
+            <li>Socket.io</li>
+            <li>React / Leaflet</li>
+          </ol>
+        </details>
+
+        <p class="case-link">
+          <a href="http://139.59.13.130:5173/login" target="_blank" rel="noopener noreferrer">Visit the platform <span aria-hidden="true">→</span></a>
+        </p>
+      </div>
+    </article>
+
+    <!-- tier 2 — the other production work -->
+    <div class="mid-grid">
+      <article class="mid">
+        <p class="mid-no">02</p>
+        <h3>Vehicle Fitness Platform</h3>
+        <p class="mid-meta">Zebraffe Technologies · Production</p>
+        <p class="mid-text">Fitness workflows and operational tracking. Feature work plus production support.</p>
+        <p class="mid-tech">React · Node.js · Express · MongoDB</p>
+        <p class="mid-link"><a href="https://stg.vehiclefitness.gocarriage.com/" target="_blank" rel="noopener noreferrer">Visit <span aria-hidden="true">→</span></a></p>
+      </article>
+
+      <article class="mid">
+        <p class="mid-no">03</p>
+        <h3>Zebraffe Franchise Portal</h3>
+        <p class="mid-meta">Zebraffe Technologies · Production</p>
+        <p class="mid-text">The company franchise portal — live business workflows and production stability work.</p>
+        <p class="mid-tech">React · Node.js · Express</p>
+        <p class="mid-link"><a href="https://in.zebraffe.net/" target="_blank" rel="noopener noreferrer">Visit <span aria-hidden="true">→</span></a></p>
+      </article>
+
+      <article class="mid">
+        <p class="mid-no">04</p>
+        <h3>CRM / EMS Portal</h3>
+        <p class="mid-meta">Frontend · Production</p>
+        <p class="mid-text">Employee management portal covering authentication and dashboard-driven operations.</p>
+        <p class="mid-tech">React · Authentication · Dashboards</p>
+        <p class="mid-link"><a href="https://crm-frontend-omega-eight.vercel.app" target="_blank" rel="noopener noreferrer">Visit <span aria-hidden="true">→</span></a></p>
+      </article>
+    </div>
+
+    <!-- tier 3 — the index -->
+    <ol class="minor">
+      <li>
+        <span class="minor-no">05</span>
+        <span class="minor-name">DOOCS / LeetCode</span>
+        <span class="minor-meta">Open source · site work and load-time optimisation</span>
+        <a href="https://github.com/doocs/leetcode" target="_blank" rel="noopener noreferrer">Repository <span aria-hidden="true">→</span></a>
+      </li>
+      <li>
+        <span class="minor-no">06</span>
+        <span class="minor-name">TheAlgorithms</span>
+        <span class="minor-meta">Open source · website maintainer, Docker builds</span>
+        <a href="https://the-algorithms.com" target="_blank" rel="noopener noreferrer">Visit <span aria-hidden="true">→</span></a>
+      </li>
+      <li>
+        <span class="minor-no">07</span>
+        <span class="minor-name">Library Management System</span>
+        <span class="minor-meta">Python · Tkinter · MySQL</span>
+        <a href="https://github.com/pranjal030404" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">→</span></a>
+      </li>
+      <li>
+        <span class="minor-no">08</span>
+        <span class="minor-name">YouTube Clone</span>
+        <span class="minor-meta">JavaScript · YouTube Data API · Tailwind</span>
+        <a href="https://github.com/pranjal030404" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">→</span></a>
+      </li>
+      <li>
+        <span class="minor-no">09</span>
+        <span class="minor-name">Snake</span>
+        <span class="minor-meta">Python · Tkinter · there's a browser version below</span>
+        <a href="https://github.com/pranjal030404" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">→</span></a>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════ stack ══ -->
+<section class="stack" id="stack">
+  <div class="wrap">
+    <h2 class="head">Stack</h2>
+
+    <div class="stack-map">
+      <div class="group">
+        <h3>Backend</h3>
+        <ul><li>Node.js</li><li>Express</li><li>REST APIs</li><li>Socket.io</li></ul>
+      </div>
+      <div class="group">
+        <h3>Data</h3>
+        <ul><li>MongoDB</li><li>Redis</li><li>MySQL</li></ul>
+      </div>
+      <div class="group">
+        <h3>Frontend</h3>
+        <ul><li>React</li><li>TypeScript</li><li>JavaScript</li><li>HTML / CSS</li></ul>
+      </div>
+      <div class="group">
+        <h3>Infrastructure</h3>
+        <ul><li>Docker</li><li>Linux</li><li>Git</li><li>GitHub Actions</li></ul>
+      </div>
+      <div class="group">
+        <h3>Protocols</h3>
+        <ul><li>TCP/IP</li><li>GT06</li><li>Concox</li><li>WebSockets</li></ul>
+      </div>
+      <div class="group group-soft">
+        <h3>Currently exploring</h3>
+        <ul><li>Kubernetes</li><li>Distributed systems</li><li>Message queues</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ lab ══ -->
+<section class="lab" id="lab">
+  <div class="wrap">
+    <div class="lab-head">
+      <h2 class="head">Lab</h2>
+      <p>Small browser experiments. TypeScript, no libraries.</p>
+    </div>
+
+    <ol class="lab-list">
+      <li>
+        <details data-game="snake">
+          <summary>
+            <span class="lab-name">Snake</span>
+            <span class="lab-desc">A small Canvas experiment.</span>
+          </summary>
+          <div class="lab-stage" data-mount>
+            <p class="lab-fallback">This one needs JavaScript.</p>
+          </div>
+        </details>
+      </li>
+      <li>
+        <details data-game="typing">
+          <summary>
+            <span class="lab-name">Typing</span>
+            <span class="lab-desc">A test built around the technologies I work with.</span>
+          </summary>
+          <div class="lab-stage" data-mount>
+            <p class="lab-fallback">This one needs JavaScript.</p>
+          </div>
+        </details>
+      </li>
+      <li>
+        <details data-game="reaction">
+          <summary>
+            <span class="lab-name">Reaction</span>
+            <span class="lab-desc">How quickly can you react?</span>
+          </summary>
+          <div class="lab-stage" data-mount>
+            <p class="lab-fallback">This one needs JavaScript.</p>
+          </div>
+        </details>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ contact ══ -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2 class="contact-statement">Have something<br>worth building?</h2>
+
+    <div class="contact-grid">
+      <div class="contact-side">
+        <p class="contact-note">
+          For work, collaborations, software problems, or a good technical
+          conversation. Messages from the form open in WhatsApp.
+        </p>
+
+        <ul class="contact-links">
+          <li><span>Email</span><a href="mailto:pranjaltiwari69058@gmail.com">pranjaltiwari69058@gmail.com</a></li>
+          <li><span>WhatsApp</span><a href="https://wa.me/918400095088" target="_blank" rel="noopener noreferrer">+91 84000 95088</a></li>
+          <li><span>GitHub</span><a href="https://github.com/pranjal030404" target="_blank" rel="noopener noreferrer">pranjal030404</a></li>
+          <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/prajal030404" target="_blank" rel="noopener noreferrer">prajal030404</a></li>
+        </ul>
+      </div>
+
+      <form class="message" id="message-form" action="https://wa.me/918400095088" method="get" target="_blank" rel="noopener noreferrer">
+        <div class="f">
+          <label for="f-name">Name</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div class="f">
+          <label for="f-email">Email</label>
+          <input id="f-email" name="email" type="email" autocomplete="email">
+        </div>
+        <div class="f">
+          <label for="f-msg">Message</label>
+          <textarea id="f-msg" name="text" rows="4" required></textarea>
+        </div>
+        <button type="submit">Send on WhatsApp <span aria-hidden="true">→</span></button>
+        <p class="message-status" id="message-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+
+    <dl class="edu">
+      <dt>Education</dt>
+      <dd>
+        <b>BTech · Computer Science &amp; Engineering</b>
+        BBD Institute of Technology · AKTU · 2022—2026 · CGPA 8.17
+      </dd>
+      <dd class="edu-minor">Class XII · 2021 &nbsp;·&nbsp; Class X · 2019 &nbsp;·&nbsp; Rampus, CBSE</dd>
+    </dl>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <p class="foot-name">Pranjal Tiwari</p>
+    <p class="foot-mid">Software Developer · Noida</p>
+    <p class="foot-links">
+      <a href="https://github.com/pranjal030404" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/prajal030404" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <span>© 2026</span>
+    </p>
+  </div>
+</footer>
+
+<script type="module" src="/src/main.ts"></script>
 </body>
 </html>

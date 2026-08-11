@@ -1,6 +1,14 @@
 import './style.css';
-import { initApp } from './app';
+import { initTheme, initNav, initScrollSpy, initReveal, initMessageForm } from './ui';
+import { initLab } from './lab';
 
-document.addEventListener('DOMContentLoaded', () => {
-  initApp();
-});
+/**
+ * Progressive enhancement only. Every piece of content is already in
+ * index.html — nothing here renders the page, it only makes it interactive.
+ */
+initTheme();
+initNav();
+initScrollSpy();
+initReveal();
+initMessageForm();
+initLab();
