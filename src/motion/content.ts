@@ -1,12 +1,10 @@
-import { motionOn } from './prefs';
-
 /**
- * The three blocks that need script to arrange themselves: the marquees, the
- * technology cloud and the level bars.
+ * The blocks that need script to arrange themselves: the marquees and the
+ * technology cloud.
  *
- * All three are readable with script off — the marquee is a list of names,
- * the cloud is a line of names, the bars carry their number in the markup.
- * Script only arranges and animates what is already there.
+ * Both are readable with script off — the marquee is a list of names, the
+ * cloud is a line of names. Script only arranges and animates what is
+ * already there.
  */
 
 /* ────────────────────────────────────────────────────────── marquee ── */
@@ -78,41 +76,6 @@ export function initCloud(): void {
   });
 
   cloud.classList.add('placed');
-}
-
-/* ─────────────────────────────────────────────────────── level bars ── */
-
-/**
- * Reads the level off each row and hands it to CSS. The bar fills on reveal;
- * with motion off it is simply drawn at its value, because the bar is a
- * reading rather than a flourish.
- */
-export function initLevels(): void {
-  const rows = Array.from(document.querySelectorAll<HTMLElement>('.level-row'));
-  if (!rows.length) return;
-
-  rows.forEach((row, i) => {
-    const level = Number(row.dataset.level);
-    if (!Number.isFinite(level)) return;
-
-    row.style.setProperty('--level', String(Math.min(1, Math.max(0, level / 100))));
-    row.style.setProperty('--li', String(i));
-  });
-
-  if (!('IntersectionObserver' in window) || !motionOn()) {
-    rows.forEach(row => row.classList.add('in'));
-    return;
-  }
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('in');
-      observer.unobserve(entry.target);
-    });
-  }, { threshold: 0.4 });
-
-  rows.forEach(row => observer.observe(row));
 }
 
 /* ────────────────────────────────────────────── details stagger ── */

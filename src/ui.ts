@@ -123,7 +123,7 @@ const REVEALS: Array<[selector: string, variant: string]> = [
   ['.flow li .note', 'rv-right'],
   ['.record, .case', 'rv'],
   ['.mid, .shot', 'rv-scale'],
-  ['.minor li, .lab-row, .now > div, .level-row', 'rv'],
+  ['.minor li, .lab-row, .now > div', 'rv'],
   ['.contact-grid > *', 'rv-blur'],
   ['.term, .snippet', 'rv-scale']
 ];

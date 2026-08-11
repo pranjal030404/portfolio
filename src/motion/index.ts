@@ -7,7 +7,7 @@ import { initParticles, initAurora } from './backdrop';
 import { initHeroText, initTypewriter, initCounters, splitOnView } from './text';
 import { initParallax, initRail, initGallery, initReadout, initInView } from './scroll';
 import { initMasthead, initNavIndicator, initMenuStagger, initJump } from './nav';
-import { initMarquee, initCloud, initLevels, initStaggerIndices } from './content';
+import { initMarquee, initCloud, initStaggerIndices } from './content';
 import { initCopy, initSheet, initSendTick } from './micro';
 
 /**
@@ -59,7 +59,6 @@ export function initMotion(): void {
   // arranged content
   initMarquee();
   initCloud();
-  initLevels();
   initStaggerIndices();
 
   // the small ones
