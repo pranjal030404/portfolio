@@ -1,0 +1,1273 @@
+/* ═══════════════════════════════════════════════════════════════
+   Motion layer
+   Loaded after style.css. Everything here is additive — with this
+   file removed the page still reads exactly the same, it just stops
+   moving.
+
+   One switch governs the whole file: body.motion-off. Script sets it
+   when the visitor prefers reduced motion or turns motion off from
+   the masthead, so no rule below needs its own media query.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --ease-out:   cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft:  cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-back:  cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+/* ═══════════════════════════════════════════ 1 · backdrop ══════ */
+/* Six layers, all fixed behind the page, all cheap. Ordered back to
+   front inside their own stacking context so the page itself never
+   has to know they exist. */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.backdrop > * { position: absolute; inset: 0; }
+
+/* the contour drift from style.css joins the stack rather than
+   sitting on its own fixed layer */
+.backdrop .terrain { position: absolute; z-index: 4; }
+
+/* ── mesh gradient — four tinted corners breathing out of phase ── */
+
+.bg-mesh {
+  z-index: 1;
+  opacity: 0.5;
+  background:
+    radial-gradient(38vw 38vw at 12% 18%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%),
+    radial-gradient(42vw 42vw at 88% 12%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
+    radial-gradient(46vw 46vw at 78% 88%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%),
+    radial-gradient(36vw 36vw at 22% 82%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%);
+  animation: mesh-drift 34s var(--ease-soft) infinite alternate;
+  filter: blur(28px);
+}
+
+@keyframes mesh-drift {
+  0%   { transform: scale(1)    translate3d(0, 0, 0); }
+  50%  { transform: scale(1.12) translate3d(-2.5%, 1.5%, 0); }
+  100% { transform: scale(1.04) translate3d(2%, -2%, 0); }
+}
+
+body.light .bg-mesh { opacity: 0.42; }
+
+/* ── dot grid — one cell of travel per cycle, so it loops seamlessly ── */
+
+.bg-grid {
+  z-index: 2;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(circle at 1px 1px, var(--border) 1px, transparent 0);
+  background-size: 46px 46px;
+  animation: grid-crawl 26s linear infinite;
+  mask-image: radial-gradient(80% 70% at 50% 30%, #000 20%, transparent 100%);
+}
+
+@keyframes grid-crawl { to { background-position: 46px 46px; } }
+
+/* ── glowing orbs — the only genuinely decorative layer ── */
+
+.orb {
+  inset: auto;
+  border-radius: 50%;
+  filter: blur(46px);
+  opacity: 0.5;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 65%, transparent), transparent 68%);
+  z-index: 3;
+}
+
+.orb-1 { width: 30vw; height: 30vw; top: 4vh;  left: -6vw;  animation: orb-a 22s var(--ease-soft) infinite alternate; }
+.orb-2 { width: 24vw; height: 24vw; top: 44vh; right: -4vw; animation: orb-b 28s var(--ease-soft) infinite alternate; opacity: 0.34; }
+.orb-3 { width: 20vw; height: 20vw; top: 74vh; left: 34vw;  animation: orb-c 19s var(--ease-soft) infinite alternate; opacity: 0.26; }
+
+@keyframes orb-a { to { transform: translate3d(9vw, 7vh, 0)  scale(1.22); } }
+@keyframes orb-b { to { transform: translate3d(-7vw, -9vh, 0) scale(0.82); } }
+@keyframes orb-c { to { transform: translate3d(5vw, -6vh, 0) scale(1.3); } }
+
+/* ── morphing shape — a slow blob rewriting its own border-radius ── */
+
+.blob {
+  inset: auto;
+  top: 22vh;
+  right: 8vw;
+  width: 26vw;
+  height: 26vw;
+  z-index: 3;
+  border: 1px solid var(--border);
+  opacity: 0.5;
+  border-radius: 42% 58% 63% 37% / 43% 38% 62% 57%;
+  animation: blob-morph 24s var(--ease-soft) infinite, blob-spin 60s linear infinite;
+}
+
+@keyframes blob-morph {
+  0%, 100% { border-radius: 42% 58% 63% 37% / 43% 38% 62% 57%; }
+  33%      { border-radius: 66% 34% 38% 62% / 61% 57% 43% 39%; }
+  66%      { border-radius: 34% 66% 51% 49% / 38% 63% 37% 62%; }
+}
+
+@keyframes blob-spin { to { transform: rotate(360deg); } }
+
+/* ── canvas layers — particle field (2D) and aurora (WebGL) ── */
+
+.bg-particles { z-index: 5; width: 100%; height: 100%; opacity: 0.85; }
+
+.bg-webgl {
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.bg-webgl.live { opacity: 0.5; }
+body.light .bg-webgl.live { opacity: 0.34; }
+
+/* ── film grain over the whole stack ── */
+
+.bg-noise {
+  z-index: 6;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 1.1s steps(3) infinite;
+}
+
+@keyframes grain {
+  0%   { transform: translate3d(0, 0, 0); }
+  33%  { transform: translate3d(-2%, 1%, 0); }
+  66%  { transform: translate3d(1%, -2%, 0); }
+}
+
+/* ═════════════════════════════════════════ 2 · intro curtain ══ */
+/* Covers the page for as long as fonts and the first paint need,
+   then lifts. Removed from the DOM afterwards. */
+
+.curtain {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  place-content: center;
+  gap: 0.875rem;
+  justify-items: center;
+  background: var(--bg);
+  transition: clip-path 0.85s var(--ease-soft), opacity 0.4s ease 0.45s;
+  clip-path: inset(0 0 0 0);
+}
+
+/* shown only where the script that lifts it is actually running */
+html.js .curtain { display: grid; }
+
+.curtain.up { clip-path: inset(0 0 100% 0); opacity: 0; pointer-events: none; }
+
+.curtain-name {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-variation-settings: 'opsz' 96;
+  letter-spacing: -0.02em;
+  overflow: hidden;
+  display: block;
+}
+
+.curtain-name span { display: block; animation: line-up 0.8s var(--ease-out) 0.1s both; }
+
+.curtain-line {
+  display: block;
+  width: min(200px, 40vw);
+  height: 1px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.curtain-line i { display: block; height: 100%; width: 100%; background: var(--accent); transform: scaleX(0); transform-origin: 0 50%; }
+
+.curtain-count {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* the page underneath arrives once the curtain starts moving. The flag is on
+   <html> because it is set by an inline script in the head, before <body>
+   exists — and it clears itself on a timer if the module never loads. */
+html.booting { overflow: hidden; }
+html.booting main, html.booting .masthead, html.booting .foot { opacity: 0; }
+main, .masthead, .foot { transition: opacity 0.5s ease; }
+
+/* ═══════════════════════════════════════════ 3 · custom cursor ══ */
+/* Pointer-precision devices only — see the coarse-pointer block at
+   the end of the file, which switches the native cursor back on. */
+
+.cursor {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 300;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cursor.live { opacity: 1; }
+
+.cursor-dot,
+.cursor-ring {
+  position: absolute;
+  top: 0; left: 0;
+  border-radius: 50%;
+  translate: -50% -50%;
+  will-change: transform;
+}
+
+.cursor-dot { width: 6px; height: 6px; background: #fff; }
+
+.cursor-ring {
+  display: grid;
+  place-items: center;
+  width: 34px; height: 34px;
+  border: 1px solid #fff;
+  transition: width 0.28s var(--ease-back), height 0.28s var(--ease-back),
+              background-color 0.28s ease, border-radius 0.24s ease, opacity 0.2s ease;
+}
+
+/* over a link or button the ring swells and the dot gets out of the way */
+.cursor.hot .cursor-ring { width: 58px; height: 58px; background: color-mix(in srgb, #fff 14%, transparent); }
+.cursor.hot .cursor-dot  { opacity: 0; }
+
+/* over running text it becomes a reading bar */
+.cursor.text .cursor-ring { width: 3px; height: 30px; border-radius: 1px; background: #fff; }
+.cursor.text .cursor-dot  { opacity: 0; }
+
+/* over something that says what it does */
+.cursor.labelled .cursor-ring { width: 74px; height: 74px; background: var(--accent); border-color: transparent; }
+
+.cursor-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+}
+
+.cursor.labelled .cursor-label { opacity: 1; }
+
+.cursor.down .cursor-ring { scale: 0.82; }
+
+/* the trail — a few dots easing along behind, each slower than the last */
+.trail {
+  position: fixed;
+  top: 0; left: 0;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  z-index: 299;
+  pointer-events: none;
+  translate: -50% -50%;
+  will-change: transform;
+}
+
+/* while the cursor is live the native one goes away */
+body.cursor-live,
+body.cursor-live a,
+body.cursor-live button,
+body.cursor-live summary,
+body.cursor-live input,
+body.cursor-live textarea { cursor: none; }
+
+/* ═════════════════════════════════════════ 4 · scroll reveal ══ */
+/* style.css owns the base .rv. These are the directional variants
+   the reveal script hands out per element type. */
+
+.rv { will-change: opacity, translate; }
+.rv.in { will-change: auto; }
+
+.rv-left   { opacity: 0; translate: -28px 0; transition: opacity 0.6s var(--ease-out), translate 0.6s var(--ease-out); }
+.rv-right  { opacity: 0; translate: 28px 0;  transition: opacity 0.6s var(--ease-out), translate 0.6s var(--ease-out); }
+.rv-scale  { opacity: 0; scale: 0.94;        transition: opacity 0.6s var(--ease-out), scale 0.6s var(--ease-out); }
+.rv-blur   { opacity: 0; filter: blur(9px);  transition: opacity 0.7s ease, filter 0.7s ease; }
+
+.rv-left.in, .rv-right.in { opacity: 1; translate: 0 0; }
+.rv-scale.in { opacity: 1; scale: 1; }
+.rv-blur.in  { opacity: 1; filter: blur(0); }
+
+/* a mask that lifts off the content rather than fading it */
+.rv-mask { clip-path: inset(0 0 100% 0); transition: clip-path 0.8s var(--ease-out); }
+.rv-mask.in { clip-path: inset(0 0 0 0); }
+
+/* members of a group arrive one after another rather than all at once */
+[data-stagger] > *,
+.rv, .rv-left, .rv-right, .rv-scale, .rv-blur { transition-delay: calc(var(--i, 0) * 55ms); }
+
+/* ─── parallax ─── */
+/* Script writes --shift; the element only has to agree to move. */
+
+[data-parallax] { will-change: transform; }
+
+/* ═════════════════════════════════════════ 5 · text animation ══ */
+
+/* split text — script wraps every word, then every character */
+.split { display: inline-block; }
+
+/* once the statement is split, per-word timing replaces the per-line mask
+   from style.css — otherwise both run and the words arrive twice */
+.hero-statement.split-done .line > span { animation: none; transform: none; }
+
+.split .w {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+  vertical-align: top;
+}
+
+.split .w > i { display: inline-block; font-style: inherit; transform: translateY(110%); }
+
+.split.go .w > i {
+  animation: line-up 0.85s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 42ms + var(--lead, 0ms));
+}
+
+.split-ch .ch {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.35em) rotate(4deg);
+}
+
+.split-ch.go .ch {
+  animation: ch-in 0.6s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 26ms + var(--lead, 0ms));
+}
+
+@keyframes ch-in {
+  from { opacity: 0; transform: translateY(0.35em) rotate(4deg); }
+  to   { opacity: 1; transform: translateY(0) rotate(0); }
+}
+
+/* The accent phrase gets a gradient that keeps moving through it.
+   background-clip:text clips to the element's own box, so while the split
+   words are still sliding up through their masks their glyphs sit outside
+   the painted area and would render as nothing. The class goes on once the
+   entrance has settled — until then the phrase is simply accent-coloured. */
+.hero-statement em.sheen {
+  background: linear-gradient(100deg,
+    var(--accent) 0%,
+    color-mix(in srgb, var(--accent) 55%, var(--text)) 34%,
+    var(--accent) 68%,
+    color-mix(in srgb, var(--accent) 55%, var(--text)) 100%);
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: sheen 7s linear infinite;
+}
+
+@keyframes sheen { to { background-position: -260% 0; } }
+
+/* ── typewriter ── */
+
+.hero-roles {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  animation: rise-in 0.7s var(--ease-out) 0.44s both;
+}
+
+.hero-roles b { color: var(--accent); font-weight: 400; }
+
+.typewriter { color: var(--text); }
+
+.caret {
+  display: inline-block;
+  width: 8px;
+  translate: 1px 2px;
+  border-bottom: 1.5px solid var(--accent);
+  animation: blink 1.05s steps(2) infinite;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ═════════════════════════════════════════ 6 · nav animation ══ */
+
+.masthead { transition: height 0.3s var(--ease-out), background-color 0.3s ease, transform 0.4s var(--ease-out); }
+
+/* shrinks once you are past the hero */
+.masthead.shrink { height: 46px; background: color-mix(in srgb, var(--bg) 88%, transparent); }
+.masthead.shrink .ident-role { opacity: 0; }
+.ident-role { transition: opacity 0.25s ease; }
+
+/* gets out of the way going down, comes back coming up */
+.masthead.hide { transform: translateY(-100%); }
+
+.nav ul { position: relative; }
+
+/* one indicator that slides between items, instead of nine that grow */
+.nav-ind {
+  position: absolute;
+  bottom: 0.125rem;
+  left: 0;
+  height: 1px;
+  width: 0;
+  background: var(--accent);
+  opacity: 0;
+  transition: transform 0.34s var(--ease-out), width 0.34s var(--ease-out), opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.nav-ind.on { opacity: 1; }
+
+/* with the shared indicator running, the per-link underline stands down */
+.nav:has(.nav-ind.on) a::after { display: none; }
+
+.nav a { transition: color 0.18s, transform 0.25s var(--ease-out); }
+.nav a:hover { transform: translateY(-1px); }
+
+/* hamburger folds into a cross */
+.bars, .bars::before, .bars::after { transition: transform 0.3s var(--ease-back), opacity 0.2s ease; }
+.tool-menu[aria-expanded="true"] .bars { background: transparent; }
+.tool-menu[aria-expanded="true"] .bars::before { transform: translateY(4px) rotate(45deg); }
+.tool-menu[aria-expanded="true"] .bars::after  { transform: translateY(-4px) rotate(-45deg); }
+
+/* the open menu unrolls, and its items follow one by one */
+.nav.open { animation: menu-drop 0.34s var(--ease-out) both; }
+@keyframes menu-drop { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+
+.nav.open li { animation: rise-in 0.4s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 34ms + 60ms); }
+
+/* theme mark turns over on the way to the other theme */
+.tool-mark { transition: rotate 0.5s var(--ease-back), border-color 0.18s, background 0.18s; }
+.tool:active { scale: 0.92; }
+.tool { transition: border-color 0.18s, scale 0.18s var(--ease-back); }
+
+/* motion switch */
+.tool-motion .tool-mark {
+  border-radius: 0;
+  border: none;
+  width: 12px; height: 10px;
+  background:
+    linear-gradient(var(--muted) 0 0) 0 0 / 2px 100% no-repeat,
+    linear-gradient(var(--muted) 0 0) 5px 0 / 2px 100% no-repeat,
+    linear-gradient(var(--muted) 0 0) 10px 0 / 2px 100% no-repeat;
+  animation: eq 1s ease-in-out infinite alternate;
+}
+
+@keyframes eq {
+  from { background-size: 2px 40%, 2px 100%, 2px 65%; }
+  to   { background-size: 2px 100%, 2px 45%, 2px 90%; }
+}
+
+.tool-motion[aria-pressed="true"] .tool-mark { animation: none; background-size: 2px 40%, 2px 40%, 2px 40%; }
+
+/* read position gets a number next to the bar */
+.progress-read {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  min-width: 3.2ch;
+  text-align: right;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.progress-read.on { opacity: 1; }
+
+.progress span { transition: none; }
+
+/* ══════════════════════════════════════════ 7 · hover & tilt ══ */
+
+/* project cards lift, glow, and reveal their call to action */
+.mid, .code-col, .group {
+  position: relative;
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s ease, border-color 0.3s ease;
+}
+
+.mid {
+  padding: 1.25rem;
+  border: 1px solid var(--border-soft);
+  background: color-mix(in srgb, var(--surface) 60%, transparent);
+  transform-style: preserve-3d;
+}
+
+.mid::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(120deg, transparent 30%, color-mix(in srgb, var(--accent) 26%, transparent) 50%, transparent 70%);
+  background-size: 240% 100%;
+  background-position: 140% 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.mid:hover::before { opacity: 1; animation: border-sweep 1.1s var(--ease-soft); }
+
+@keyframes border-sweep { from { background-position: 140% 0; } to { background-position: -60% 0; } }
+
+.mid:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  box-shadow: 0 18px 42px -24px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+/* the arrow on a card's link steps out on hover */
+.mid-link a span, .case-link a span, .minor a span { display: inline-block; transition: translate 0.24s var(--ease-back); }
+.mid:hover .mid-link a span { translate: 5px 0; }
+
+/* 3D tilt — script writes the two angles, CSS composes them */
+[data-tilt] {
+  transform: perspective(900px)
+             rotateX(var(--rx, 0deg))
+             rotateY(var(--ry, 0deg))
+             translateZ(0)
+             scale(var(--tilt-scale, 1));
+  transition: transform 0.5s var(--ease-out);
+}
+
+[data-tilt].tilting { transition: transform 0.09s linear; }
+
+/* the glare that makes a flat card read as a surface */
+.glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(28% 34% at var(--gx, 50%) var(--gy, 50%),
+              color-mix(in srgb, var(--text) 16%, transparent), transparent 70%);
+}
+
+[data-tilt].tilting .glare { opacity: 1; }
+
+/* list rows slide their content a touch and light their rule */
+.minor li, .lab-row, .code-list li, .contact-links li {
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.minor li::after, .lab-row::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -1px;
+  width: 0; height: 1px;
+  background: var(--accent);
+  transition: width 0.45s var(--ease-out);
+}
+
+.minor li:hover::after, .lab-row:hover::after { width: 100%; }
+.minor-name, .lab-name { display: inline-block; transition: translate 0.3s var(--ease-out), color 0.2s ease; }
+.minor li:hover .minor-name, .lab-row:hover .lab-name { translate: 6px 0; color: var(--accent); }
+
+/* the stack groups pick up their heading colour on approach */
+.group:hover h3 { color: var(--accent); border-bottom-color: var(--accent); }
+.group h3 { transition: color 0.25s ease, border-color 0.25s ease; }
+.group li { transition: translate 0.3s var(--ease-out), color 0.2s ease; }
+.group li:hover { translate: 4px 0; color: var(--accent); }
+
+/* magnetic elements — script writes the offset */
+[data-magnetic] {
+  display: inline-block;
+  transition: transform 0.4s var(--ease-out);
+  transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
+}
+
+[data-magnetic].pulling { transition: transform 0.12s linear; }
+
+/* ═════════════════════════════════════ 8 · horizontal gallery ══ */
+
+.gallery { border-top: 1px solid var(--border-soft); }
+
+.gallery-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1.5rem;
+  padding-block: clamp(2.5rem, 5vw, 3.5rem) 0;
+}
+
+.gallery-head .head { margin-bottom: 0; }
+.gallery-head p { font-size: 13.5px; color: var(--muted); }
+
+/* the run carries the scroll length; the pin sticks inside it */
+.gallery-run { position: relative; }
+
+.gallery-pin {
+  position: sticky;
+  top: var(--bar);
+  height: calc(100vh - var(--bar));
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.gallery-track {
+  display: flex;
+  gap: clamp(1rem, 2.5vw, 2rem);
+  padding-inline: var(--gut);
+  will-change: transform;
+}
+
+.shot {
+  flex: 0 0 clamp(260px, 34vw, 420px);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+/* no screenshots exist for these, so the panel is drawn rather than
+   photographed — same behaviour on hover, nothing pretending to be a
+   product shot */
+.shot-visual {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--sunk);
+}
+
+.shot-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 30%, transparent), transparent 60%),
+    repeating-linear-gradient(90deg, var(--border-soft) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(0deg,  var(--border-soft) 0 1px, transparent 1px 34px);
+  transition: transform 0.7s var(--ease-out), filter 0.5s ease;
+}
+
+.shot:hover .shot-visual::before { transform: scale(1.12) rotate(1.2deg); filter: saturate(1.3); }
+
+.shot-tag {
+  position: absolute;
+  left: 0.875rem; bottom: 0.875rem;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  z-index: 1;
+}
+
+.shot-no {
+  position: absolute;
+  right: 0.875rem; top: 0.75rem;
+  font-family: var(--serif);
+  font-size: 2.5rem;
+  line-height: 1;
+  color: color-mix(in srgb, var(--text) 12%, transparent);
+  z-index: 1;
+  transition: color 0.4s ease, transform 0.5s var(--ease-out);
+}
+
+.shot:hover .shot-no { color: var(--accent); transform: translateY(-3px); }
+
+.shot-body { padding: 1rem 1.125rem 1.25rem; display: grid; align-content: start; gap: 0.375rem; }
+.shot-body h3 { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+.shot-body p { font-size: 13px; color: var(--muted); }
+.shot-body .shot-tech { font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
+
+.shot-open {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  margin-top: 0.375rem;
+  opacity: 0;
+  translate: 0 6px;
+  transition: opacity 0.35s ease, translate 0.35s var(--ease-out);
+}
+
+.shot:hover .shot-open { opacity: 1; translate: 0 0; }
+
+.gallery-rail {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0 var(--gut) 1.25rem;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.gallery-rail i { display: block; flex: 1; height: 1px; background: var(--border); position: relative; }
+.gallery-rail i::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 100%;
+  background: var(--accent);
+  transform: scaleX(var(--rail, 0));
+  transform-origin: 0 50%;
+}
+
+/* ═══════════════════════════════════════════ 9 · card expand ══ */
+/* Clicking a gallery card opens it over the page. */
+
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  display: grid;
+  place-items: center;
+  padding: var(--gut);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.sheet.open { opacity: 1; pointer-events: auto; }
+
+.sheet-card {
+  width: min(680px, 100%);
+  max-height: 86vh;
+  overflow: auto;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  transform: translateY(18px) scale(0.97);
+  opacity: 0;
+  transition: transform 0.45s var(--ease-back), opacity 0.3s ease;
+}
+
+.sheet.open .sheet-card { transform: none; opacity: 1; }
+
+.sheet-card h3 { font-family: var(--serif); font-size: clamp(1.375rem, 3vw, 2rem); font-weight: 400; line-height: 1.15; }
+.sheet-card .sheet-meta { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 0.5rem; }
+.sheet-card p.sheet-text { color: var(--muted); margin-top: 1rem; max-width: 56ch; }
+.sheet-visual { aspect-ratio: 16 / 7; margin-top: 1.25rem; position: relative; overflow: hidden; background: var(--sunk); border: 1px solid var(--border-soft); }
+.sheet-visual::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 30%, transparent), transparent 60%), repeating-linear-gradient(90deg, var(--border-soft) 0 1px, transparent 1px 34px); }
+.sheet-foot { display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: center; margin-top: 1.5rem; }
+.sheet-foot a { font-family: var(--mono); font-size: 11.5px; color: var(--accent); border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+.sheet-foot a:hover { border-bottom-color: var(--accent); }
+.sheet-close { margin-left: auto; font-family: var(--mono); font-size: 11.5px; color: var(--muted); transition: color 0.2s; }
+.sheet-close:hover { color: var(--accent); }
+
+/* ═════════════════════════════════════════════ 10 · marquee ══ */
+
+.strip {
+  border-block: 1px solid var(--border-soft);
+  padding-block: 0.875rem;
+  overflow: hidden;
+  user-select: none;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.strip + .strip { border-top: none; }
+
+.marquee { display: flex; width: max-content; will-change: transform; }
+
+.marquee-run {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding-right: 2.5rem;
+  animation: run 42s linear infinite;
+}
+
+.strip-back .marquee-run { animation-direction: reverse; animation-duration: 54s; }
+
+@keyframes run { to { transform: translateX(-100%); } }
+
+/* hovering slows it rather than stopping it dead */
+.strip:hover .marquee-run { animation-play-state: paused; }
+
+.marquee-run b {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.marquee-run b:hover { color: var(--accent); }
+.marquee-run i { color: var(--accent); font-style: normal; font-size: 9px; }
+
+.strip-loud .marquee-run b {
+  font-family: var(--serif);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  color: color-mix(in srgb, var(--text) 22%, transparent);
+  letter-spacing: -0.02em;
+  -webkit-text-stroke: 0;
+}
+
+.strip-loud .marquee-run b:hover { color: var(--accent); }
+.strip-loud { padding-block: 0.5rem; }
+
+/* ══════════════════════════════════════ 11 · skills & cloud ══ */
+
+.levels { display: grid; gap: 0.875rem; margin-top: clamp(2rem, 4vw, 3rem); }
+
+.level-row {
+  display: grid;
+  grid-template-columns: minmax(0, 130px) minmax(0, 1fr) 42px;
+  gap: 0.75rem 1rem;
+  align-items: center;
+}
+
+.level-name { font-size: 13.5px; }
+
+.level-bar {
+  position: relative;
+  height: 3px;
+  background: var(--border-soft);
+  overflow: hidden;
+}
+
+.level-bar i {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 55%, var(--text)));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 1.1s var(--ease-out);
+  /* its own index — the reveal in ui.ts also writes --i, and the two would
+     otherwise fight over the same property */
+  transition-delay: calc(var(--li, 0) * 70ms);
+}
+
+.level-row.in .level-bar i { transform: scaleX(var(--level, 0)); }
+
+.level-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* ── technology cloud — every name drifts on its own clock ── */
+
+/* until script places them the names are an ordinary line of text, so the
+   panel still says something with JavaScript off */
+.cloud {
+  position: relative;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding: 1.25rem;
+  border: 1px solid var(--border-soft);
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+}
+
+.cloud.placed { display: block; padding: 0; min-height: clamp(220px, 34vw, 320px); }
+
+.cloud b {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: calc(11px + var(--w, 0.4) * 7px);
+  color: color-mix(in srgb, var(--text) calc(38% + var(--w, 0.4) * 52%), transparent);
+  white-space: nowrap;
+  cursor: default;
+  transition: color 0.25s ease, scale 0.3s var(--ease-back);
+}
+
+.cloud.placed b {
+  position: absolute;
+  animation: float-about var(--dur, 16s) var(--ease-soft) infinite alternate;
+  animation-delay: calc(var(--i, 0) * -1.3s);
+}
+
+.cloud b:hover { color: var(--accent); scale: 1.18; }
+
+@keyframes float-about {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(var(--dx, 12px), var(--dy, -14px), 0); }
+}
+
+/* ═════════════════════════════════════════ 12 · the terminal ══ */
+
+.console { padding-block: clamp(2.5rem, 5vw, 4rem) 0; }
+
+.console-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+.term, .snippet {
+  border: 1px solid var(--border);
+  background: var(--sunk);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.9;
+}
+
+.term-bar, .snippet-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border-soft);
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.term-bar u { display: block; width: 7px; height: 7px; border-radius: 50%; background: var(--border); text-decoration: none; }
+.term-bar u:first-child { background: var(--accent); }
+.term-bar span { margin-left: auto; }
+
+.term-body { padding: 0.875rem 1rem 1.125rem; min-height: 15rem; }
+.term-body p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.term-body .cmd { color: var(--text); }
+.term-body .cmd::before { content: '$ '; color: var(--accent); }
+.term-body .out { color: var(--muted); }
+.term-body .out::before { content: '> '; color: var(--border); }
+.term-body .run { color: var(--text); }
+
+/* the code block highlights one line at a time as it is read out */
+.snippet-body { padding: 0.875rem 1rem 1.125rem; }
+.snippet-body .cl { display: block; color: var(--muted); transition: color 0.3s ease, background-color 0.3s ease; padding-inline: 0.375rem; margin-inline: -0.375rem; }
+.snippet-body .cl.lit { color: var(--text); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.snippet-body .k { color: var(--accent); }
+.snippet-body .s { color: color-mix(in srgb, var(--accent) 55%, var(--text)); }
+.snippet-body .c { color: color-mix(in srgb, var(--muted) 70%, transparent); }
+
+/* ═════════════════════════════════════════ 13 · timeline ══════ */
+
+.experience .wrap { position: relative; }
+
+.rail {
+  position: absolute;
+  left: 0;
+  top: 3.5rem;
+  bottom: 1rem;
+  width: 1px;
+  background: var(--border-soft);
+  overflow: hidden;
+}
+
+.rail i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleY(var(--drawn, 0));
+  transform-origin: 50% 0;
+}
+
+.record { position: relative; }
+
+.record::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--gut) * -1);
+  top: 2rem;
+  width: 7px; height: 7px;
+  translate: -3px 0;
+  background: var(--bg);
+  border: 1px solid var(--muted);
+  transition: transform 0.5s var(--ease-back), background-color 0.3s, border-color 0.3s;
+}
+
+/* the resting state is "drawn" — only a page that is allowed to animate
+   collapses it first, so nothing can end up permanently invisible */
+body:not(.motion-off) .record:not(.in)::before { transform: scale(0); }
+
+.record-now::before { background: var(--accent); border-color: var(--accent); }
+
+.record-now .record-flag { position: relative; display: inline-block; }
+
+.record-now .record-flag::after {
+  content: '';
+  position: absolute;
+  right: -0.75rem; top: 50%;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  translate: 0 -50%;
+  animation: pulse 2.2s ease-out infinite;
+}
+
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 65%, transparent); }
+  70%  { box-shadow: 0 0 0 9px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+/* the flow steps light up as the chain is read */
+.flow li .step::after { transition: background-color 0.4s ease, border-color 0.4s ease, scale 0.4s var(--ease-back); }
+.flow li.in .step::after { scale: 1.25; }
+.flow li:hover .step::after { background: var(--accent); border-color: var(--accent); }
+.step b { transition: color 0.25s ease; }
+.flow li:hover .step b { color: var(--accent); }
+
+/* the connecting line draws itself downward on reveal — same rule as the
+   timeline dots: full length is the resting state */
+.flow li .step::before { transform-origin: 50% 0; transition: transform 0.55s var(--ease-out) 0.1s; }
+body:not(.motion-off) .flow li:not(.in) .step::before { transform: scaleY(0); }
+
+/* ════════════════════════════════════ 14 · micro-animations ══ */
+
+/* buttons take the press */
+.cta, .g-btn, .message button, .lab-play, .stage-close { transition: transform 0.2s var(--ease-back), opacity 0.18s, color 0.18s, border-color 0.18s; }
+.cta:active, .g-btn:active, .message button:active, .lab-play:active { transform: scale(0.96); }
+
+.cta { position: relative; overflow: hidden; }
+
+/* a wash that crosses the CTA on hover */
+.cta::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 100%;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform 0.4s var(--ease-out);
+  z-index: -1;
+}
+
+.cta:hover::before { transform: scaleX(1); transform-origin: 0 50%; }
+
+/* copy-to-clipboard */
+.copy {
+  display: inline-grid;
+  place-items: center;
+  width: 20px; height: 20px;
+  margin-left: 0.4rem;
+  border: 1px solid var(--border);
+  vertical-align: middle;
+  transition: border-color 0.2s, transform 0.25s var(--ease-back);
+  position: relative;
+}
+
+.copy::before, .copy::after { content: ''; position: absolute; transition: opacity 0.2s ease, transform 0.3s var(--ease-back); }
+.copy::before { width: 7px; height: 8px; border: 1px solid var(--muted); translate: -1.5px -1px; }
+.copy::after  { width: 7px; height: 8px; border: 1px solid var(--muted); translate: 1.5px 1.5px; background: var(--surface); }
+.copy:hover { border-color: var(--accent); transform: translateY(-1px); }
+.copy:hover::before, .copy:hover::after { border-color: var(--accent); }
+
+.copy.done { border-color: var(--accent); }
+.copy.done::before { opacity: 0; }
+.copy.done::after {
+  width: 9px; height: 5px;
+  border: 1px solid var(--accent);
+  border-top: none; border-right: none;
+  background: none;
+  translate: 0 -1px;
+  transform: rotate(-45deg);
+}
+
+/* tooltips */
+[data-tip] { position: relative; }
+
+[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 50%; bottom: calc(100% + 8px);
+  translate: -50% 0;
+  padding: 0.25rem 0.5rem;
+  font-family: var(--mono);
+  font-size: 10px;
+  white-space: nowrap;
+  color: var(--bg);
+  background: var(--text);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.25s var(--ease-back);
+  pointer-events: none;
+  z-index: 40;
+}
+
+[data-tip]:hover::after, [data-tip]:focus-visible::after { opacity: 1; transform: translateY(0); }
+
+/* loading dots — used by the lab stage while a chunk is in flight */
+.dots { display: inline-flex; gap: 4px; vertical-align: middle; }
+.dots i { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); animation: bob 1s ease-in-out infinite; }
+.dots i:nth-child(2) { animation-delay: 0.14s; }
+.dots i:nth-child(3) { animation-delay: 0.28s; }
+
+@keyframes bob { 0%, 60%, 100% { opacity: 0.25; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+
+.loading { font-family: var(--mono); font-size: 12px; color: var(--muted); display: inline-flex; align-items: center; gap: 0.5rem; }
+
+/* form field focus, and the tick when a message goes out */
+.f input, .f textarea { transition: border-color 0.2s ease, box-shadow 0.3s ease, background-color 0.2s; }
+.f input:focus, .f textarea:focus { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent); }
+.f label { transition: color 0.2s ease; }
+.f:focus-within label { color: var(--accent); }
+
+.tick { width: 15px; height: 15px; vertical-align: -3px; margin-right: 0.4rem; }
+.tick path { stroke: var(--accent); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 26; stroke-dashoffset: 26; }
+.message-status.sent .tick path { animation: draw 0.5s var(--ease-out) forwards; }
+
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+.message-status { transition: opacity 0.3s ease; }
+
+/* details panels open with their content rather than snapping */
+.more[open] .duties li, .arch[open] .arch-chain li { animation: rise-in 0.4s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 32ms); }
+.more summary::before, .arch summary::before { display: inline-block; transition: rotate 0.3s var(--ease-back); }
+.more[open] summary::before, .arch[open] summary::before { rotate: 180deg; }
+
+/* the number in the education block counts up on reveal */
+.degree-meta dd { font-variant-numeric: tabular-nums; }
+
+/* the lab stage arrives rather than appears */
+.stage { animation: stage-in 0.45s var(--ease-out) both; }
+@keyframes stage-in { from { opacity: 0; transform: translateY(14px) scale(0.99); } to { opacity: 1; transform: none; } }
+
+/* ═════════════════════════════════════ 15 · view transitions ══ */
+/* Used for the theme swap and for opening a project sheet. Browsers
+   without the API simply get the old instant swap. */
+
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2; }
+
+body.theme-swap::view-transition-new(root) { animation: circle-in 0.6s var(--ease-soft); }
+
+@keyframes circle-in {
+  from { clip-path: circle(0 at var(--tx, 50%) var(--ty, 50%)); }
+  to   { clip-path: circle(160vmax at var(--tx, 50%) var(--ty, 50%)); }
+}
+
+/* an in-page section transition for nav jumps */
+.jump {
+  position: fixed;
+  inset: 0;
+  z-index: 260;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: 50% 100%;
+  pointer-events: none;
+}
+
+.jump.cover { animation: jump-cover 0.62s var(--ease-soft); }
+
+@keyframes jump-cover {
+  0%   { transform: scaleY(0); transform-origin: 50% 100%; }
+  45%  { transform: scaleY(1); transform-origin: 50% 100%; }
+  55%  { transform: scaleY(1); transform-origin: 50% 0; }
+  100% { transform: scaleY(0); transform-origin: 50% 0; }
+}
+
+/* ══════════════════════════════════════════ 16 · responsive ══ */
+
+/* the masthead runs out of room before the nav does */
+@media (max-width: 1120px) {
+  .progress-read { display: none; }
+}
+
+@media (max-width: 900px) {
+  .rail { display: none; }
+  .record::before { display: none; }
+  .level-row { grid-template-columns: minmax(0, 100px) minmax(0, 1fr) 38px; }
+  .blob { display: none; }
+
+  /* the pinned track is a native swipe on small screens — pinning a
+     horizontal scroller to a touch surface fights the user */
+  .gallery-run { height: auto !important; }
+  .gallery-pin { position: static; height: auto; overflow: visible; padding-block: 1.5rem; }
+  .gallery-track { overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 0.75rem; transform: none !important; }
+  .shot { scroll-snap-align: start; }
+  .gallery-rail { display: none; }
+}
+
+@media (max-width: 640px) {
+  .orb-3, .bg-grid { display: none; }
+  .strip-loud .marquee-run b { font-size: 1.75rem; }
+  .cloud { min-height: 260px; }
+  .term-body { min-height: 12rem; }
+}
+
+/* touch and stylus keep the system cursor */
+@media (pointer: coarse), (hover: none) {
+  .cursor, .trail { display: none !important; }
+  body.cursor-live, body.cursor-live a, body.cursor-live button { cursor: auto; }
+}
+
+/* ═════════════════════════════════════════ 17 · motion off ══ */
+/* The single switch. Script sets it for prefers-reduced-motion too,
+   so this block covers both cases.
+
+   What survives: the scroll progress bar and the level bars, because
+   both report a value rather than decorate one; and every reveal,
+   forced to its finished state so nothing stays invisible. */
+
+body.motion-off .bg-mesh,
+body.motion-off .bg-grid,
+body.motion-off .bg-noise,
+body.motion-off .orb,
+body.motion-off .blob,
+body.motion-off .marquee-run,
+body.motion-off .caret,
+body.motion-off .hero-statement em.sheen,
+body.motion-off .record-now .record-flag::after,
+body.motion-off .cloud b,
+body.motion-off .tool-motion .tool-mark,
+body.motion-off .dots i,
+body.motion-off .stage,
+body.motion-off .nav.open,
+body.motion-off .nav.open li,
+body.motion-off .split.go .w > i,
+body.motion-off .split-ch.go .ch,
+body.motion-off .more[open] .duties li,
+body.motion-off .arch[open] .arch-chain li { animation: none !important; }
+
+body.motion-off .bg-webgl,
+body.motion-off .bg-particles,
+body.motion-off .bg-noise,
+body.motion-off .orb,
+body.motion-off .blob,
+body.motion-off .trail,
+body.motion-off .cursor { display: none !important; }
+
+body.motion-off .hero-statement em.sheen {
+  -webkit-text-fill-color: var(--accent);
+  background: none;
+  color: var(--accent);
+}
+
+body.motion-off .split .w > i,
+body.motion-off .split-ch .ch { transform: none; opacity: 1; }
+
+body.motion-off .rv,
+body.motion-off .rv-left,
+body.motion-off .rv-right,
+body.motion-off .rv-scale,
+body.motion-off .rv-blur,
+body.motion-off .rv-mask {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+  filter: none;
+  clip-path: none;
+  transition: none;
+}
+
+body.motion-off [data-parallax],
+body.motion-off [data-tilt],
+body.motion-off [data-magnetic] { transform: none !important; }
+
+body.motion-off .flow li .step::before,
+body.motion-off .record::before { transform: none; }
+
+body.motion-off .rail i { transform: scaleY(1); }
+
+body.motion-off .curtain { display: none; }
+
+body.motion-off .gallery-run { height: auto !important; }
+body.motion-off .gallery-pin { position: static; height: auto; overflow: visible; padding-block: 1.5rem; }
+body.motion-off .gallery-track { overflow-x: auto; transform: none !important; }
+
+body.motion-off *,
+body.motion-off *::before,
+body.motion-off *::after { transition-duration: 0.01ms !important; }
+
+/* level bars still fill — they are the reading, not the flourish */
+body.motion-off .level-bar i { transform: scaleX(var(--level, 0)) !important; transition: none; }
+body.motion-off .progress span { transition: none; }

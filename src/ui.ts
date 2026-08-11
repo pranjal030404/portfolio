@@ -1,7 +1,7 @@
-const WHATSAPP = '918400095088';
+import { motionOn } from './motion/prefs';
+import { themeSwap } from './motion/micro';
 
-const reduceMotion = () =>
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const WHATSAPP = '918400095088';
 
 /* ─────────────────────────────────────────────────────── theme ── */
 
@@ -22,7 +22,11 @@ export function initTheme(): void {
 
   button?.addEventListener('click', () => {
     const next = document.body.classList.contains('light') ? 'dark' : 'light';
-    apply(next);
+
+    // the swap itself is unchanged — themeSwap only decides whether it is
+    // wiped in or applied outright
+    themeSwap(button as HTMLElement, () => apply(next));
+
     try { localStorage.setItem('theme', next); } catch { /* ignore */ }
   });
 }
@@ -73,24 +77,59 @@ export function initScrollSpy(): void {
   sections.forEach(section => spy.observe(section));
 }
 
+/* ───────────────────────────────────────────── scroll progress ── */
+
+/**
+ * Reports read position. Left on under reduced-motion because it conveys
+ * information rather than decoration — it moves only when the user scrolls.
+ */
+export function initScrollProgress(): void {
+  const bar = document.getElementById('progress-bar');
+  if (!bar) return;
+
+  let frame = 0;
+
+  const update = () => {
+    frame = 0;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    bar.style.transform = `scaleX(${progress.toFixed(4)})`;
+  };
+
+  const schedule = () => {
+    if (!frame) frame = requestAnimationFrame(update);
+  };
+
+  update();
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule, { passive: true });
+}
+
 /* ────────────────────────────────────────────────────── reveal ── */
 
 /**
  * The hidden state is added by script, never in the markup — with JavaScript
  * off, every section renders normally instead of sitting at opacity 0.
  */
+/**
+ * Each group names the variant it arrives with, so a heading rises, a margin
+ * note comes in from the side and a card scales up — rather than the whole
+ * page doing the same eight-pixel fade forty times over.
+ */
+const REVEALS: Array<[selector: string, variant: string]> = [
+  ['.system-head, .contact-statement, .gallery-head', 'rv'],
+  ['.about-top > *, .code-col, .group, .degree, .schooling', 'rv'],
+  ['.flow li .step', 'rv-left'],
+  ['.flow li .note', 'rv-right'],
+  ['.record, .case', 'rv'],
+  ['.mid, .shot', 'rv-scale'],
+  ['.minor li, .lab-row, .now > div, .level-row', 'rv'],
+  ['.contact-grid > *', 'rv-blur'],
+  ['.term, .snippet', 'rv-scale']
+];
+
 export function initReveal(): void {
-  if (reduceMotion() || !('IntersectionObserver' in window)) return;
-
-  const targets = Array.from(
-    document.querySelectorAll<HTMLElement>(
-      '.system-head, .flow li, .about-top > *, .now > div, .record, .case, .mid, .minor li, .code-col, .group, .lab-row, .degree, .schooling, .contact-statement, .contact-grid > *'
-    )
-  ).filter(el => el.getBoundingClientRect().top > window.innerHeight * 0.9);
-
-  if (!targets.length) return;
-
-  targets.forEach(el => el.classList.add('rv'));
+  if (!motionOn() || !('IntersectionObserver' in window)) return;
 
   const observer = new IntersectionObserver(
     entries => {
@@ -103,7 +142,19 @@ export function initReveal(): void {
     { threshold: 0.08, rootMargin: '0px 0px -4% 0px' }
   );
 
-  targets.forEach(el => observer.observe(el));
+  REVEALS.forEach(([selector, variant]) => {
+    const targets = Array.from(document.querySelectorAll<HTMLElement>(selector))
+      // anything already on screen is left alone — the hidden state is added
+      // by script, and hiding what the visitor can already see is a flash
+      .filter(el => el.getBoundingClientRect().top > window.innerHeight * 0.9);
+
+    targets.forEach((el, i) => {
+      el.classList.add(variant);
+      // groups that arrive together arrive one after another
+      el.style.setProperty('--i', String(i % 6));
+      observer.observe(el);
+    });
+  });
 }
 
 /* ───────────────────────────────────────────────────── contact ── */

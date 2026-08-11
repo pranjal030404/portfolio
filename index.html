@@ -8,7 +8,8 @@
 <meta name="description" content="Software developer in Noida. Backend systems, real-time applications and IoT device communication — GPS tracking pipelines, APIs and production web platforms.">
 <meta name="theme-color" content="#16130F">
 <link rel="canonical" href="https://pranjal030404.github.io/portfolio/">
-<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<link rel="icon" type="image/jpeg" href="./sp.jpeg">
+<link rel="apple-touch-icon" href="./sp.jpeg">
 
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Pranjal Tiwari — Software Developer">
@@ -25,10 +26,76 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+
+<!--
+  The intro curtain only exists for browsers running the script — this marks
+  the document so CSS can show it, and drops the flag on its own after three
+  seconds so a script that never arrives can't leave the page hidden.
+-->
+<script>
+  document.documentElement.classList.add('js', 'booting');
+
+  // if the module never runs — a syntax error, a blocked bundle, a slow
+  // network — nothing else would ever uncover the page or take the curtain
+  // down. This does both, and is a no-op once the real one has lifted.
+  setTimeout(function () {
+    document.documentElement.classList.remove('booting');
+    var curtain = document.getElementById('curtain');
+    if (curtain && !curtain.classList.contains('up')) curtain.remove();
+  }, 3000);
+</script>
 </head>
 <body>
 
 <a class="skip" href="#main">Skip to content</a>
+
+<div class="curtain" id="curtain" aria-hidden="true">
+  <span class="curtain-name"><span>Pranjal Tiwari</span></span>
+  <span class="curtain-line"><i id="curtain-fill"></i></span>
+  <span class="curtain-count" id="curtain-count">00</span>
+</div>
+
+<div class="cursor" id="cursor" aria-hidden="true">
+  <span class="cursor-ring"><span class="cursor-label"></span></span>
+  <span class="cursor-dot"></span>
+</div>
+
+<!-- ════════════════════════════════════════════════ backdrop ══ -->
+<!--
+  Seven layers, none of which the page itself knows about. Five are pure
+  CSS and survive with the script off; the aurora and the particle field
+  are canvases that simply stay empty if their context can't be had.
+-->
+<div class="backdrop" aria-hidden="true">
+  <canvas class="bg-webgl" id="bg-webgl"></canvas>
+  <div class="bg-mesh"></div>
+  <div class="bg-grid"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="blob"></div>
+
+<!-- a slow contour drift behind the page — survey-map texture, not decoration -->
+<div class="terrain" aria-hidden="true">
+  <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <g class="terrain-lines">
+      <path d="M -400 60 q 75 -18 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0"/>
+      <path d="M -400 140 q 75 14 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0"/>
+      <path d="M -400 220 q 75 -22 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0"/>
+      <path d="M -400 300 q 75 16 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0"/>
+      <path d="M -400 380 q 75 -20 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0"/>
+      <path d="M -400 460 q 75 12 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0"/>
+      <path d="M -400 540 q 75 -24 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0"/>
+      <path d="M -400 620 q 75 15 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0"/>
+      <path d="M -400 700 q 75 -19 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0"/>
+      <path d="M -400 780 q 75 13 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0 t 150 0"/>
+    </g>
+  </svg>
+</div>
+
+  <canvas class="bg-particles" id="bg-particles"></canvas>
+  <div class="bg-noise"></div>
+</div>
 
 <!-- ══════════════════════════════════════════════════ masthead ══ -->
 <header class="masthead">
@@ -53,7 +120,11 @@
     </nav>
 
     <div class="masthead-tools">
-      <button class="tool" id="theme" type="button" aria-label="Switch to light theme" aria-pressed="false">
+      <span class="progress-read" id="progress-read" aria-hidden="true">0%</span>
+      <button class="tool tool-motion" id="motion" type="button" aria-label="Turn animation off" aria-pressed="false" data-tip="Animation">
+        <span class="tool-mark" aria-hidden="true"></span>
+      </button>
+      <button class="tool" id="theme" type="button" aria-label="Switch to light theme" aria-pressed="false" data-tip="Theme">
         <span class="tool-mark" aria-hidden="true"></span>
       </button>
       <button class="tool tool-menu" id="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
@@ -61,6 +132,7 @@
       </button>
     </div>
   </div>
+  <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
 </header>
 
 <main id="main">
@@ -73,8 +145,8 @@
       <p class="hero-id">Pranjal Tiwari <span aria-hidden="true">·</span> Software Developer</p>
 
       <h1 class="hero-statement">
-        I build web systems, APIs<br>
-        and <em>real-time infrastructure.</em>
+        <span class="line"><span>I build web systems, APIs</span></span>
+        <span class="line"><span>and <em>real-time infrastructure.</em></span></span>
       </h1>
 
       <p class="hero-sub">
@@ -82,10 +154,16 @@
         Most of my work sits between a request, a database and a device.
       </p>
 
+      <p class="hero-roles">
+        Currently working on <b><span id="typewriter"
+          data-phrases="TCP servers that speak GT06|Redis Streams between services|REST APIs in Node and Express|React dashboards over live data|MongoDB schemas for position history"
+        >TCP servers that speak GT06</span><span class="caret" aria-hidden="true"></span></b>
+      </p>
+
       <p class="hero-actions">
-        <a class="cta" href="#work">View work <span aria-hidden="true">→</span></a>
-        <a class="cta cta-quiet" href="https://github.com/pranjal030404" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">→</span></a>
-        <a class="cta cta-quiet" href="#contact">Get in touch <span aria-hidden="true">→</span></a>
+        <a class="cta" href="#work" data-magnetic="0.35" data-cursor="Work">View work <span aria-hidden="true">→</span></a>
+        <a class="cta cta-quiet" href="https://github.com/pranjal030404" target="_blank" rel="noopener noreferrer" data-magnetic="0.3" data-cursor="GitHub">GitHub <span aria-hidden="true">→</span></a>
+        <a class="cta cta-quiet" href="#contact" data-magnetic="0.3" data-cursor="Say hi">Get in touch <span aria-hidden="true">→</span></a>
       </p>
 
       <p class="hero-detail">
@@ -94,7 +172,7 @@
       </p>
     </div>
 
-    <figure class="portrait">
+    <figure class="portrait" data-parallax="0.09">
       <img src="./sp.jpeg" alt="Pranjal Tiwari" width="460" height="460" fetchpriority="high">
       <figcaption>Noida, 2026</figcaption>
     </figure>
@@ -219,13 +297,73 @@
         </dd>
       </div>
     </dl>
+
+    <!-- ── the two code blocks: a terminal that types itself out, and a
+             listing that walks a highlight down its lines. Both already
+             contain their finished text, so with the script off they read
+             as ordinary code. ── -->
+    <div class="console">
+      <div class="console-grid">
+
+        <div class="term">
+          <div class="term-bar">
+            <u aria-hidden="true"></u><u aria-hidden="true"></u><u aria-hidden="true"></u>
+            pranjal@noida
+            <span>zsh</span>
+          </div>
+          <div class="term-body" id="term-body">
+            <p class="cmd">whoami</p>
+            <p class="out">Software Developer · Zebraffe Technologies</p>
+            <p class="cmd">cat stack.txt</p>
+            <p class="out">Node.js · Express · React · MongoDB · Redis · Docker</p>
+            <p class="cmd">uptime --since</p>
+            <p class="out">Dec 2024 — two platforms in production</p>
+            <p class="cmd">ping device</p>
+            <p class="out">GT06 frame in, position out, 0 packets dropped</p>
+          </div>
+        </div>
+
+        <div class="snippet">
+          <div class="snippet-bar">developer.ts</div>
+          <div class="snippet-body" id="snippet-body">
+<code><span class="cl"><span class="k">const</span> developer = {</span><span class="cl">  name: <span class="s">'Pranjal Tiwari'</span>,</span><span class="cl">  role: <span class="s">'Software Developer'</span>,</span><span class="cl">  based: <span class="s">'Noida, India'</span>,</span><span class="cl">  works: [<span class="s">'backend'</span>, <span class="s">'real-time'</span>, <span class="s">'IoT'</span>],</span><span class="cl">  stack: [<span class="s">'Node'</span>, <span class="s">'React'</span>, <span class="s">'MongoDB'</span>, <span class="s">'Redis'</span>],</span><span class="cl">  <span class="c">// the part between a device and a map</span></span><span class="cl">  ships: <span class="k">true</span></span><span class="cl">}</span></code>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
 </section>
+
+<!-- ═══════════════════════════════════════════════════ marquee ══ -->
+<!-- Duplicated by script into a seamless loop; a plain list without it. -->
+<div class="strip strip-loud" aria-hidden="true">
+  <div class="marquee">
+    <div class="marquee-run">
+      <b>BUILD</b><i>◆</i><b>SHIP</b><i>◆</i><b>DEBUG</b><i>◆</i><b>SCALE</b><i>◆</i>
+    </div>
+  </div>
+</div>
+
+<div class="strip strip-back">
+  <h2 class="visually-hidden">Technologies</h2>
+  <div class="marquee">
+    <div class="marquee-run">
+      <b>Node.js</b><i>◆</i><b>Express</b><i>◆</i><b>React</b><i>◆</i><b>MongoDB</b><i>◆</i>
+      <b>Redis Streams</b><i>◆</i><b>Socket.io</b><i>◆</i><b>TCP/IP</b><i>◆</i><b>GT06</b><i>◆</i>
+      <b>Concox</b><i>◆</i><b>Docker</b><i>◆</i><b>Kubernetes</b><i>◆</i><b>TypeScript</b><i>◆</i>
+      <b>Python</b><i>◆</i><b>Leaflet</b><i>◆</i><b>ESP32</b><i>◆</i><b>Linux</b><i>◆</i>
+    </div>
+  </div>
+</div>
 
 <!-- ════════════════════════════════════════════════ experience ══ -->
 <section class="experience" id="experience">
   <div class="wrap">
     <h2 class="head">Experience</h2>
+
+    <!-- draws itself down the section as the records scroll past -->
+    <div class="rail" aria-hidden="true"><i></i></div>
 
     <article class="record record-now">
       <div class="record-when">
@@ -339,31 +477,31 @@
     </article>
 
     <div class="mid-grid">
-      <article class="mid">
+      <article class="mid" data-tilt="6">
         <p class="mid-no">02</p>
         <h3>Vehicle Fitness Platform</h3>
         <p class="mid-meta">Zebraffe Technologies · Production</p>
         <p class="mid-text">Fitness workflows and operational tracking. Feature work plus production support.</p>
         <p class="mid-tech">React · Node.js · Express · MongoDB</p>
-        <p class="mid-link"><a href="https://stg.vehiclefitness.gocarriage.com/" target="_blank" rel="noopener noreferrer">Live <span aria-hidden="true">→</span></a></p>
+        <p class="mid-link"><a href="https://stg.vehiclefitness.gocarriage.com/" target="_blank" rel="noopener noreferrer" data-cursor="Visit">Live <span aria-hidden="true">→</span></a></p>
       </article>
 
-      <article class="mid">
+      <article class="mid" data-tilt="6">
         <p class="mid-no">03</p>
         <h3>Franchise Platform</h3>
         <p class="mid-meta">Zebraffe Technologies · Production</p>
         <p class="mid-text">The company franchise portal — live business workflows and platform stability work.</p>
         <p class="mid-tech">React · Node.js · Express</p>
-        <p class="mid-link"><a href="https://in.zebraffe.net/" target="_blank" rel="noopener noreferrer">Live <span aria-hidden="true">→</span></a></p>
+        <p class="mid-link"><a href="https://in.zebraffe.net/" target="_blank" rel="noopener noreferrer" data-cursor="Visit">Live <span aria-hidden="true">→</span></a></p>
       </article>
 
-      <article class="mid">
+      <article class="mid" data-tilt="6">
         <p class="mid-no">04</p>
         <h3>Meet with Recording</h3>
         <p class="mid-meta">Personal · JavaScript</p>
         <p class="mid-text">A browser meeting app with recording. Built to understand media capture and streaming in the browser.</p>
         <p class="mid-tech">JavaScript</p>
-        <p class="mid-link"><a href="https://github.com/pranjal030404/Meets_with_recording" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">→</span></a></p>
+        <p class="mid-link"><a href="https://github.com/pranjal030404/Meets_with_recording" target="_blank" rel="noopener noreferrer" data-cursor="GitHub">GitHub <span aria-hidden="true">→</span></a></p>
       </article>
     </div>
 
@@ -400,6 +538,104 @@
       </li>
     </ol>
   </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ gallery ══ -->
+<!--
+  The gallery pins and the track walks sideways while the page scrolls.
+  The panels are drawn, not photographed — there are no screenshots of these
+  systems to show, and a generated panel is honest about that in a way a
+  stock mockup would not be.
+
+  Below 900px, and with motion off, this becomes an ordinary swipe.
+-->
+<section class="gallery" id="gallery">
+  <div class="wrap gallery-head">
+    <h2 class="head">Gallery</h2>
+    <p>The same work, sideways. Open one for the detail.</p>
+  </div>
+
+  <div class="gallery-run" id="gallery-run">
+  <div class="gallery-pin">
+    <div class="gallery-track" id="gallery-track">
+
+      <article class="shot" data-tilt="4" data-open
+        data-href="http://139.59.13.130:5173/login" data-label="Live platform"
+        data-text="A real-time vehicle tracking system on a microservices architecture. Custom TCP servers accept long-lived device connections, GT06, Concox and Prithivi frames are parsed into positions, Redis Streams decouple ingestion from processing, and Socket.io pushes anything happening right now straight to the map.">
+        <div class="shot-visual"><span class="shot-no" aria-hidden="true">01</span><span class="shot-tag">TCP · REDIS · MONGO</span></div>
+        <div class="shot-body">
+          <h3>GPS Tracking &amp; IoT</h3>
+          <p>Atrivis Technologies · Production</p>
+          <p class="shot-tech">Node.js · Redis Streams · Socket.io</p>
+          <p class="shot-open">Open →</p>
+        </div>
+      </article>
+
+      <article class="shot" data-tilt="4" data-open
+        data-href="https://stg.vehiclefitness.gocarriage.com/" data-label="Live"
+        data-text="Fitness workflows and operational tracking for commercial vehicles. MERN-stack feature work, the REST APIs behind it, and the production support when something breaks.">
+        <div class="shot-visual"><span class="shot-no" aria-hidden="true">02</span><span class="shot-tag">MERN · PRODUCTION</span></div>
+        <div class="shot-body">
+          <h3>Vehicle Fitness Platform</h3>
+          <p>Zebraffe Technologies · Production</p>
+          <p class="shot-tech">React · Node.js · MongoDB</p>
+          <p class="shot-open">Open →</p>
+        </div>
+      </article>
+
+      <article class="shot" data-tilt="4" data-open
+        data-href="https://in.zebraffe.net/" data-label="Live"
+        data-text="The company franchise portal — live business workflows, site updates and the platform stability work that keeps them running.">
+        <div class="shot-visual"><span class="shot-no" aria-hidden="true">03</span><span class="shot-tag">REACT · EXPRESS</span></div>
+        <div class="shot-body">
+          <h3>Franchise Platform</h3>
+          <p>Zebraffe Technologies · Production</p>
+          <p class="shot-tech">React · Node.js · Express</p>
+          <p class="shot-open">Open →</p>
+        </div>
+      </article>
+
+      <article class="shot" data-tilt="4" data-open
+        data-href="https://github.com/pranjal030404/Meets_with_recording" data-label="GitHub"
+        data-text="A browser meeting app with recording, built to understand media capture and streaming in the browser — getUserMedia, MediaRecorder and the peer connection underneath.">
+        <div class="shot-visual"><span class="shot-no" aria-hidden="true">04</span><span class="shot-tag">WEBRTC · MEDIA</span></div>
+        <div class="shot-body">
+          <h3>Meet with Recording</h3>
+          <p>Personal · JavaScript</p>
+          <p class="shot-tech">JavaScript · MediaRecorder</p>
+          <p class="shot-open">Open →</p>
+        </div>
+      </article>
+
+      <article class="shot" data-tilt="4" data-open
+        data-href="https://github.com/pranjal030404/AI-based-recommendation-engine" data-label="GitHub"
+        data-text="A recommendation engine in Python — the modelling side of the stack rather than the request side, written to understand how the ranking actually gets made.">
+        <div class="shot-visual"><span class="shot-no" aria-hidden="true">05</span><span class="shot-tag">PYTHON · ML</span></div>
+        <div class="shot-body">
+          <h3>Recommendation Engine</h3>
+          <p>Personal · Python</p>
+          <p class="shot-tech">Python</p>
+          <p class="shot-open">Open →</p>
+        </div>
+      </article>
+
+      <article class="shot" data-tilt="4" data-open
+        data-href="https://crm-frontend-omega-eight.vercel.app" data-label="Live"
+        data-text="A CRM and employee management front end — authentication, dashboard operations and the table-heavy screens that come with them.">
+        <div class="shot-visual"><span class="shot-no" aria-hidden="true">06</span><span class="shot-tag">DASHBOARD · AUTH</span></div>
+        <div class="shot-body">
+          <h3>CRM / EMS Portal</h3>
+          <p>Frontend · Dashboard</p>
+          <p class="shot-tech">React</p>
+          <p class="shot-open">Open →</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+  </div>
+
+  <div class="gallery-rail" aria-hidden="true"><span>SCROLL</span><i></i><span>06</span></div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════ code ══ -->
@@ -510,6 +746,65 @@
         <ul><li>TCP/IP</li><li>Socket.io</li><li>GPS device integration</li><li>ESP32</li></ul>
       </div>
     </div>
+
+    <!--
+      PLACEHOLDER FIGURES. The bars are driven by data-level on each row and
+      the numbers below are a first guess from what the rest of the page says
+      you work with daily — they are not measurements. Set them yourself, or
+      delete this block; nothing else depends on it.
+    -->
+    <div class="levels" data-stagger>
+      <div class="level-row" data-level="90">
+        <span class="level-name">Node.js</span>
+        <span class="level-bar" aria-hidden="true"><i></i></span>
+        <span class="level-num">90</span>
+      </div>
+      <div class="level-row" data-level="88">
+        <span class="level-name">JavaScript</span>
+        <span class="level-bar" aria-hidden="true"><i></i></span>
+        <span class="level-num">88</span>
+      </div>
+      <div class="level-row" data-level="85">
+        <span class="level-name">React</span>
+        <span class="level-bar" aria-hidden="true"><i></i></span>
+        <span class="level-num">85</span>
+      </div>
+      <div class="level-row" data-level="85">
+        <span class="level-name">MongoDB</span>
+        <span class="level-bar" aria-hidden="true"><i></i></span>
+        <span class="level-num">85</span>
+      </div>
+      <div class="level-row" data-level="78">
+        <span class="level-name">Redis</span>
+        <span class="level-bar" aria-hidden="true"><i></i></span>
+        <span class="level-num">78</span>
+      </div>
+      <div class="level-row" data-level="74">
+        <span class="level-name">TypeScript</span>
+        <span class="level-bar" aria-hidden="true"><i></i></span>
+        <span class="level-num">74</span>
+      </div>
+      <div class="level-row" data-level="70">
+        <span class="level-name">Docker</span>
+        <span class="level-bar" aria-hidden="true"><i></i></span>
+        <span class="level-num">70</span>
+      </div>
+      <div class="level-row" data-level="66">
+        <span class="level-name">Python</span>
+        <span class="level-bar" aria-hidden="true"><i></i></span>
+        <span class="level-num">66</span>
+      </div>
+    </div>
+
+    <!-- names drift on their own clocks; a plain line of text without script -->
+    <div class="cloud" aria-hidden="true">
+      <b data-w="1">Node.js</b><b data-w="0.9">React</b><b data-w="0.85">MongoDB</b>
+      <b data-w="0.8">Redis</b><b data-w="0.75">Express</b><b data-w="0.7">TypeScript</b>
+      <b data-w="0.65">Docker</b><b data-w="0.6">Socket.io</b><b data-w="0.55">TCP/IP</b>
+      <b data-w="0.5">Python</b><b data-w="0.45">Kubernetes</b><b data-w="0.4">Leaflet</b>
+      <b data-w="0.35">MySQL</b><b data-w="0.3">Java</b><b data-w="0.28">ESP32</b>
+      <b data-w="0.25">Tailwind</b><b data-w="0.22">Git</b><b data-w="0.2">Linux</b>
+    </div>
   </div>
 </section>
 
@@ -525,49 +820,21 @@
       <li class="lab-row">
         <span class="lab-name">Snake</span>
         <span class="lab-desc">A small Canvas experiment.</span>
-        <button class="lab-play" type="button" data-game="snake" aria-controls="lab-stage" aria-expanded="false">
+        <button class="lab-play" type="button" data-game="snake" aria-controls="lab-stage" aria-expanded="false" data-cursor="Play">
           Play <span aria-hidden="true">→</span>
         </button>
       </li>
       <li class="lab-row">
         <span class="lab-name">Typing</span>
         <span class="lab-desc">A test built around the technologies I work with.</span>
-        <button class="lab-play" type="button" data-game="typing" aria-controls="lab-stage" aria-expanded="false">
+        <button class="lab-play" type="button" data-game="typing" aria-controls="lab-stage" aria-expanded="false" data-cursor="Play">
           Play <span aria-hidden="true">→</span>
         </button>
       </li>
       <li class="lab-row">
         <span class="lab-name">Reaction</span>
         <span class="lab-desc">How quickly can you react?</span>
-        <button class="lab-play" type="button" data-game="reaction" aria-controls="lab-stage" aria-expanded="false">
-          Play <span aria-hidden="true">→</span>
-        </button>
-      </li>
-      <li class="lab-row">
-        <span class="lab-name">2048</span>
-        <span class="lab-desc">A small grid and state-management exercise.</span>
-        <button class="lab-play" type="button" data-game="2048" aria-controls="lab-stage" aria-expanded="false">
-          Play <span aria-hidden="true">→</span>
-        </button>
-      </li>
-      <li class="lab-row">
-        <span class="lab-name">Minesweeper</span>
-        <span class="lab-desc">Logic, probability and interaction.</span>
-        <button class="lab-play" type="button" data-game="minesweeper" aria-controls="lab-stage" aria-expanded="false">
-          Play <span aria-hidden="true">→</span>
-        </button>
-      </li>
-      <li class="lab-row">
-        <span class="lab-name">Breakout</span>
-        <span class="lab-desc">A canvas collision experiment.</span>
-        <button class="lab-play" type="button" data-game="breakout" aria-controls="lab-stage" aria-expanded="false">
-          Play <span aria-hidden="true">→</span>
-        </button>
-      </li>
-      <li class="lab-row">
-        <span class="lab-name">Memory</span>
-        <span class="lab-desc">A small state and matching exercise.</span>
-        <button class="lab-play" type="button" data-game="memory" aria-controls="lab-stage" aria-expanded="false">
+        <button class="lab-play" type="button" data-game="reaction" aria-controls="lab-stage" aria-expanded="false" data-cursor="Play">
           Play <span aria-hidden="true">→</span>
         </button>
       </li>
@@ -595,11 +862,11 @@
     <div class="degree">
       <div class="degree-main">
         <h3>B.Tech <span>Computer Science Engineering</span></h3>
-        <p class="degree-school">BBD Institute of Technology <span aria-hidden="true">·</span> AKTU <span aria-hidden="true">·</span> 2022—2026</p>
+        <p class="degree-school">BBD Institute of Technology <span aria-hidden="true">·</span> AKTU, Lucknow <span aria-hidden="true">·</span> 2022—2026</p>
       </div>
       <dl class="degree-meta">
         <div><dt>Completed</dt><dd>2026</dd></div>
-        <div><dt>CGPA</dt><dd>8.17</dd></div>
+        <div><dt>CGPA</dt><dd data-count="8.17">8.17</dd></div>
       </dl>
     </div>
 
@@ -622,11 +889,17 @@
           conversation. Messages from the form open in WhatsApp.
         </p>
 
+        <p class="contact-avail">
+          Open to work in India — on-site, hybrid or remote.
+        </p>
+
+        <!-- the copy buttons are built by script; there is nothing for one
+             to do without it, and a dead button is worse than no button -->
         <ul class="contact-links">
-          <li><span>Email</span><a href="mailto:pranjaltiwari69058@gmail.com">pranjaltiwari69058@gmail.com</a></li>
-          <li><span>WhatsApp</span><a href="https://wa.me/918400095088" target="_blank" rel="noopener noreferrer">+91 84000 95088</a></li>
-          <li><span>GitHub</span><a href="https://github.com/pranjal030404" target="_blank" rel="noopener noreferrer">pranjal030404</a></li>
-          <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/prajal030404" target="_blank" rel="noopener noreferrer">prajal030404</a></li>
+          <li><span>Email</span><a href="mailto:pranjaltiwari69058@gmail.com" data-copy="pranjaltiwari69058@gmail.com" data-cursor="Mail">pranjaltiwari69058@gmail.com</a></li>
+          <li><span>WhatsApp</span><a href="https://wa.me/918400095088" target="_blank" rel="noopener noreferrer" data-copy="+91 84000 95088" data-cursor="Chat">+91 84000 95088</a></li>
+          <li><span>GitHub</span><a href="https://github.com/pranjal030404" target="_blank" rel="noopener noreferrer" data-cursor="GitHub">pranjal030404</a></li>
+          <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/prajal030404" target="_blank" rel="noopener noreferrer" data-cursor="LinkedIn">prajal030404</a></li>
         </ul>
       </div>
 
@@ -643,7 +916,7 @@
           <label for="f-msg">Message</label>
           <textarea id="f-msg" name="text" rows="4" required></textarea>
         </div>
-        <button type="submit">Send on WhatsApp <span aria-hidden="true">→</span></button>
+        <button type="submit" data-magnetic="0.18" data-cursor="Send">Send on WhatsApp <span aria-hidden="true">→</span></button>
         <p class="message-status" id="message-status" role="status" aria-live="polite"></p>
       </form>
     </div>

@@ -1,25 +1,20 @@
 import type { GameHandle, GameMount } from './games/types';
-import { mount as mountSnake } from './games/snake';
-import { mount as mountTyping } from './games/typing';
-import { mount as mountReaction } from './games/reaction';
-import { mount as mount2048 } from './games/2048';
-import { mount as mountMinesweeper } from './games/minesweeper';
-import { mount as mountBreakout } from './games/breakout';
-import { mount as mountMemory } from './games/memory';
 
 /**
- * Every game is bundled statically — nothing is fetched on demand. Opening
- * one mounts it into a single dedicated stage; closing destroys the instance
- * so no loop, timer or listener survives.
+ * Games are code-split and only fetched when opened, so the initial page load
+ * carries none of them. Opening one mounts it into a single dedicated stage;
+ * closing destroys the instance so no loop, timer or listener survives.
  */
-const GAMES: Record<string, { title: string; mount: GameMount }> = {
-  snake: { title: 'Snake', mount: mountSnake },
-  typing: { title: 'Typing', mount: mountTyping },
-  reaction: { title: 'Reaction', mount: mountReaction },
-  '2048': { title: '2048', mount: mount2048 },
-  minesweeper: { title: 'Minesweeper', mount: mountMinesweeper },
-  breakout: { title: 'Breakout', mount: mountBreakout },
-  memory: { title: 'Memory', mount: mountMemory }
+const LOADERS: Record<string, () => Promise<{ mount: GameMount }>> = {
+  snake: () => import('./games/snake'),
+  typing: () => import('./games/typing'),
+  reaction: () => import('./games/reaction')
+};
+
+const TITLES: Record<string, string> = {
+  snake: 'Snake',
+  typing: 'Typing',
+  reaction: 'Reaction'
 };
 
 export function initLab(): void {
@@ -33,8 +28,10 @@ export function initLab(): void {
 
   let live: GameHandle | null = null;
   let opener: HTMLButtonElement | null = null;
+  let token = 0;
 
   const close = (returnFocus = true) => {
+    token += 1;                        // invalidate any chunk still loading
     live?.destroy();
     live = null;
     body.textContent = '';
@@ -46,24 +43,40 @@ export function initLab(): void {
   };
 
   const open = (name: string, button: HTMLButtonElement) => {
-    const game = GAMES[name];
-    if (!game) return;
+    const load = LOADERS[name];
+    if (!load) return;
 
     close(false);
 
+    const mine = ++token;
     opener = button;
-    title.textContent = game.title;
+    title.textContent = TITLES[name] ?? name;
     stage.hidden = false;
     button.setAttribute('aria-expanded', 'true');
 
     body.textContent = '';
-    live = game.mount(body);
+    const loading = document.createElement('p');
+    loading.className = 'loading';
+    loading.setAttribute('role', 'status');
+    loading.innerHTML = 'Loading <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>';
+    body.append(loading);
 
-    // a game may claim focus itself (the typing test focuses its input);
-    // only fall back to the stage heading if nothing did
-    if (!body.contains(document.activeElement)) title.focus();
+    load()
+      .then(module => {
+        if (mine !== token) return;    // closed or switched while loading
+        body.textContent = '';
+        live = module.mount(body);
 
-    stage.scrollIntoView({ block: 'nearest' });
+        // a game may claim focus itself (the typing test focuses its input);
+        // only fall back to the stage heading if nothing did
+        if (!body.contains(document.activeElement)) title.focus();
+
+        stage.scrollIntoView({ block: 'nearest' });
+      })
+      .catch(() => {
+        if (mine !== token) return;
+        body.textContent = 'Could not load this one.';
+      });
   };
 
   buttons.forEach(button => {
