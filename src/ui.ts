@@ -84,7 +84,7 @@ export function initReveal(): void {
 
   const targets = Array.from(
     document.querySelectorAll<HTMLElement>(
-      '.system-head, .flow li, .about-top > *, .now > div, .record, .case, .mid, .minor li, .group, .lab-list > li, .contact-statement, .contact-grid > *, .edu'
+      '.system-head, .flow li, .about-top > *, .now > div, .record, .case, .mid, .minor li, .code-col, .group, .lab-row, .degree, .schooling, .contact-statement, .contact-grid > *'
     )
   ).filter(el => el.getBoundingClientRect().top > window.innerHeight * 0.9);
 

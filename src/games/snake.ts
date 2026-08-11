@@ -1,10 +1,11 @@
 import { GameHandle, token, store, save } from './types';
 
-const COLS = 24;
+const COLS = 28;
 const ROWS = 18;
-const CELL = 20;
+const CELL = 26;
 const BEST_KEY = 'portfolio_snake_high_score';
 
+type State = 'ready' | 'playing' | 'paused' | 'gameover';
 interface Cell { x: number; y: number; }
 
 export function mount(root: HTMLElement): GameHandle {
@@ -13,37 +14,48 @@ export function mount(root: HTMLElement): GameHandle {
       <div class="g-board">
         <canvas class="g-canvas" width="${COLS * CELL}" height="${ROWS * CELL}"
                 role="img" aria-label="Snake game board"></canvas>
-        <div class="g-over" hidden>
-          <strong data-over-title>Ready</strong>
-          <p data-over-note>Press an arrow key to start</p>
-        </div>
-        <div class="g-pad">
-          <button class="u" type="button" aria-label="Up">↑</button>
-          <button class="l" type="button" aria-label="Left">←</button>
-          <button class="d" type="button" aria-label="Down">↓</button>
-          <button class="r" type="button" aria-label="Right">→</button>
+        <div class="g-over" data-over>
+          <strong data-over-title></strong>
+          <p data-over-note></p>
+          <button class="g-btn" type="button" data-over-action hidden></button>
         </div>
       </div>
 
-      <div class="g-side">
-        <div>
-          <dl class="g-stat"><dt>Score</dt><dd data-score>0</dd></dl>
-          <dl class="g-stat"><dt>Best</dt><dd data-best>0</dd></dl>
+      <div class="g-meta">
+        <dl class="g-stats">
+          <div><dt>Score</dt><dd data-score>0</dd></div>
+          <div><dt>Best</dt><dd data-best>0</dd></div>
+        </dl>
+        <div class="g-actions">
+          <button class="g-btn" type="button" data-restart>Restart</button>
+          <button class="g-btn" type="button" data-pause>Pause</button>
         </div>
-        <button class="g-btn" type="button" data-restart>Restart</button>
-        <p class="g-hint">Arrow keys or WASD.<br>Space pauses.</p>
       </div>
+
+      <div class="g-pad">
+        <button class="u" type="button" aria-label="Up">↑</button>
+        <button class="l" type="button" aria-label="Left">←</button>
+        <button class="d" type="button" aria-label="Down">↓</button>
+        <button class="r" type="button" aria-label="Right">→</button>
+      </div>
+
+      <p class="g-hint">Arrow keys or WASD · Space to pause</p>
     </div>
   `;
 
   const canvas = root.querySelector('canvas') as HTMLCanvasElement;
   const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-  const overlay = root.querySelector('.g-over') as HTMLElement;
+  const overlay = root.querySelector('[data-over]') as HTMLElement;
   const overTitle = root.querySelector('[data-over-title]') as HTMLElement;
   const overNote = root.querySelector('[data-over-note]') as HTMLElement;
+  const overAction = root.querySelector('[data-over-action]') as HTMLButtonElement;
   const scoreEl = root.querySelector('[data-score]') as HTMLElement;
   const bestEl = root.querySelector('[data-best]') as HTMLElement;
+  const restartBtn = root.querySelector('[data-restart]') as HTMLButtonElement;
+  const pauseBtn = root.querySelector('[data-pause]') as HTMLButtonElement;
+  const pad = root.querySelector('.g-pad') as HTMLElement;
 
+  let state: State = 'ready';
   let snake: Cell[] = [];
   let dir: Cell = { x: 1, y: 0 };
   let queued: Cell[] = [];
@@ -52,9 +64,22 @@ export function mount(root: HTMLElement): GameHandle {
   let best = store(BEST_KEY);
   let timer = 0;
   let speed = 130;
-  let state: 'idle' | 'running' | 'paused' | 'over' = 'idle';
 
   bestEl.textContent = String(best);
+
+  /* ── loop control: exactly one interval, always ── */
+
+  const stopLoop = () => {
+    window.clearInterval(timer);
+    timer = 0;
+  };
+
+  const startLoop = () => {
+    stopLoop();
+    timer = window.setInterval(tick, speed);
+  };
+
+  /* ── rendering ── */
 
   const placeFood = () => {
     let spot: Cell;
@@ -64,7 +89,64 @@ export function mount(root: HTMLElement): GameHandle {
     food = spot;
   };
 
-  const reset = () => {
+  const draw = () => {
+    const bg = token('--sunk');
+    const body = token('--text');
+    const head = token('--accent');
+
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.strokeStyle = head;
+    ctx.lineWidth = 2;
+    ctx.strokeRect(food.x * CELL + 5, food.y * CELL + 5, CELL - 10, CELL - 10);
+
+    snake.forEach((part, index) => {
+      ctx.fillStyle = index === 0 ? head : body;
+      ctx.globalAlpha = index === 0 ? 1 : Math.max(0.3, 1 - index / (snake.length + 8));
+      ctx.fillRect(part.x * CELL + 1, part.y * CELL + 1, CELL - 2, CELL - 2);
+    });
+    ctx.globalAlpha = 1;
+  };
+
+  /**
+   * The overlay is driven purely by state — it is shown for ready, paused and
+   * gameover, and hidden for playing. Nothing else touches its visibility.
+   */
+  const render = () => {
+    draw();
+
+    if (state === 'playing') {
+      overlay.hidden = true;
+    } else {
+      overlay.hidden = false;
+
+      if (state === 'ready') {
+        overTitle.textContent = 'Ready';
+        overNote.textContent = 'Press an arrow key to start';
+        overAction.hidden = true;
+      } else if (state === 'paused') {
+        overTitle.textContent = 'Paused';
+        overNote.textContent = 'Press Space to continue';
+        overAction.hidden = true;
+      } else {
+        overTitle.textContent = 'Game over';
+        overNote.textContent = `Score ${score}${score > 0 && score === best ? ' — new best' : ''}`;
+        overAction.textContent = 'Restart';
+        overAction.hidden = false;
+      }
+    }
+
+    pauseBtn.disabled = state !== 'playing' && state !== 'paused';
+    pauseBtn.textContent = state === 'paused' ? 'Resume' : 'Pause';
+  };
+
+  /* ── transitions ── */
+
+  const toReady = () => {
+    stopLoop();
+    state = 'ready';
+
     const midY = Math.floor(ROWS / 2);
     snake = [{ x: 6, y: midY }, { x: 5, y: midY }, { x: 4, y: midY }];
     dir = { x: 1, y: 0 };
@@ -73,65 +155,48 @@ export function mount(root: HTMLElement): GameHandle {
     speed = 130;
     scoreEl.textContent = '0';
     placeFood();
-    draw();
+    render();
   };
 
-  const draw = () => {
-    const bg = token('--sunk');
-    const body = token('--text');
-    const head = token('--accent');
-    const dim = token('--border');
-
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // food
-    ctx.strokeStyle = head;
-    ctx.lineWidth = 2;
-    ctx.strokeRect(food.x * CELL + 4, food.y * CELL + 4, CELL - 8, CELL - 8);
-
-    // snake
-    snake.forEach((part, index) => {
-      ctx.fillStyle = index === 0 ? head : body;
-      ctx.globalAlpha = index === 0 ? 1 : Math.max(0.35, 1 - index / (snake.length + 6));
-      ctx.fillRect(part.x * CELL + 1, part.y * CELL + 1, CELL - 2, CELL - 2);
-    });
-    ctx.globalAlpha = 1;
-
-    if (state === 'paused') {
-      ctx.fillStyle = dim;
-      ctx.font = '12px ui-monospace, monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText('PAUSED', canvas.width / 2, canvas.height / 2);
-    }
+  const toPlaying = () => {
+    state = 'playing';
+    render();
+    startLoop();
   };
 
-  const gameOver = () => {
-    state = 'over';
-    window.clearInterval(timer);
-    timer = 0;
+  const toGameOver = () => {
+    stopLoop();
+    state = 'gameover';
 
     if (score > best) {
       best = score;
       save(BEST_KEY, best);
       bestEl.textContent = String(best);
-      overTitle.textContent = `New best — ${score}`;
-    } else {
-      overTitle.textContent = `Score ${score}`;
     }
 
-    overNote.textContent = 'Restart, or press an arrow key';
-    overlay.hidden = false;
+    render();
   };
 
-  const tick = () => {
+  const togglePause = () => {
+    if (state === 'playing') {
+      stopLoop();
+      state = 'paused';
+      render();
+    } else if (state === 'paused') {
+      toPlaying();
+    }
+  };
+
+  /* ── stepping ── */
+
+  function tick() {
     const next = queued.shift();
     if (next) dir = next;
 
     const head: Cell = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
 
-    if (head.x < 0 || head.y < 0 || head.x >= COLS || head.y >= ROWS) return gameOver();
-    if (snake.some(part => part.x === head.x && part.y === head.y)) return gameOver();
+    if (head.x < 0 || head.y < 0 || head.x >= COLS || head.y >= ROWS) return toGameOver();
+    if (snake.some(part => part.x === head.x && part.y === head.y)) return toGameOver();
 
     snake.unshift(head);
 
@@ -139,43 +204,40 @@ export function mount(root: HTMLElement): GameHandle {
       score += 1;
       scoreEl.textContent = String(score);
       speed = Math.max(65, speed - 4);
-      window.clearInterval(timer);
-      timer = window.setInterval(tick, speed);
+      startLoop();                       // re-arm at the new speed, never stacking
       placeFood();
     } else {
       snake.pop();
     }
 
     draw();
-  };
+  }
 
-  const start = () => {
-    if (state === 'over' || state === 'idle') reset();
-    state = 'running';
-    overlay.hidden = true;
-    window.clearInterval(timer);
-    timer = window.setInterval(tick, speed);
-  };
+  /**
+   * A direction press means different things per state. From ready ANY of the
+   * four directions begins the game — the reversal and duplicate guards only
+   * apply once the snake is already moving, which is what previously stopped
+   * Right and Left from ever starting it.
+   */
+  const press = (x: number, y: number) => {
+    if (state === 'gameover') return;
 
-  const togglePause = () => {
-    if (state === 'running') {
-      state = 'paused';
-      window.clearInterval(timer);
-      timer = 0;
-      draw();
-    } else if (state === 'paused') {
-      state = 'running';
-      timer = window.setInterval(tick, speed);
+    if (state === 'ready') {
+      dir = { x, y };
+      queued = [];
+      toPlaying();
+      return;
     }
-  };
 
-  const steer = (x: number, y: number) => {
+    if (state !== 'playing') return;
+
     const last = queued.length ? queued[queued.length - 1] : dir;
-    if (last.x === -x && last.y === -y) return;   // no instant reversal
+    if (last.x === -x && last.y === -y) return;
     if (last.x === x && last.y === y) return;
     if (queued.length < 2) queued.push({ x, y });
-    if (state !== 'running') start();
   };
+
+  /* ── input ── */
 
   const KEYS: Record<string, [number, number]> = {
     ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0],
@@ -186,7 +248,7 @@ export function mount(root: HTMLElement): GameHandle {
     const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
 
     if (key === ' ' || key === 'p') {
-      if (state === 'running' || state === 'paused') {
+      if (state === 'playing' || state === 'paused') {
         event.preventDefault();
         togglePause();
       }
@@ -196,37 +258,37 @@ export function mount(root: HTMLElement): GameHandle {
     const move = KEYS[key];
     if (!move) return;
 
-    // only swallow the scroll while a game is actually in play
-    if (state === 'running' || state === 'paused') event.preventDefault();
-    steer(move[0], move[1]);
+    // only swallow page scrolling while the board is live
+    if (state === 'ready' || state === 'playing') event.preventDefault();
+    press(move[0], move[1]);
   };
 
-  const pad = root.querySelector('.g-pad') as HTMLElement;
   const onPad = (event: Event) => {
     const button = (event.target as HTMLElement).closest('button');
     if (!button) return;
     const map: Record<string, [number, number]> = { u: [0, -1], d: [0, 1], l: [-1, 0], r: [1, 0] };
     const move = map[button.className];
-    if (move) steer(move[0], move[1]);
+    if (move) press(move[0], move[1]);
   };
 
-  const restart = root.querySelector('[data-restart]') as HTMLButtonElement;
-  const onRestart = () => { state = 'idle'; reset(); start(); };
+  const onRestart = () => toReady();
 
   window.addEventListener('keydown', onKey);
   pad.addEventListener('click', onPad);
-  restart.addEventListener('click', onRestart);
+  restartBtn.addEventListener('click', onRestart);
+  overAction.addEventListener('click', onRestart);
+  pauseBtn.addEventListener('click', togglePause);
 
-  reset();
-  overlay.hidden = false;
+  toReady();
 
   return {
     destroy() {
-      window.clearInterval(timer);
-      timer = 0;
+      stopLoop();
       window.removeEventListener('keydown', onKey);
       pad.removeEventListener('click', onPad);
-      restart.removeEventListener('click', onRestart);
+      restartBtn.removeEventListener('click', onRestart);
+      overAction.removeEventListener('click', onRestart);
+      pauseBtn.removeEventListener('click', togglePause);
       root.innerHTML = '';
     }
   };

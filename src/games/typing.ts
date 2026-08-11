@@ -6,37 +6,40 @@ const DURATION = 30;
 const LINES = [
   'Redis streams decouple ingestion from processing.',
   'TCP devices send frames that must be parsed before storage.',
-  'Node.js handles the processing pipeline.',
+  'Trackers speak binary, not JSON.',
   'A checksum is cheaper than a corrupted position record.',
   'The parser validates every frame before anything downstream sees it.',
   'MongoDB stores the position history for route playback.',
   'Socket.io pushes updates to the map as they arrive.',
-  'Trackers speak binary, not JSON.',
   'A slow consumer should fall behind, not drop packets.',
-  'Express routes are thin; the interesting work happens below them.'
+  'Express routes are thin; the interesting work happens below them.',
+  'Geofence alerts fire on the way through the pipeline.'
 ];
 
 export function mount(root: HTMLElement): GameHandle {
   root.innerHTML = `
     <div class="g">
       <div class="g-board">
-        <div class="g-type" data-text aria-hidden="true"></div>
+        <p class="g-type" data-text aria-hidden="true"></p>
         <label class="visually-hidden" for="typing-input">Type the text shown above</label>
         <input class="g-input" id="typing-input" type="text" autocomplete="off"
                autocapitalize="off" autocorrect="off" spellcheck="false"
                placeholder="Start typing to begin…">
       </div>
 
-      <div class="g-side">
-        <div>
-          <dl class="g-stat"><dt>WPM</dt><dd data-wpm>0</dd></dl>
-          <dl class="g-stat"><dt>Accuracy</dt><dd data-acc>100%</dd></dl>
-          <dl class="g-stat"><dt>Time</dt><dd data-time>${DURATION}</dd></dl>
-          <dl class="g-stat"><dt>Best</dt><dd data-best>0</dd></dl>
+      <div class="g-meta">
+        <dl class="g-stats">
+          <div><dt>WPM</dt><dd data-wpm>0</dd></div>
+          <div><dt>Accuracy</dt><dd data-acc>100%</dd></div>
+          <div><dt>Time</dt><dd data-time>${DURATION}</dd></div>
+          <div><dt>Best</dt><dd data-best>0</dd></div>
+        </dl>
+        <div class="g-actions">
+          <button class="g-btn" type="button" data-restart>Restart</button>
         </div>
-        <button class="g-btn" type="button" data-restart>Restart</button>
-        <p class="g-hint" data-hint>Thirty seconds.<br>Mistakes count against accuracy.</p>
       </div>
+
+      <p class="g-hint" data-hint>Thirty seconds. Mistakes count against accuracy.</p>
     </div>
   `;
 
@@ -63,28 +66,33 @@ export function mount(root: HTMLElement): GameHandle {
     const pool = [...LINES].sort(() => Math.random() - 0.5);
     let out = '';
     for (const line of pool) {
-      if (out.length > 190) break;
+      if (out.length > 150) break;
       out += (out ? ' ' : '') + line;
     }
     return out;
   };
 
+  /**
+   * Each character is its own span so the current one can be marked. Spaces
+   * stay real spaces — using &nbsp; here makes the whole passage one
+   * unbreakable run that overflows instead of wrapping. The container carries
+   * white-space: pre-wrap so the spaces survive and lines still break.
+   */
   const render = () => {
     const typed = input.value;
-    let html = '';
+    const parts: string[] = [];
 
     for (let i = 0; i < target.length; i += 1) {
-      const char = target[i] === ' ' ? '&nbsp;' : target[i];
-      if (i < typed.length) {
-        html += typed[i] === target[i] ? `<b>${char}</b>` : `<span class="bad">${char}</span>`;
-      } else if (i === typed.length) {
-        html += `<span class="at">${char}</span>`;
-      } else {
-        html += `<span>${char}</span>`;
-      }
+      const char = target[i];
+      let cls = '';
+
+      if (i < typed.length) cls = typed[i] === char ? 'ok' : 'bad';
+      else if (i === typed.length) cls = 'at';
+
+      parts.push(`<span${cls ? ` class="${cls}"` : ''}>${char === '<' ? '&lt;' : char}</span>`);
     }
 
-    textEl.innerHTML = html;
+    textEl.innerHTML = parts.join('');
   };
 
   const stats = () => {
@@ -96,7 +104,9 @@ export function mount(root: HTMLElement): GameHandle {
 
     const elapsed = Math.max(1, DURATION - left);
     const wpm = Math.round((correct / 5) / (elapsed / 60));
-    const accuracy = typedTotal === 0 ? 100 : Math.max(0, Math.round(((typedTotal - errors) / typedTotal) * 100));
+    const accuracy = typedTotal === 0
+      ? 100
+      : Math.max(0, Math.round(((typedTotal - errors) / typedTotal) * 100));
 
     wpmEl.textContent = String(wpm);
     accEl.textContent = `${accuracy}%`;
@@ -113,9 +123,9 @@ export function mount(root: HTMLElement): GameHandle {
       best = wpm;
       save(BEST_KEY, best);
       bestEl.textContent = String(best);
-      hintEl.innerHTML = `New best — ${wpm} wpm.<br>Restart to try again.`;
+      hintEl.textContent = `New best — ${wpm} wpm. Restart to try again.`;
     } else {
-      hintEl.innerHTML = `Finished — ${wpm} wpm.<br>Restart to try again.`;
+      hintEl.textContent = `Finished — ${wpm} wpm. Restart to try again.`;
     }
   };
 
@@ -134,20 +144,19 @@ export function mount(root: HTMLElement): GameHandle {
 
     const typed = input.value;
 
-    // count each newly typed character once, so accuracy reflects keystrokes
     if (typed.length > typedTotal) {
       const index = typed.length - 1;
       typedTotal = typed.length;
       if (typed[index] !== target[index]) errors += 1;
     }
 
+    render();
+
     if (typed.length >= target.length) {
-      render();
       finish();
       return;
     }
 
-    render();
     stats();
   };
 
@@ -164,7 +173,7 @@ export function mount(root: HTMLElement): GameHandle {
     timeEl.textContent = String(DURATION);
     wpmEl.textContent = '0';
     accEl.textContent = '100%';
-    hintEl.innerHTML = 'Thirty seconds.<br>Mistakes count against accuracy.';
+    hintEl.textContent = 'Thirty seconds. Mistakes count against accuracy.';
     render();
   };
 
@@ -172,7 +181,9 @@ export function mount(root: HTMLElement): GameHandle {
 
   input.addEventListener('input', onInput);
   restart.addEventListener('click', onRestart);
+
   reset();
+  input.focus();
 
   return {
     destroy() {

@@ -6,26 +6,28 @@ export function mount(root: HTMLElement): GameHandle {
   root.innerHTML = `
     <div class="g">
       <div class="g-board">
-        <div class="g-target" data-target role="button" tabindex="0"
-             aria-label="Reaction target — activate to start, then activate again when it changes">
-          <strong data-headline>Start</strong>
-          <span data-note>Click or press Enter, then wait</span>
+        <button class="g-target" type="button" data-target>
+          <span class="g-target-head" data-headline>Ready</span>
+          <span class="g-target-note" data-note>Click to start, then wait</span>
+        </button>
+      </div>
+
+      <div class="g-meta">
+        <dl class="g-stats">
+          <div><dt>Last</dt><dd data-last>—</dd></div>
+          <div><dt>Best</dt><dd data-best>—</dd></div>
+          <div><dt>Attempts</dt><dd data-count>0</dd></div>
+        </dl>
+        <div class="g-actions">
+          <button class="g-btn" type="button" data-reset>Clear best</button>
         </div>
       </div>
 
-      <div class="g-side">
-        <div>
-          <dl class="g-stat"><dt>Last</dt><dd data-last>—</dd></dl>
-          <dl class="g-stat"><dt>Best</dt><dd data-best>—</dd></dl>
-          <dl class="g-stat"><dt>Attempts</dt><dd data-count>0</dd></dl>
-        </div>
-        <button class="g-btn" type="button" data-reset>Clear best</button>
-        <p class="g-hint">Wait for the panel to change,<br>then hit it as fast as you can.</p>
-      </div>
+      <p class="g-hint">Wait for the panel to change, then hit it as fast as you can.</p>
     </div>
   `;
 
-  const target = root.querySelector('[data-target]') as HTMLElement;
+  const target = root.querySelector('[data-target]') as HTMLButtonElement;
   const headline = root.querySelector('[data-headline]') as HTMLElement;
   const note = root.querySelector('[data-note]') as HTMLElement;
   const lastEl = root.querySelector('[data-last]') as HTMLElement;
@@ -39,7 +41,7 @@ export function mount(root: HTMLElement): GameHandle {
   let attempts = 0;
   let best = store(BEST_KEY);
 
-  if (best > 0) bestEl.textContent = `${best}ms`;
+  if (best > 0) bestEl.textContent = `${best} ms`;
 
   const arm = () => {
     state = 'armed';
@@ -63,7 +65,7 @@ export function mount(root: HTMLElement): GameHandle {
     state = 'result';
     target.classList.remove('armed');
     headline.textContent = 'Too soon';
-    note.textContent = 'Go again';
+    note.textContent = 'Click to go again';
   };
 
   const score = () => {
@@ -73,17 +75,16 @@ export function mount(root: HTMLElement): GameHandle {
 
     attempts += 1;
     countEl.textContent = String(attempts);
-    lastEl.textContent = `${time}ms`;
+    lastEl.textContent = `${time} ms`;
+    headline.textContent = `${time} ms`;
 
     if (best === 0 || time < best) {
       best = time;
       save(BEST_KEY, best);
-      bestEl.textContent = `${time}ms`;
-      headline.textContent = `${time}ms`;
-      note.textContent = 'Best so far — go again';
+      bestEl.textContent = `${time} ms`;
+      note.textContent = 'Best so far — click to go again';
     } else {
-      headline.textContent = `${time}ms`;
-      note.textContent = 'Go again';
+      note.textContent = 'Click to go again';
     }
   };
 
@@ -93,13 +94,7 @@ export function mount(root: HTMLElement): GameHandle {
     else if (state === 'armed') score();
   };
 
-  const onPointer = (event: Event) => { event.preventDefault(); hit(); };
-
-  const onKey = (event: KeyboardEvent) => {
-    if (event.key !== 'Enter' && event.key !== ' ') return;
-    event.preventDefault();
-    hit();
-  };
+  const onClick = () => hit();
 
   const onReset = () => {
     best = 0;
@@ -110,16 +105,14 @@ export function mount(root: HTMLElement): GameHandle {
     countEl.textContent = '0';
   };
 
-  target.addEventListener('pointerdown', onPointer);
-  target.addEventListener('keydown', onKey);
+  target.addEventListener('click', onClick);
   resetBtn.addEventListener('click', onReset);
 
   return {
     destroy() {
       window.clearTimeout(armTimer);
       armTimer = 0;
-      target.removeEventListener('pointerdown', onPointer);
-      target.removeEventListener('keydown', onKey);
+      target.removeEventListener('click', onClick);
       resetBtn.removeEventListener('click', onReset);
       root.innerHTML = '';
     }

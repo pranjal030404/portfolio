@@ -1,1 +1,0 @@
-function r(t){return getComputedStyle(document.body).getPropertyValue(t).trim()}function n(t){const e=localStorage.getItem(t),o=e===null?NaN:Number(e);return Number.isFinite(o)?o:0}function a(t,e){try{localStorage.setItem(t,String(e))}catch{}}export{a,n as s,r as t};

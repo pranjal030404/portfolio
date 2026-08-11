@@ -5,21 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Pranjal Tiwari — Software Developer</title>
-<meta name="description" content="Software developer in Noida. I build web systems, APIs and real-time infrastructure — backend services, GPS device pipelines and the software in between.">
+<meta name="description" content="Software developer in Noida. Backend systems, real-time applications and IoT device communication — GPS tracking pipelines, APIs and production web platforms.">
 <meta name="theme-color" content="#16130F">
 <link rel="canonical" href="https://pranjal030404.github.io/portfolio/">
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Pranjal Tiwari — Software Developer">
-<meta property="og:description" content="I build web systems, APIs and real-time infrastructure. Most of my work sits between a request, a database and a device.">
+<meta property="og:description" content="Backend systems, real-time applications and IoT device communication. Most of my work sits between a request, a database and a device.">
 <meta property="og:url" content="https://pranjal030404.github.io/portfolio/">
 <meta property="og:image" content="https://pranjal030404.github.io/portfolio/sp.jpeg">
 <meta property="og:locale" content="en_IN">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pranjal Tiwari — Software Developer">
-<meta name="twitter:description" content="I build web systems, APIs and real-time infrastructure.">
+<meta name="twitter:description" content="Backend systems, real-time applications and IoT device communication.">
 <meta name="twitter:image" content="https://pranjal030404.github.io/portfolio/sp.jpeg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,8 +44,10 @@
         <li><a href="#about">About</a></li>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#work">Work</a></li>
+        <li><a href="#code">Code</a></li>
         <li><a href="#stack">Stack</a></li>
         <li><a href="#lab">Lab</a></li>
+        <li><a href="#education">Education</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -76,21 +78,19 @@
       </h1>
 
       <p class="hero-sub">
+        Backend systems, IoT device communication and production web platforms.
         Most of my work sits between a request, a database and a device.
       </p>
 
       <p class="hero-actions">
-        <a class="cta" href="#work">View my work <span aria-hidden="true">→</span></a>
+        <a class="cta" href="#work">View work <span aria-hidden="true">→</span></a>
+        <a class="cta cta-quiet" href="https://github.com/pranjal030404" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">→</span></a>
         <a class="cta cta-quiet" href="#contact">Get in touch <span aria-hidden="true">→</span></a>
       </p>
 
       <p class="hero-detail">
-        Based in Noida, India. Currently building production systems at
-        Zebraffe Technologies.
-        <span class="hero-links">
-          <a href="https://github.com/pranjal030404" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://www.linkedin.com/in/prajal030404" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        </span>
+        Noida, India. Currently building production systems at Zebraffe
+        Technologies.
       </p>
     </div>
 
@@ -108,9 +108,9 @@
     <div class="system-head">
       <h2>From a device on a truck<br>to a dot on a map</h2>
       <p>
-        A GPS tracking platform I built at Atrivis. Trackers in the field talk
-        to it over raw TCP; a browser somewhere else shows where they are.
-        These are the eight things in between.
+        A GPS tracking and IoT management system I built at Atrivis. Trackers in
+        the field talk to it over raw TCP; a browser somewhere else shows where
+        they are. These are the eight things in between.
       </p>
     </div>
 
@@ -119,7 +119,7 @@
         <span class="step"><i>01</i><b>GPS device</b><em>Vehicle tracker in the field</em></span>
       </li>
       <li>
-        <span class="step"><i>02</i><b>TCP socket</b><em>Long-lived connection</em></span>
+        <span class="step"><i>02</i><b>TCP server</b><em>Custom, long-lived connections</em></span>
         <aside class="note">
           <h3>Not HTTP</h3>
           <p>Trackers open a socket and hold it. The server reads whatever
@@ -127,11 +127,11 @@
         </aside>
       </li>
       <li>
-        <span class="step"><i>03</i><b>GT06 / Concox frame</b><em>Binary payload</em></span>
+        <span class="step"><i>03</i><b>GT06 · Concox · Prithivi</b><em>Binary frames</em></span>
         <aside class="note">
           <h3>Raw device frame</h3>
-          <p>Start bits, protocol number, payload, checksum. A bad checksum is
-             cheaper to throw away than a corrupted position is to explain.</p>
+          <p>Start bits, protocol number, payload, checksum — three device
+             families, each with its own dialect of the same idea.</p>
         </aside>
       </li>
       <li>
@@ -143,7 +143,7 @@
         </aside>
       </li>
       <li>
-        <span class="step"><i>05</i><b>Redis stream</b><em>Queue</em></span>
+        <span class="step"><i>05</i><b>Redis Streams</b><em>Queue between services</em></span>
         <aside class="note">
           <h3>Decouple ingestion</h3>
           <p>Ingest never waits for processing. A slow consumer falls behind and
@@ -151,21 +151,21 @@
         </aside>
       </li>
       <li>
-        <span class="step"><i>06</i><b>Node.js service</b><em>Geofences, alerts, trips</em></span>
+        <span class="step"><i>06</i><b>Microservices</b><em>Geofences, alerts, trips</em></span>
       </li>
       <li>
         <span class="step"><i>07</i><b>MongoDB</b><em>Position history</em></span>
         <aside class="note">
           <h3>Persist</h3>
-          <p>Route playback, distance and speed analytics all read from here.</p>
+          <p>Historical playback and route analytics both read from here.</p>
         </aside>
       </li>
       <li>
-        <span class="step"><i>08</i><b>Live map</b><em>React · Leaflet</em></span>
+        <span class="step"><i>08</i><b>Live map</b><em>Socket.io · React · Leaflet</em></span>
         <aside class="note">
           <h3>Present</h3>
-          <p>Anything happening right now goes straight out over Socket.io to
-             the dashboard, and the dot moves.</p>
+          <p>Anything happening right now goes straight out to the dashboard,
+             and the dot moves.</p>
         </aside>
       </li>
     </ol>
@@ -183,16 +183,17 @@
 
       <div class="about-text">
         <p>
-          APIs, services, queues, device protocols, and the production bugs that
-          only show up with real traffic. I've spent most of my time on vehicle
-          and GPS systems, which means a lot of the software I write has to cope
-          with hardware that reports on its own schedule.
+          I'm a software developer working on backend systems, real-time
+          applications, device communication and production web platforms. The
+          part I find most interesting is the layer between a device, a
+          protocol, a backend, a database and the interface someone actually
+          looks at — most software only has to worry about the last two.
         </p>
         <p>
-          Day to day that's Node.js, React and MongoDB. Before Zebraffe I spent
-          three months at Atrivis building the tracking platform above, which is
-          where I learned how differently software behaves once something
-          physical is attached to it.
+          That's meant writing TCP servers that speak GT06, Concox and Prithivi,
+          putting Redis Streams between ingestion and processing, and keeping
+          two MERN platforms running in production. Day to day it's Node.js,
+          Express, React and MongoDB.
         </p>
       </div>
     </div>
@@ -203,8 +204,8 @@
         <dd>Software Developer · Zebraffe Technologies</dd>
       </div>
       <div>
-        <dt>Studying</dt>
-        <dd>BTech CSE · BBDIT · 2022—2026</dd>
+        <dt>Education</dt>
+        <dd>BTech CSE · BBDIT · Graduated 2026</dd>
       </div>
       <div>
         <dt>Based</dt>
@@ -227,18 +228,34 @@
     <h2 class="head">Experience</h2>
 
     <article class="record record-now">
-      <p class="record-when">2024 <span aria-hidden="true">—</span> now</p>
+      <div class="record-when">
+        <p class="record-flag">Current</p>
+        <p class="record-dates">Dec 2024 — Present</p>
+      </div>
       <div class="record-body">
         <h3>Software Developer</h3>
-        <p class="record-org">Zebraffe Technologies Limited</p>
+        <p class="record-org">Zebraffe Technologies Limited <span aria-hidden="true">·</span> Noida, India</p>
         <p class="record-text">
           Two production platforms — a vehicle fitness system and the company
-          franchise portal. I build features on both and I'm the one who finds
-          out why something broke.
+          franchise portal. I build MERN-stack features on both, write the REST
+          APIs behind them, and I'm the one who finds out why something broke.
         </p>
-        <p class="record-tech">
-          React · Node.js · Express · MongoDB · REST APIs · Production debugging · Deployment
-        </p>
+
+        <details class="more">
+          <summary>Responsibilities</summary>
+          <ul class="duties">
+            <li>Vehicle Fitness Platform — features for fitness workflows and operational tracking</li>
+            <li>Franchise Platform — live business workflows and site updates</li>
+            <li>RESTful API design and implementation</li>
+            <li>React applications and component work</li>
+            <li>Node.js / Express services</li>
+            <li>MongoDB schema and query work</li>
+            <li>Production debugging and platform stability</li>
+            <li>Deployment and ongoing maintenance</li>
+          </ul>
+        </details>
+
+        <p class="record-tech">React · Node.js · Express.js · MongoDB · REST APIs</p>
         <p class="record-links">
           <a href="https://stg.vehiclefitness.gocarriage.com/" target="_blank" rel="noopener noreferrer">vehiclefitness.gocarriage.com</a>
           <a href="https://in.zebraffe.net/" target="_blank" rel="noopener noreferrer">in.zebraffe.net</a>
@@ -247,17 +264,33 @@
     </article>
 
     <article class="record">
-      <p class="record-when">2024</p>
+      <div class="record-when">
+        <p class="record-dates">Sep 2024 — Nov 2024</p>
+      </div>
       <div class="record-body">
         <h3>MERN Stack Developer Intern</h3>
-        <p class="record-org">Atrivis Technologies · Noida Sector 63 · 3 months</p>
+        <p class="record-org">Atrivis Technologies Pvt. Ltd. <span aria-hidden="true">·</span> Noida, India</p>
         <p class="record-text">
-          Built the GPS tracking platform end to end, from the socket that
-          accepts device connections up to the map the operator watches.
+          Built a real-time GPS tracking and IoT management system end to end, on
+          a microservices architecture — from the socket that accepts device
+          connections up to the map the operator watches.
         </p>
-        <p class="record-tech">
-          GT06 / Concox parser · TCP socket server · Redis Streams · Socket.io · MongoDB · React · Leaflet
-        </p>
+
+        <details class="more">
+          <summary>Responsibilities</summary>
+          <ul class="duties">
+            <li>GT06, Concox and Prithivi protocol parsers</li>
+            <li>Custom TCP servers for device connections</li>
+            <li>Redis Streams for message queuing between services</li>
+            <li>Microservices architecture and service isolation</li>
+            <li>REST APIs and MongoDB schemas for position history</li>
+            <li>Socket.io for real-time push to clients</li>
+            <li>Live vehicle tracking and route analytics</li>
+            <li>Historical playback and geofencing alerts</li>
+          </ul>
+        </details>
+
+        <p class="record-tech">Node.js · Redis Streams · MongoDB · Socket.io · TCP/IP · React · Leaflet</p>
         <p class="record-links">
           <a href="http://139.59.13.130:5173/login" target="_blank" rel="noopener noreferrer">Live platform</a>
         </p>
@@ -271,28 +304,27 @@
   <div class="wrap">
     <h2 class="head">Selected work</h2>
 
-    <!-- tier 1 — the case study -->
     <article class="case">
       <p class="case-no">01</p>
       <div class="case-body">
-        <h3>GPS Tracking &amp; IoT Platform</h3>
+        <h3>GPS Tracking &amp; IoT Management System</h3>
         <p class="case-meta">Atrivis Technologies · Production</p>
         <p class="case-text">
-          A real-time vehicle tracking system built around raw TCP device
-          connections, GT06 and Concox frame parsing, Redis Streams, Node.js and
-          MongoDB. Live positions, route playback with speed and distance, and
-          geofence alerting.
+          A real-time vehicle tracking system on a microservices architecture,
+          built around custom TCP servers, GT06 / Concox / Prithivi frame
+          parsing, Redis Streams, Node.js and MongoDB. Live tracking, route
+          analytics, historical playback and geofencing alerts.
         </p>
-        <p class="case-tech">Node.js · Redis · MongoDB · Socket.io · React · Leaflet</p>
+        <p class="case-tech">Node.js · Redis Streams · MongoDB · Socket.io · TCP/IP · React · Leaflet</p>
 
         <details class="arch">
           <summary>View architecture</summary>
           <ol class="arch-chain">
-            <li>TCP socket</li>
-            <li>GT06 / Concox frame</li>
+            <li>TCP server</li>
+            <li>GT06 / Concox / Prithivi frame</li>
             <li>Parser</li>
             <li>Redis Stream</li>
-            <li>Node.js</li>
+            <li>Microservices</li>
             <li>MongoDB</li>
             <li>Socket.io</li>
             <li>React / Leaflet</li>
@@ -300,12 +332,12 @@
         </details>
 
         <p class="case-link">
-          <a href="http://139.59.13.130:5173/login" target="_blank" rel="noopener noreferrer">Visit the platform <span aria-hidden="true">→</span></a>
+          <a href="http://139.59.13.130:5173/login" target="_blank" rel="noopener noreferrer">Live platform <span aria-hidden="true">→</span></a>
+          <a href="https://github.com/pranjal030404/Gt06-" target="_blank" rel="noopener noreferrer">GT06 repository <span aria-hidden="true">→</span></a>
         </p>
       </div>
     </article>
 
-    <!-- tier 2 — the other production work -->
     <div class="mid-grid">
       <article class="mid">
         <p class="mid-no">02</p>
@@ -313,61 +345,137 @@
         <p class="mid-meta">Zebraffe Technologies · Production</p>
         <p class="mid-text">Fitness workflows and operational tracking. Feature work plus production support.</p>
         <p class="mid-tech">React · Node.js · Express · MongoDB</p>
-        <p class="mid-link"><a href="https://stg.vehiclefitness.gocarriage.com/" target="_blank" rel="noopener noreferrer">Visit <span aria-hidden="true">→</span></a></p>
+        <p class="mid-link"><a href="https://stg.vehiclefitness.gocarriage.com/" target="_blank" rel="noopener noreferrer">Live <span aria-hidden="true">→</span></a></p>
       </article>
 
       <article class="mid">
         <p class="mid-no">03</p>
-        <h3>Zebraffe Franchise Portal</h3>
+        <h3>Franchise Platform</h3>
         <p class="mid-meta">Zebraffe Technologies · Production</p>
-        <p class="mid-text">The company franchise portal — live business workflows and production stability work.</p>
+        <p class="mid-text">The company franchise portal — live business workflows and platform stability work.</p>
         <p class="mid-tech">React · Node.js · Express</p>
-        <p class="mid-link"><a href="https://in.zebraffe.net/" target="_blank" rel="noopener noreferrer">Visit <span aria-hidden="true">→</span></a></p>
+        <p class="mid-link"><a href="https://in.zebraffe.net/" target="_blank" rel="noopener noreferrer">Live <span aria-hidden="true">→</span></a></p>
       </article>
 
       <article class="mid">
         <p class="mid-no">04</p>
-        <h3>CRM / EMS Portal</h3>
-        <p class="mid-meta">Frontend · Production</p>
-        <p class="mid-text">Employee management portal covering authentication and dashboard-driven operations.</p>
-        <p class="mid-tech">React · Authentication · Dashboards</p>
-        <p class="mid-link"><a href="https://crm-frontend-omega-eight.vercel.app" target="_blank" rel="noopener noreferrer">Visit <span aria-hidden="true">→</span></a></p>
+        <h3>Meet with Recording</h3>
+        <p class="mid-meta">Personal · JavaScript</p>
+        <p class="mid-text">A browser meeting app with recording. Built to understand media capture and streaming in the browser.</p>
+        <p class="mid-tech">JavaScript</p>
+        <p class="mid-link"><a href="https://github.com/pranjal030404/Meets_with_recording" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">→</span></a></p>
       </article>
     </div>
 
-    <!-- tier 3 — the index -->
     <ol class="minor">
       <li>
         <span class="minor-no">05</span>
-        <span class="minor-name">DOOCS / LeetCode</span>
-        <span class="minor-meta">Open source · site work and load-time optimisation</span>
-        <a href="https://github.com/doocs/leetcode" target="_blank" rel="noopener noreferrer">Repository <span aria-hidden="true">→</span></a>
+        <span class="minor-name">AI-based Recommendation Engine</span>
+        <span class="minor-meta">Personal · Python</span>
+        <a href="https://github.com/pranjal030404/AI-based-recommendation-engine" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">→</span></a>
       </li>
       <li>
         <span class="minor-no">06</span>
-        <span class="minor-name">TheAlgorithms</span>
-        <span class="minor-meta">Open source · website maintainer, Docker builds</span>
-        <a href="https://the-algorithms.com" target="_blank" rel="noopener noreferrer">Visit <span aria-hidden="true">→</span></a>
+        <span class="minor-name">YouTube Clone</span>
+        <span class="minor-meta">Personal · JavaScript, YouTube Data API, Tailwind</span>
+        <a href="https://github.com/pranjal030404/Youtube-Clone-" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">→</span></a>
       </li>
       <li>
         <span class="minor-no">07</span>
-        <span class="minor-name">Library Management System</span>
-        <span class="minor-meta">Python · Tkinter · MySQL</span>
-        <a href="https://github.com/pranjal030404" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">→</span></a>
+        <span class="minor-name">CRM / EMS Portal</span>
+        <span class="minor-meta">Frontend · authentication and dashboard operations</span>
+        <a href="https://crm-frontend-omega-eight.vercel.app" target="_blank" rel="noopener noreferrer">Live <span aria-hidden="true">→</span></a>
       </li>
       <li>
         <span class="minor-no">08</span>
-        <span class="minor-name">YouTube Clone</span>
-        <span class="minor-meta">JavaScript · YouTube Data API · Tailwind</span>
-        <a href="https://github.com/pranjal030404" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">→</span></a>
+        <span class="minor-name">Job</span>
+        <span class="minor-meta">Personal · TypeScript</span>
+        <a href="https://github.com/pranjal030404/Job" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">→</span></a>
       </li>
       <li>
         <span class="minor-no">09</span>
-        <span class="minor-name">Snake</span>
-        <span class="minor-meta">Python · Tkinter · there's a browser version below</span>
+        <span class="minor-name">Library Management System</span>
+        <span class="minor-meta">Personal · Python, Tkinter, MySQL</span>
         <a href="https://github.com/pranjal030404" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">→</span></a>
       </li>
     </ol>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ code ══ -->
+<section class="code" id="code">
+  <div class="wrap">
+    <div class="code-head">
+      <h2 class="head">Code &amp; open source</h2>
+      <p>
+        Public repositories and contributions to projects around algorithms,
+        developer tooling and hardware.
+      </p>
+    </div>
+
+    <div class="code-grid">
+      <div class="code-col">
+        <h3>Contributions</h3>
+        <ul class="code-list">
+          <li>
+            <a href="https://github.com/doocs/leetcode" target="_blank" rel="noopener noreferrer">DOOCS / LeetCode</a>
+            <span>Website work and solutions</span>
+          </li>
+          <li>
+            <a href="https://github.com/TheAlgorithms/website" target="_blank" rel="noopener noreferrer">TheAlgorithms · website</a>
+            <span>Site maintenance and Docker builds</span>
+          </li>
+          <li>
+            <a href="https://github.com/TheAlgorithms/Java" target="_blank" rel="noopener noreferrer">TheAlgorithms · Java</a>
+            <span>Algorithm implementations</span>
+          </li>
+          <li>
+            <a href="https://github.com/pranjal030404/OnStep" target="_blank" rel="noopener noreferrer">OnStep</a>
+            <span>Arduino telescope GoTo controller — fork</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="code-col">
+        <h3>Repositories</h3>
+        <ul class="code-list">
+          <li>
+            <a href="https://github.com/pranjal030404/Gt06-" target="_blank" rel="noopener noreferrer">Gt06-</a>
+            <span>GT06 protocol work · JavaScript</span>
+          </li>
+          <li>
+            <a href="https://github.com/pranjal030404/Meets_with_recording" target="_blank" rel="noopener noreferrer">Meets_with_recording</a>
+            <span>JavaScript</span>
+          </li>
+          <li>
+            <a href="https://github.com/pranjal030404/AI-based-recommendation-engine" target="_blank" rel="noopener noreferrer">AI-based-recommendation-engine</a>
+            <span>Python</span>
+          </li>
+          <li>
+            <a href="https://github.com/pranjal030404/Flood-Risk-analyser" target="_blank" rel="noopener noreferrer">Flood-Risk-analyser</a>
+            <span>Jupyter Notebook</span>
+          </li>
+          <li>
+            <a href="https://github.com/pranjal030404/3D_building_layout-" target="_blank" rel="noopener noreferrer">3D_building_layout-</a>
+            <span>JavaScript</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="code-col">
+        <h3>Communities</h3>
+        <p class="code-note">
+          TheAlgorithms · DOOCS · dev-protocol · Py-Contributors ·
+          Design-and-Code · CommunityPro
+        </p>
+        <p class="code-note">
+          Problem solving on LeetCode, HackerRank and GeeksforGeeks.
+        </p>
+        <p class="code-cta">
+          <a href="https://github.com/pranjal030404" target="_blank" rel="noopener noreferrer">View GitHub <span aria-hidden="true">→</span></a>
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -378,28 +486,28 @@
 
     <div class="stack-map">
       <div class="group">
-        <h3>Backend</h3>
-        <ul><li>Node.js</li><li>Express</li><li>REST APIs</li><li>Socket.io</li></ul>
+        <h3>Languages</h3>
+        <ul><li>JavaScript</li><li>TypeScript</li><li>Python</li><li>Java</li><li>C</li><li>PHP</li></ul>
       </div>
       <div class="group">
-        <h3>Data</h3>
-        <ul><li>MongoDB</li><li>Redis</li><li>MySQL</li></ul>
+        <h3>Backend</h3>
+        <ul><li>Node.js</li><li>Express.js</li><li>REST APIs</li><li>Microservices</li></ul>
       </div>
       <div class="group">
         <h3>Frontend</h3>
-        <ul><li>React</li><li>TypeScript</li><li>JavaScript</li><li>HTML / CSS</li></ul>
+        <ul><li>React</li><li>Tailwind CSS</li><li>HTML / CSS</li></ul>
       </div>
       <div class="group">
-        <h3>Infrastructure</h3>
-        <ul><li>Docker</li><li>Linux</li><li>Git</li><li>GitHub Actions</li></ul>
+        <h3>Databases</h3>
+        <ul><li>MongoDB</li><li>MySQL</li><li>Redis</li></ul>
       </div>
       <div class="group">
-        <h3>Protocols</h3>
-        <ul><li>TCP/IP</li><li>GT06</li><li>Concox</li><li>WebSockets</li></ul>
+        <h3>DevOps</h3>
+        <ul><li>Docker</li><li>Kubernetes</li><li>Fedora Linux</li><li>Git</li><li>GitHub Actions</li></ul>
       </div>
-      <div class="group group-soft">
-        <h3>Currently exploring</h3>
-        <ul><li>Kubernetes</li><li>Distributed systems</li><li>Message queues</li></ul>
+      <div class="group">
+        <h3>IoT &amp; real-time</h3>
+        <ul><li>TCP/IP</li><li>Socket.io</li><li>GPS device integration</li><li>ESP32</li></ul>
       </div>
     </div>
   </div>
@@ -413,41 +521,92 @@
       <p>Small browser experiments. TypeScript, no libraries.</p>
     </div>
 
-    <ol class="lab-list">
-      <li>
-        <details data-game="snake">
-          <summary>
-            <span class="lab-name">Snake</span>
-            <span class="lab-desc">A small Canvas experiment.</span>
-          </summary>
-          <div class="lab-stage" data-mount>
-            <p class="lab-fallback">This one needs JavaScript.</p>
-          </div>
-        </details>
+    <ul class="lab-list" id="lab-list">
+      <li class="lab-row">
+        <span class="lab-name">Snake</span>
+        <span class="lab-desc">A small Canvas experiment.</span>
+        <button class="lab-play" type="button" data-game="snake" aria-controls="lab-stage" aria-expanded="false">
+          Play <span aria-hidden="true">→</span>
+        </button>
       </li>
-      <li>
-        <details data-game="typing">
-          <summary>
-            <span class="lab-name">Typing</span>
-            <span class="lab-desc">A test built around the technologies I work with.</span>
-          </summary>
-          <div class="lab-stage" data-mount>
-            <p class="lab-fallback">This one needs JavaScript.</p>
-          </div>
-        </details>
+      <li class="lab-row">
+        <span class="lab-name">Typing</span>
+        <span class="lab-desc">A test built around the technologies I work with.</span>
+        <button class="lab-play" type="button" data-game="typing" aria-controls="lab-stage" aria-expanded="false">
+          Play <span aria-hidden="true">→</span>
+        </button>
       </li>
-      <li>
-        <details data-game="reaction">
-          <summary>
-            <span class="lab-name">Reaction</span>
-            <span class="lab-desc">How quickly can you react?</span>
-          </summary>
-          <div class="lab-stage" data-mount>
-            <p class="lab-fallback">This one needs JavaScript.</p>
-          </div>
-        </details>
+      <li class="lab-row">
+        <span class="lab-name">Reaction</span>
+        <span class="lab-desc">How quickly can you react?</span>
+        <button class="lab-play" type="button" data-game="reaction" aria-controls="lab-stage" aria-expanded="false">
+          Play <span aria-hidden="true">→</span>
+        </button>
       </li>
-    </ol>
+      <li class="lab-row">
+        <span class="lab-name">2048</span>
+        <span class="lab-desc">A small grid and state-management exercise.</span>
+        <button class="lab-play" type="button" data-game="2048" aria-controls="lab-stage" aria-expanded="false">
+          Play <span aria-hidden="true">→</span>
+        </button>
+      </li>
+      <li class="lab-row">
+        <span class="lab-name">Minesweeper</span>
+        <span class="lab-desc">Logic, probability and interaction.</span>
+        <button class="lab-play" type="button" data-game="minesweeper" aria-controls="lab-stage" aria-expanded="false">
+          Play <span aria-hidden="true">→</span>
+        </button>
+      </li>
+      <li class="lab-row">
+        <span class="lab-name">Breakout</span>
+        <span class="lab-desc">A canvas collision experiment.</span>
+        <button class="lab-play" type="button" data-game="breakout" aria-controls="lab-stage" aria-expanded="false">
+          Play <span aria-hidden="true">→</span>
+        </button>
+      </li>
+      <li class="lab-row">
+        <span class="lab-name">Memory</span>
+        <span class="lab-desc">A small state and matching exercise.</span>
+        <button class="lab-play" type="button" data-game="memory" aria-controls="lab-stage" aria-expanded="false">
+          Play <span aria-hidden="true">→</span>
+        </button>
+      </li>
+    </ul>
+
+    <section class="stage" id="lab-stage" aria-labelledby="stage-title" hidden>
+      <div class="stage-bar">
+        <h3 class="stage-title" id="stage-title" tabindex="-1">Snake</h3>
+        <button class="stage-close" id="stage-close" type="button">
+          Close <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="stage-body" id="stage-body"></div>
+    </section>
+
+    <noscript><p class="lab-fallback">The experiments need JavaScript.</p></noscript>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════ education ══ -->
+<section class="education" id="education">
+  <div class="wrap">
+    <h2 class="head">Education</h2>
+
+    <div class="degree">
+      <div class="degree-main">
+        <h3>B.Tech <span>Computer Science Engineering</span></h3>
+        <p class="degree-school">BBD Institute of Technology <span aria-hidden="true">·</span> AKTU <span aria-hidden="true">·</span> 2022—2026</p>
+      </div>
+      <dl class="degree-meta">
+        <div><dt>Completed</dt><dd>2026</dd></div>
+        <div><dt>CGPA</dt><dd>8.17</dd></div>
+      </dl>
+    </div>
+
+    <ul class="schooling">
+      <li><span>Class XII · PCM</span> <span>CBSE · 2021</span></li>
+      <li><span>Class X</span> <span>CBSE · 2019</span></li>
+    </ul>
   </div>
 </section>
 
@@ -488,15 +647,6 @@
         <p class="message-status" id="message-status" role="status" aria-live="polite"></p>
       </form>
     </div>
-
-    <dl class="edu">
-      <dt>Education</dt>
-      <dd>
-        <b>BTech · Computer Science &amp; Engineering</b>
-        BBD Institute of Technology · AKTU · 2022—2026 · CGPA 8.17
-      </dd>
-      <dd class="edu-minor">Class XII · 2021 &nbsp;·&nbsp; Class X · 2019 &nbsp;·&nbsp; Rampus, CBSE</dd>
-    </dl>
   </div>
 </section>
 
