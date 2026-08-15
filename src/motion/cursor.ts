@@ -42,20 +42,34 @@ export function initCursor(): void {
 
   let running = false;
   let seen = false;
+  let last = 0;
 
-  const draw = () => {
+  // approach() eases by a fixed fraction per call, so its speed is tied to
+  // however often draw() happens to run. On a 144Hz display, or after a
+  // dropped frame drags two ticks' worth of movement into one, that fraction
+  // is wrong — the ring visibly surges or crawls. Raising the per-frame rate
+  // to the number of 60fps-equivalent frames actually elapsed keeps the ease
+  // reading the same speed regardless of refresh rate or frame drops.
+  const rateFor = (perFrame: number, frames: number) => 1 - (1 - perFrame) ** frames;
+
+  const draw = (now: number) => {
     if (!running) return;
+
+    const dt = last === 0 ? 16.67 : Math.min(now - last, 100);
+    last = now;
+    const frames = dt / 16.67;
 
     dot.style.transform = `translate3d(${pointer.x}px, ${pointer.y}px, 0)`;
 
-    eased.x = approach(eased.x, pointer.x, 0.18);
-    eased.y = approach(eased.y, pointer.y, 0.18);
+    eased.x = approach(eased.x, pointer.x, rateFor(0.18, frames));
+    eased.y = approach(eased.y, pointer.y, rateFor(0.18, frames));
     ring.style.transform = `translate3d(${eased.x}px, ${eased.y}px, 0)`;
 
     let lead = eased;
     beads.forEach((bead, i) => {
-      bead.x = approach(bead.x, lead.x, 0.32 - i * 0.05);
-      bead.y = approach(bead.y, lead.y, 0.32 - i * 0.05);
+      const rate = rateFor(0.32 - i * 0.05, frames);
+      bead.x = approach(bead.x, lead.x, rate);
+      bead.y = approach(bead.y, lead.y, rate);
       trail[i].style.transform = `translate3d(${bead.x}px, ${bead.y}px, 0)`;
       lead = bead;
     });
@@ -66,6 +80,7 @@ export function initCursor(): void {
   const start = () => {
     if (running || !motionOn()) return;
     running = true;
+    last = 0;
     document.body.classList.add('cursor-live');
     requestAnimationFrame(draw);
   };
@@ -75,6 +90,8 @@ export function initCursor(): void {
     cursor.classList.remove('live');
     document.body.classList.remove('cursor-live');
   };
+
+  const hide = () => cursor.classList.remove('live');
 
   document.addEventListener('pointermove', event => {
     if (event.pointerType !== 'mouse') return;
@@ -88,8 +105,14 @@ export function initCursor(): void {
       eased.y = pointer.y;
       beads.forEach(bead => { bead.x = pointer.x; bead.y = pointer.y; });
       start();
-      cursor.classList.add('live');
     }
+
+    // Re-asserted on every move rather than left to pointerenter alone —
+    // pointerenter/pointerleave don't fire reliably across iframe, scrollbar
+    // and devtools-panel boundaries in every browser, and a missed one used
+    // to leave the cursor stuck invisible until reload. A move always means
+    // it should be showing.
+    if (running) cursor.classList.add('live');
 
     const target = event.target as Element | null;
     if (!target?.closest) return;
@@ -107,8 +130,14 @@ export function initCursor(): void {
   document.addEventListener('pointerdown', () => cursor.classList.add('down'));
   document.addEventListener('pointerup', () => cursor.classList.remove('down'));
 
-  // leaving the window, or losing the pointer entirely
-  document.addEventListener('pointerleave', () => cursor.classList.remove('live'));
+  // leaving the window, or losing the pointer entirely — pointerleave is the
+  // primary signal, pointerout with a null relatedTarget is the fallback for
+  // browsers that don't fire pointerleave on the document reliably, and blur
+  // / visibilitychange catch an alt-tab or devtools focus grab mid-hover.
+  document.addEventListener('pointerleave', hide);
+  document.addEventListener('pointerout', event => { if (!event.relatedTarget) hide(); });
+  window.addEventListener('blur', hide);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) hide(); });
   document.addEventListener('pointerenter', () => { if (running) cursor.classList.add('live'); });
 
   onMotionChange(on => {
