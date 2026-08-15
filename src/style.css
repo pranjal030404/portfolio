@@ -60,6 +60,9 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  /* the masthead is position: fixed and out of flow, so its height has to
+     be reserved here or the hero sits underneath it on load */
+  padding-top: var(--bar);
 }
 
 /* height:auto matters — without it the width/height attributes on <img>
@@ -140,8 +143,10 @@ body.light .terrain { opacity: 0.35; }
 /* ─────────────────────────────────────────────────── masthead ── */
 
 .masthead {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   height: var(--bar);
   display: flex;
