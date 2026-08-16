@@ -9,21 +9,17 @@ About · Experience · Work · Code · Stack · Lab · Education · Contact
 
 Pranjal Tiwari · Software Developer
 
-# I build production web apps and *real-time software.*
+# I build production web applications and *real-time software.*
 
-Software Developer experienced in building and maintaining full-stack
-applications, REST APIs, real-time systems and data-driven platforms.
+Software Developer with hands-on experience building and maintaining
+full-stack applications, REST APIs, real-time systems, and data-driven
+platforms.
 
-Currently working on **[typewriter — cycles through]:**
-- Production React applications
-- Node.js & Express APIs
-- MongoDB-backed systems
-- Real-time applications
-- Backend & distributed systems
+Currently working with **MongoDB · Node.js · React · Express.js · Redis · Docker**
 
 **Actions:** View work → · GitHub → · Get in touch →
 
-Noida, India. Currently building production systems at Zebraffe Technologies.
+Noida, India · Currently building production systems at Zebraffe Technologies.
 
 *(Portrait caption: Noida, 2026)*
 
@@ -31,27 +27,27 @@ Noida, India. Currently building production systems at Zebraffe Technologies.
 
 ## About
 
-### I build software that connects products, systems and users.
+### I build software that connects products, systems, and users.
 
-I'm a software developer with hands-on experience building production web
+I'm a Software Developer with hands-on experience building production web
 applications and backend systems.
 
 At Zebraffe Technologies, I work across the stack — developing React
-interfaces, building Node.js and Express APIs, working with MongoDB,
-debugging production issues and maintaining business-critical platforms.
+interfaces, building Node.js and Express.js APIs, working with MongoDB,
+debugging production issues, and maintaining business-critical platforms.
 
 Previously, during my internship at Atrivis Technologies, I worked on a
-real-time GPS tracking and IoT management system. That experience took me
-deeper into backend engineering, TCP communication, binary protocol
-parsing, Redis Streams, microservices and real-time data delivery.
+real-time GPS tracking and IoT management system. This experience gave me
+deeper exposure to backend engineering, TCP communication, binary protocol
+parsing, Redis Streams, microservices, and real-time data processing.
 
-I enjoy working on problems where the frontend, backend, database and
-infrastructure all have to work together reliably.
+I enjoy solving problems where the frontend, backend, database, and
+infrastructure need to work together reliably.
 
-**Now** — Software Developer · Zebraffe Technologies
-**Education** — BTech CSE · BBDIT · Graduated 2026
-**Based** — Noida, India
-**Open source** — [DOOCS](https://github.com/doocs) · [TheAlgorithms](https://github.com/TheAlgorithms)
+**Currently** — Software Developer · Zebraffe Technologies
+**Education** — B.Tech in Computer Science Engineering · BBDIT · 2022–2026
+**Based in** — Noida, India
+**Open Source** — [DOOCS](https://github.com/doocs) · [TheAlgorithms](https://github.com/TheAlgorithms)
 
 ### Terminal (`pranjal@noida zsh`)
 ```
@@ -62,7 +58,7 @@ $ cat stack.txt
 Node.js · Express · React · MongoDB · Redis · Docker
 
 $ uptime --since
-Dec 2024 — two platforms in production
+Dec 2024 — Working on production platforms
 
 $ ping device
 GT06 frame in, position out, 0 packets dropped
@@ -75,8 +71,8 @@ const developer = {
   role: 'Software Developer',
   based: 'Noida, India',
   works: ['backend', 'real-time', 'IoT'],
-  stack: ['Node', 'React', 'MongoDB', 'Redis'],
-  // the part between a device and a map
+  stack: ['Node.js', 'React', 'MongoDB', 'Redis'],
+  // Building the systems between devices, services, and users
   ships: true
 }
 ```
@@ -99,46 +95,47 @@ Leaflet ◆ Git ◆ Linux ◆
 **Zebraffe Technologies Limited · Noida, India**
 Dec 2024 — Present
 
-I work on production web platforms used for business and operational
-workflows — a vehicle fitness system and the company franchise portal —
-contributing across frontend, backend and application maintenance.
+I work on production web platforms that support business and operational
+workflows, including a vehicle fitness platform and the company's franchise
+portal. My work spans frontend development, backend services, application
+maintenance, and production support.
 
 **Responsibilities**
 - Develop and maintain features for production web applications
 - Build and integrate REST APIs using Node.js and Express.js
 - Develop React interfaces and reusable application components
-- Work with MongoDB schemas, queries and application data
+- Work with MongoDB schemas, queries, and application data
 - Debug and resolve production issues across the application stack
 - Improve application stability and maintain existing business workflows
 - Work across frontend and backend requirements to deliver complete features
 - Support deployment and ongoing maintenance of production applications
 
-**Tech:** React · Node.js · Express.js · MongoDB · REST APIs
-**Links:** [vehiclefitness.gocarriage.com](https://stg.vehiclefitness.gocarriage.com/) · [in.zebraffe.net](https://in.zebraffe.net/)
+**Technologies:** React · Node.js · Express.js · MongoDB · REST APIs
+**Platforms:** [Vehicle Fitness Platform](https://stg.vehiclefitness.gocarriage.com/) · [Franchise Platform](https://in.zebraffe.net/)
 
 ### MERN Stack Developer Intern
 **Atrivis Technologies Pvt. Ltd. · Noida, India**
 Sep 2024 — Nov 2024
 
 Worked on a real-time GPS tracking and IoT management system built around
-custom TCP communication, backend services and a live tracking interface —
-from the socket that accepts device connections up to the map the operator
-watches.
+custom TCP communication, backend services, and a live tracking interface —
+from the socket that receives device connections to the map used by
+operators.
 
 **Responsibilities**
 - Developed TCP servers for persistent GPS device connections
-- Worked with GT06, Concox and Prithivi device protocols
+- Worked with GT06, Concox, and Prithivi device protocols
 - Parsed and validated binary GPS device frames
 - Implemented IMEI-based device identification and authentication
-- Worked with CRC-ITU checksum validation for incoming packets
+- Implemented CRC-ITU checksum validation for incoming packets
 - Used Redis Streams and consumer groups to separate device ingestion from downstream processing
-- Contributed to services for geofencing, alerts and trip processing
+- Contributed to services for geofencing, alerts, and trip processing
 - Designed REST APIs and MongoDB data structures for vehicle position history
 - Used MongoDB geospatial indexing for location-based queries
-- Worked with Socket.io for real-time vehicle updates
-- Built functionality for live tracking, route analysis and historical playback
+- Worked with Socket.io to deliver real-time vehicle updates
+- Built functionality for live tracking, route analysis, and historical playback
 
-**Tech:** Node.js · Redis · Redis Streams · MongoDB · Socket.io · TCP/IP · React · Leaflet
+**Technologies:** Node.js · Redis · Redis Streams · MongoDB · Socket.io · TCP/IP · React · Leaflet
 **Link:** [Live platform](http://139.59.13.130:5173/login)
 
 ---
@@ -149,66 +146,69 @@ watches.
 **Zebraffe Technologies · Production**
 
 A production web platform supporting vehicle fitness workflows and
-operational processes. I work across the stack — React interfaces,
-Node.js / Express APIs, MongoDB data handling, feature development and
-production debugging.
+operational processes. I contribute across the stack, including React
+interfaces, Node.js and Express.js APIs, MongoDB data handling, feature
+development, and production debugging.
 
-**Tech:** React · Node.js · Express.js · MongoDB · REST APIs
+**Technologies:** React · Node.js · Express.js · MongoDB · REST APIs
 **Link:** [Live platform](https://stg.vehiclefitness.gocarriage.com/)
 
 ### 02 · Franchise Platform
 **Zebraffe Technologies · Production**
 
-The company franchise portal — live business workflows and the platform
-stability work that keeps it running. Application features, frontend
-development, backend APIs and production maintenance.
+A business platform supporting franchise workflows and operational
+processes. My work includes application feature development, frontend
+development, backend APIs, data handling, and production maintenance.
 
-**Tech:** React · Node.js · Express.js · MongoDB
+**Technologies:** React · Node.js · Express.js · MongoDB
 **Link:** [Live platform](https://in.zebraffe.net/)
 
 ### 03 · GPS Tracking & IoT Management System
 **Atrivis Technologies · Internship project**
 
-A real-time vehicle tracking and IoT management system connecting GPS
-devices to a live web dashboard, built on a microservices architecture —
-custom TCP servers, GT06 / Concox / Prithivi frame parsing and IMEI-based
-device auth, Redis Streams with consumer groups, and MongoDB with
-2dsphere geospatial indexing. My strongest technical project: live
-tracking, route analytics, historical playback and point-in-polygon
-geofencing alerts.
+A real-time vehicle tracking and IoT management system that connects GPS
+devices to a live web dashboard.
 
-**Tech:** Node.js · Redis · Redis Streams · MongoDB · Socket.io · TCP/IP · React · Leaflet
+The system uses a microservices architecture with custom TCP servers,
+GT06 / Concox / Prithivi frame parsing, IMEI-based device authentication,
+Redis Streams with consumer groups, and MongoDB with 2dsphere geospatial
+indexing.
+
+The platform supports live tracking, route analytics, historical playback,
+and point-in-polygon geofencing alerts.
+
+**Technologies:** Node.js · Redis · Redis Streams · MongoDB · Socket.io · TCP/IP · React · Leaflet
 
 **Architecture:**
-1. TCP socket · persistent connection
-2. GT06 / Concox / Prithivi frame
-3. IMEI login handshake · device auth
-4. Parser · CRC-ITU checksum validation
-5. Redis Stream · XADD on ingest
-6. Consumer groups · at-least-once processing
-7. Geofence / trip / alert microservices
-8. MongoDB · 2dsphere position index
-9. Socket.io · room per vehicle
-10. React / Leaflet · live map
+1. TCP Socket · Persistent device connection
+2. GT06 / Concox / Prithivi · Device communication protocols
+3. IMEI Login Handshake · Device identification and authentication
+4. Parser · Binary frame decoding and CRC-ITU validation
+5. Redis Streams · Data ingestion and processing queue
+6. Consumer Groups · Independent downstream processing
+7. Microservices · Geofencing, trip processing, and alerts
+8. MongoDB · Position history and 2dsphere geospatial indexing
+9. Socket.io · Real-time vehicle updates
+10. React / Leaflet · Live tracking interface
 
 **Links:** [Live platform](http://139.59.13.130:5173/login) · [GT06 repository](https://github.com/pranjal030404/Gt06-)
 
 ### 04 · Meet with Recording
 **Personal · JavaScript**
-A browser-based meeting app built to explore real-time communication, media capture and browser recording.
-**Tech:** JavaScript · WebRTC · MediaRecorder
+A browser-based meeting application built to explore real-time communication, media capture, and browser-based recording.
+**Technologies:** JavaScript · WebRTC · MediaRecorder
 **Link:** [GitHub](https://github.com/pranjal030404/Meets_with_recording)
 
 ### 05 · AI Recommendation Engine
 **Personal · Python**
 A Python-based recommendation engine built to explore recommendation and ranking concepts.
-**Tech:** Python
+**Technology:** Python
 **Link:** [GitHub](https://github.com/pranjal030404/AI-based-recommendation-engine)
 
 ### 06 · YouTube Clone
 **Personal · JavaScript**
-A frontend project recreating core YouTube-style browsing and video discovery using the YouTube Data API.
-**Tech:** JavaScript · Tailwind CSS · YouTube Data API
+A frontend project inspired by YouTube, featuring video browsing and discovery using the YouTube Data API.
+**Technologies:** JavaScript · Tailwind CSS · YouTube Data API
 **Link:** [GitHub](https://github.com/pranjal030404/Youtube-Clone-)
 
 ---
@@ -216,53 +216,55 @@ A frontend project recreating core YouTube-style browsing and video discovery us
 ## Architecture deep-dive — "From a device on a truck to a dot on a map"
 *(Lives directly under the GPS Tracking & IoT case study in Work.)*
 
-A closer look at the GPS tracking and IoT management system I built at
-Atrivis. Trackers in the field talk to it over raw TCP; a browser somewhere
-else shows where they are. These are the eight things in between.
+A closer look at the GPS tracking and IoT management system I worked on at
+Atrivis. GPS trackers in the field communicate with the backend over raw
+TCP, while operators use a web dashboard to monitor their vehicles in real
+time. Here is what happens between the device and the map.
 
-**01 · GPS device** — Vehicle tracker in the field
-> **The trigger.** Interval and ACC-triggered reports, ignition and voltage state,
-> GPS with LBS/Wi-Fi fallback when the sky view is bad — the tracker
-> decides when to talk, the server just has to be listening.
+**01 · GPS Device** — Vehicle tracker in the field
+> **The Trigger.** The tracker sends interval- and ACC-triggered reports containing
+> information such as ignition status, voltage, and location. When GPS
+> availability is limited, the device can use LBS/Wi-Fi-based positioning.
 
-**02 · TCP server** — Custom, long-lived connections
-> **Not HTTP.** Trackers open a socket and hold it, sometimes for days. The server
-> reads whatever arrives, whenever it arrives — there is no request
-> to respond to, only a stream of frames to buffer and split.
+**02 · TCP Server** — Custom, long-lived connections
+> **Not HTTP.** Trackers establish persistent socket connections that can remain
+> active for extended periods. The server continuously reads incoming data
+> rather than handling traditional request-response cycles.
 
-**03 · GT06 · Concox · Prithivi** — Binary frames
-> **Raw device frame.** Start bits, protocol number, payload, CRC-ITU checksum. Every
-> session opens with a login packet carrying the device's IMEI —
-> that's what ties a socket to a vehicle. Three families, three
-> checksum tables, one shape.
+**03 · GT06 · Concox · Prithivi** — Binary communication frames
+> **Raw Device Data.** Incoming packets contain information such as start bits,
+> protocol numbers, payload data, and CRC-ITU checksums. Login packets
+> contain the device IMEI, which is used to associate the connection with a
+> vehicle.
 
 **04 · Parser** — Decode and validate
-> **Decode.** Out comes latitude, longitude, speed, heading, satellite count and
-> status — the first point in the chain where the bytes mean
-> anything. A frame that fails checksum gets dropped, not guessed
-> at; a valid one gets an ACK written back on the same socket.
+> **Decode.** The parser converts raw binary data into meaningful information
+> such as latitude, longitude, speed, heading, satellite count, and device
+> status. Invalid frames that fail checksum validation are rejected, while
+> valid frames receive an acknowledgement through the same connection.
 
-**05 · Redis Streams** — Queue between services
-> **Decouple ingestion.** The TCP server XADDs and moves on. Consumer groups on the other
-> side read independently — a slow consumer falls behind and
-> catches up on redelivery; it doesn't drop packets or block the
-> socket server.
+**05 · Redis Streams** — Data pipeline between services
+> **Decouple Ingestion.** The TCP server adds incoming data to a Redis Stream and
+> continues processing new packets. Consumer groups allow downstream
+> services to process the data independently. This prevents slower
+> processing services from blocking the TCP ingestion layer.
 
-**06 · Microservices** — Geofences, alerts, trips
-> **Isolated by concern.** Geofencing runs point-in-polygon checks against stored zones,
-> trip segmentation watches ignition and movement state, alerts fan
-> out on threshold breaches — three consumers on the same stream,
-> no shared state between them.
+**06 · Microservices** — Geofencing · Alerts · Trip Processing
+> **Separate Responsibilities.** Different services process different types of data and
+> events. Geofencing performs point-in-polygon checks against stored zones,
+> trip processing monitors vehicle movement and ignition state, and alert
+> services respond to configured conditions.
 
-**07 · MongoDB** — Position history
-> **Persist.** Historical playback and route analytics both read from here.
-> Positions carry a 2dsphere index, so geofence and viewport
-> queries stay index-backed instead of scanning the collection.
+**07 · MongoDB** — Vehicle position history
+> **Persist.** MongoDB stores vehicle positions and historical data used for
+> route analysis and playback. A 2dsphere index supports geospatial queries
+> for features such as geofencing and map-based vehicle searches.
 
-**08 · Live map** — Socket.io · React · Leaflet
-> **Present.** Each vehicle gets a Socket.io room; a client only hears about the
-> fleet it's watching. Anything happening right now goes straight
-> out to the dashboard, and the dot moves.
+**08 · Live Map** — Socket.io · React · Leaflet
+> **Present.** Socket.io delivers real-time vehicle updates to the dashboard.
+> Vehicles can be organized into Socket.io rooms so clients receive updates
+> relevant to the fleet or vehicles they are monitoring. The result is a
+> live map where vehicle positions update as new data arrives.
 
 ---
 
@@ -271,76 +273,56 @@ else shows where they are. These are the eight things in between.
 
 **01 · MERN · PRODUCTION — Vehicle Fitness Platform**
 Zebraffe Technologies · Production · React · Node.js · MongoDB
-> A production web platform supporting vehicle fitness workflows and
-> operational processes. React interfaces, Node.js/Express APIs, MongoDB
-> data handling, feature development and production debugging.
 
 **02 · REACT · EXPRESS — Franchise Platform**
 Zebraffe Technologies · Production · React · Node.js · Express
-> The company franchise portal — live business workflows, site updates and
-> the platform stability work that keeps them running.
 
 **03 · TCP · REDIS · MONGO — GPS Tracking & IoT**
 Atrivis Technologies · Internship project · Node.js · Redis Streams · Socket.io
-> A real-time vehicle tracking system on a microservices architecture, from
-> my internship at Atrivis. Custom TCP servers accept long-lived device
-> connections authenticated by IMEI, GT06/Concox/Prithivi frames are
-> checksum-validated and parsed into positions, Redis Streams with consumer
-> groups decouple ingestion from processing, MongoDB holds positions under
-> a 2dsphere index for geofence queries, and Socket.io pushes anything
-> happening right now straight to the map.
 
 **04 · WEBRTC · MEDIA — Meet with Recording**
 Personal · JavaScript · JavaScript · MediaRecorder
-> A browser meeting app with recording, built to understand media capture
-> and streaming in the browser — getUserMedia, MediaRecorder and the peer
-> connection underneath.
 
 **05 · PYTHON · ML — Recommendation Engine**
 Personal · Python
-> A recommendation engine in Python — the modelling side of the stack
-> rather than the request side, written to understand how the ranking
-> actually gets made.
 
 **06 · DASHBOARD · AUTH — CRM / EMS Portal**
 Frontend · Dashboard · React
-> A CRM and employee management front end — authentication, dashboard
-> operations and the table-heavy screens that come with them.
 
 ---
 
 ## Code & open source
-Public repositories and contributions to projects around algorithms,
-developer tooling and hardware.
+Public repositories and contributions covering algorithms, developer
+tools, web development, and hardware-related projects.
 
 **Contributions**
-- [DOOCS / LeetCode](https://github.com/doocs/leetcode) — Website work and solutions
-- [TheAlgorithms · website](https://github.com/TheAlgorithms/website) — Site maintenance and Docker builds
+- [DOOCS / LeetCode](https://github.com/doocs/leetcode) — Website development and algorithm solutions
+- [TheAlgorithms · Website](https://github.com/TheAlgorithms/website) — Website maintenance and Docker builds
 - [TheAlgorithms · Java](https://github.com/TheAlgorithms/Java) — Algorithm implementations
-- [OnStep](https://github.com/pranjal030404/OnStep) — Arduino telescope GoTo controller — fork
+- [OnStep](https://github.com/pranjal030404/OnStep) — Arduino-based telescope GoTo controller fork
 
 **Repositories**
-- [Gt06-](https://github.com/pranjal030404/Gt06-) — GT06 protocol work · JavaScript
-- [Meets_with_recording](https://github.com/pranjal030404/Meets_with_recording) — JavaScript
-- [AI-based-recommendation-engine](https://github.com/pranjal030404/AI-based-recommendation-engine) — Python
-- [Flood-Risk-analyser](https://github.com/pranjal030404/Flood-Risk-analyser) — Jupyter Notebook
-- [3D_building_layout-](https://github.com/pranjal030404/3D_building_layout-) — JavaScript
+- [Gt06-](https://github.com/pranjal030404/Gt06-) — GT06 protocol implementation and device communication · JavaScript
+- [Meets_with_recording](https://github.com/pranjal030404/Meets_with_recording) — Browser-based meeting application · JavaScript
+- [AI-based-recommendation-engine](https://github.com/pranjal030404/AI-based-recommendation-engine) — Recommendation project · Python
+- [Flood-Risk-analyser](https://github.com/pranjal030404/Flood-Risk-analyser) — Flood risk analysis · Jupyter Notebook
+- [3D_building_layout-](https://github.com/pranjal030404/3D_building_layout-) — 3D building layout project · JavaScript
 
 **Communities**
 TheAlgorithms · DOOCS · dev-protocol · Py-Contributors · Design-and-Code · CommunityPro
 
-Problem solving on LeetCode, HackerRank and GeeksforGeeks.
+I also practice problem-solving through LeetCode, HackerRank, and GeeksforGeeks.
 
 [View GitHub →](https://github.com/pranjal030404)
 
 ---
 
-## Stack
+## Tech Stack
 
 **Frontend** — React, TypeScript, JavaScript, HTML / CSS, Tailwind CSS
 **Backend** — Node.js, Express.js, REST APIs, Microservices
-**Databases & data** — MongoDB, MySQL, Redis, Redis Streams
-**Real-time & networking** — Socket.io, TCP/IP, GPS device communication, Binary protocol parsing, WebRTC
+**Databases & Data** — MongoDB, MySQL, Redis, Redis Streams
+**Real-Time & Networking** — Socket.io, TCP/IP, GPS device communication, Binary protocol parsing, WebRTC
 **DevOps** — Docker, Git, GitHub Actions, Linux, CI/CD
 **Other** — Python, Java, Leaflet, ESP32
 
@@ -351,17 +333,17 @@ Java · WebRTC · Tailwind · Git · Linux
 ---
 
 ## Lab
-Small browser experiments. TypeScript, no libraries.
+Small browser experiments built with TypeScript and no external libraries.
 
-- **Snake** — A small Canvas experiment. → Play
-- **Typing** — A test built around the technologies I work with. → Play
-- **Reaction** — How quickly can you react? → Play
+- **Snake** — A small Canvas-based game experiment. → Play
+- **Typing** — A typing experiment built around technologies I work with. → Play
+- **Reaction** — A simple reaction-time experiment. → Play
 
 ---
 
 ## Education
 
-**B.Tech, Computer Science Engineering**
+**B.Tech in Computer Science Engineering**
 BBD Institute of Technology · AKTU, Lucknow · 2022—2026
 Completed: 2026 · CGPA: 8.17
 
@@ -374,11 +356,13 @@ Completed: 2026 · CGPA: 8.17
 
 ### Have something worth building?
 
-For work, collaborations, software problems, or a good technical
-conversation. Messages from the form open in WhatsApp.
+I'm interested in software engineering opportunities, technical
+collaborations, and challenging problems that involve building useful
+software.
 
-Interested in software engineering opportunities, technical collaborations
-and a good problem to work on.
+If you have a project, opportunity, or technical problem you'd like to
+discuss, feel free to get in touch — messages from the form open in
+WhatsApp.
 
 - **Email:** [pranjaltiwari69058@gmail.com](mailto:pranjaltiwari69058@gmail.com)
 - **WhatsApp:** [+91 84000 95088](https://wa.me/918400095088)
