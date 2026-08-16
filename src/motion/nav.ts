@@ -14,17 +14,8 @@ export function initMasthead(): void {
   const masthead = document.querySelector<HTMLElement>('.masthead');
   if (!masthead) return;
 
-  let last = window.scrollY;
-
   onScroll(y => {
     masthead.classList.toggle('shrink', y > 80);
-
-    // never hide while the mobile menu is open, or at the very top
-    const menuOpen = document.getElementById('nav')?.classList.contains('open');
-    const down = y > last && y > 240;
-
-    masthead.classList.toggle('hide', Boolean(down && !menuOpen && motionOn()));
-    last = y;
   });
 }
 
