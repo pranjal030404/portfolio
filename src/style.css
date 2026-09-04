@@ -413,13 +413,33 @@ body.light .terrain { opacity: 0.35; }
 
 .system-head p { color: var(--muted); max-width: 50ch; }
 
-.flow { display: grid; }
+.flow { display: grid; counter-reset: flowstage; }
 
 .flow li {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
   gap: 0 clamp(1.5rem, 4vw, 3.5rem);
   align-items: start;
+  counter-increment: flowstage;
+}
+
+/* the note is capped for reading, so every row had a wide empty margin on
+   the right. A large ghosted stage numeral lives there now — the same
+   count as the small mono index on the step, set loud and faint. */
+.flow li::after {
+  content: counter(flowstage, decimal-leading-zero);
+  position: absolute;
+  top: 50%;
+  right: 0.25rem;
+  translate: 0 -50%;
+  font-family: var(--serif);
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--border);
+  pointer-events: none;
+  user-select: none;
 }
 
 /* the line the whole chain hangs from */
@@ -670,6 +690,28 @@ body.light .terrain { opacity: 0.35; }
 .case-tech { font-family: var(--mono); font-size: 11.5px; color: var(--muted); margin-top: 1rem; line-height: 1.8; }
 .case-link { margin-top: 1.25rem; }
 
+/* the case column is wide and the copy is capped at ~54ch, which left a
+   dead band on the right. A small route sketch — vertices and drift dots,
+   the same survey-map language as the backdrop — sits in that band. It is
+   decoration, so it is hidden once the column narrows. */
+.case-body { position: relative; }
+
+.case-body::after {
+  content: '';
+  position: absolute;
+  top: 0.25rem;
+  right: 0;
+  width: clamp(180px, 20vw, 260px);
+  aspect-ratio: 26 / 18;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 180'%3E%3Cpath d='M10 150 L64 104 L112 128 L160 66 L210 92 L250 34' fill='none' stroke='%23e05a33' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' opacity='0.7'/%3E%3Cg fill='%23a79d8d'%3E%3Ccircle cx='64' cy='104' r='2.6'/%3E%3Ccircle cx='112' cy='128' r='2.6'/%3E%3Ccircle cx='160' cy='66' r='2.6'/%3E%3Ccircle cx='210' cy='92' r='2.6'/%3E%3C/g%3E%3Ccircle cx='10' cy='150' r='3.4' fill='%23e05a33'/%3E%3Ccircle cx='250' cy='34' r='3.4' fill='%23e05a33'/%3E%3Cg fill='%23a79d8d' opacity='0.45'%3E%3Ccircle cx='36' cy='44' r='1.6'/%3E%3Ccircle cx='128' cy='24' r='1.6'/%3E%3Ccircle cx='232' cy='140' r='1.6'/%3E%3Ccircle cx='92' cy='166' r='1.6'/%3E%3Ccircle cx='188' cy='150' r='1.6'/%3E%3C/g%3E%3C/svg%3E") no-repeat center / contain;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+body.light .case-body::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 180'%3E%3Cpath d='M10 150 L64 104 L112 128 L160 66 L210 92 L250 34' fill='none' stroke='%23a53a17' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' opacity='0.7'/%3E%3Cg fill='%235f5648'%3E%3Ccircle cx='64' cy='104' r='2.6'/%3E%3Ccircle cx='112' cy='128' r='2.6'/%3E%3Ccircle cx='160' cy='66' r='2.6'/%3E%3Ccircle cx='210' cy='92' r='2.6'/%3E%3C/g%3E%3Ccircle cx='10' cy='150' r='3.4' fill='%23a53a17'/%3E%3Ccircle cx='250' cy='34' r='3.4' fill='%23a53a17'/%3E%3Cg fill='%235f5648' opacity='0.45'%3E%3Ccircle cx='36' cy='44' r='1.6'/%3E%3Ccircle cx='128' cy='24' r='1.6'/%3E%3Ccircle cx='232' cy='140' r='1.6'/%3E%3Ccircle cx='92' cy='166' r='1.6'/%3E%3Ccircle cx='188' cy='150' r='1.6'/%3E%3C/g%3E%3C/svg%3E");
+}
+
 .arch { margin-top: 1.25rem; max-width: 30rem; }
 
 .arch summary {
@@ -875,6 +917,14 @@ body.light .terrain { opacity: 0.35; }
   text-align: center;
   background: color-mix(in srgb, var(--sunk) 86%, transparent);
 }
+
+/* driven by the [hidden] attribute from the game state — a bare `.g-over`
+   class beats the UA `[hidden]` rule on source order, so it must be said
+   here or the "Ready / Press an arrow key" panel never clears during play */
+.g-over[hidden] { display: none; }
+.g-over:not([hidden]) { animation: g-over-in 0.2s ease both; }
+@keyframes g-over-in { from { opacity: 0; } to { opacity: 1; } }
+body.motion-off .g-over:not([hidden]) { animation: none; }
 
 .g-over strong { font-size: 18px; font-weight: 600; }
 .g-over p { font-family: var(--mono); font-size: 12px; color: var(--muted); }
@@ -1155,6 +1205,10 @@ body.light .terrain { opacity: 0.35; }
   .flow li { grid-template-columns: minmax(0, 260px) minmax(0, 1fr); }
   .minor li { grid-template-columns: 40px minmax(0, 1fr) auto; }
   .minor-meta { grid-column: 2; grid-row: 2; }
+
+  /* the copy now uses the full width — no room left for the sketch */
+  .case-body::after { display: none; }
+  .flow li::after { display: none; }
 }
 
 @media (max-width: 900px) {

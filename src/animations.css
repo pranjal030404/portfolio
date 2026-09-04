@@ -820,13 +820,13 @@ body.cursor-live textarea { cursor: none; }
   gap: 0.5rem 1.25rem;
 }
 
-.cloud.placed { display: block; padding: 0; min-height: clamp(220px, 34vw, 320px); }
+.cloud.placed { display: block; padding: 0; min-height: clamp(240px, 30vw, 310px); }
 
 .cloud b {
   font-family: var(--mono);
   font-weight: 400;
-  font-size: calc(11px + var(--w, 0.4) * 7px);
-  color: color-mix(in srgb, var(--text) calc(38% + var(--w, 0.4) * 52%), transparent);
+  font-size: calc(12px + var(--w, 0.4) * 12px);
+  color: color-mix(in srgb, var(--text) calc(46% + var(--w, 0.4) * 48%), transparent);
   white-space: nowrap;
   cursor: default;
   transition: color 0.25s ease, scale 0.3s var(--ease-back);
@@ -1137,7 +1137,7 @@ body.theme-swap::view-transition-new(root) { animation: circle-in 0.6s var(--eas
 @media (max-width: 640px) {
   .orb-3, .bg-grid { display: none; }
   .strip-loud .marquee-run b { font-size: 1.75rem; }
-  .cloud { min-height: 260px; }
+  .cloud { min-height: 230px; }
   .term-body { min-height: 12rem; }
 }
 

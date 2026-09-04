@@ -193,23 +193,50 @@ and point-in-polygon geofencing alerts.
 
 **Links:** [Live platform](http://139.59.13.130:5173/login) · [GT06 repository](https://github.com/pranjal030404/Gt06-)
 
-### 04 · Meet with Recording
+### 04 · Seffro — Real-Estate Marketplace
+**Full-stack platform · Production**
+
+A smart real-estate marketplace that brings buying, selling, renting, and
+property management into one platform. It connects buyers, sellers,
+landlords, tenants, and builders through verified listings and transparent
+deals.
+
+I work across the stack: role-based authentication for Admin, Agent, Owner,
+Buyer and Tenant; property CRUD with image and document handling; map-based
+discovery with advanced search and filters; enquiry and lead management; and
+the property verification workflow behind the admin dashboard.
+
+The platform also covers commercial properties, property loans, and legal
+and advisory support, with cloud storage for media, geolocation APIs, and
+email, SMS and push notifications wired into the core flows.
+
+**Technologies:** React · Node.js · Express.js · MongoDB · REST APIs · Redis · Cloud Storage / CDN · Maps API
+
+**Workflow:**
+1. Owner / Agent · Add property, upload details, images and documents
+2. Admin Verification · Approve or reject each listing
+3. Publish Listing · Verified property goes live on the marketplace
+4. Customer Discovery · Search, apply filters, view on map
+5. Save & Enquiry · Buyer saves a property or raises an enquiry
+6. Lead Routing · Agent or owner receives the lead
+7. Schedule Visit · Property visit arranged between parties
+8. Negotiation · Terms discussed for sale or rental
+9. Deal / Rental · Agreement reached
+10. Documentation · Paperwork and closing
+
+**Link:** [Live platform](https://seffro.com/)
+
+### 05 · Meet with Recording
 **Personal · JavaScript**
 A browser-based meeting application built to explore real-time communication, media capture, and browser-based recording.
 **Technologies:** JavaScript · WebRTC · MediaRecorder
 **Link:** [GitHub](https://github.com/pranjal030404/Meets_with_recording)
 
-### 05 · AI Recommendation Engine
+### 06 · AI Recommendation Engine
 **Personal · Python**
 A Python-based recommendation engine built to explore recommendation and ranking concepts.
 **Technology:** Python
 **Link:** [GitHub](https://github.com/pranjal030404/AI-based-recommendation-engine)
-
-### 06 · YouTube Clone
-**Personal · JavaScript**
-A frontend project inspired by YouTube, featuring video browsing and discovery using the YouTube Data API.
-**Technologies:** JavaScript · Tailwind CSS · YouTube Data API
-**Link:** [GitHub](https://github.com/pranjal030404/Youtube-Clone-)
 
 ---
 
@@ -280,13 +307,16 @@ Zebraffe Technologies · Production · React · Node.js · Express
 **03 · TCP · REDIS · MONGO — GPS Tracking & IoT**
 Atrivis Technologies · Internship project · Node.js · Redis Streams · Socket.io
 
-**04 · WEBRTC · MEDIA — Meet with Recording**
+**04 · MERN · MARKETPLACE — Seffro**
+Full-stack platform · Production · React · Node.js · MongoDB
+
+**05 · WEBRTC · MEDIA — Meet with Recording**
 Personal · JavaScript · JavaScript · MediaRecorder
 
-**05 · PYTHON · ML — Recommendation Engine**
+**06 · PYTHON · ML — Recommendation Engine**
 Personal · Python
 
-**06 · DASHBOARD · AUTH — CRM / EMS Portal**
+**07 · DASHBOARD · AUTH — CRM / EMS Portal**
 Frontend · Dashboard · React
 
 ---

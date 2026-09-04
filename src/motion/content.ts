@@ -53,16 +53,27 @@ export function initCloud(): void {
     return seed / 4294967296;
   };
 
-  const columns = Math.max(3, Math.round(Math.sqrt(names.length * 1.6)));
+  const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
+
+  // Fewer columns so long names ("Socket.io", "REST APIs") get horizontal
+  // room, and more rows so the panel fills top to bottom instead of leaving
+  // a dead band underneath.
+  const columns = Math.max(3, Math.round(Math.sqrt(names.length * 1.05)));
   const rows = Math.ceil(names.length / columns);
 
   names.forEach((name, i) => {
     const column = i % columns;
     const row = Math.floor(i / columns);
 
-    // a jittered grid: never overlapping, never obviously a grid
-    const x = ((column + 0.5) / columns) * 100 + (next() - 0.5) * (60 / columns);
-    const y = ((row + 0.5) / rows) * 100 + (next() - 0.5) * (50 / rows);
+    // A brick layout: every other row is offset half a cell, which reads as
+    // organic without the collisions a big random jitter causes. The jitter
+    // that remains is small and deterministic.
+    const brick = (row % 2) * 0.5;
+    const cx = ((column + 0.5 + brick) / columns) * 100 + (next() - 0.5) * (16 / columns);
+    const cy = ((row + 0.5) / rows) * 100 + (next() - 0.5) * (12 / rows);
+
+    const x = clamp(cx, 7, 93);
+    const y = clamp(cy, 8, 92);
     const weight = Number(name.dataset.w ?? next().toFixed(2));
 
     name.style.left = `${x.toFixed(1)}%`;
@@ -70,9 +81,9 @@ export function initCloud(): void {
     name.style.translate = '-50% -50%';
     name.style.setProperty('--w', String(weight));
     name.style.setProperty('--i', String(i));
-    name.style.setProperty('--dx', `${(next() * 22 - 11).toFixed(1)}px`);
-    name.style.setProperty('--dy', `${(next() * 22 - 11).toFixed(1)}px`);
-    name.style.setProperty('--dur', `${(12 + next() * 10).toFixed(1)}s`);
+    name.style.setProperty('--dx', `${(next() * 14 - 7).toFixed(1)}px`);
+    name.style.setProperty('--dy', `${(next() * 14 - 7).toFixed(1)}px`);
+    name.style.setProperty('--dur', `${(14 + next() * 8).toFixed(1)}s`);
   });
 
   cloud.classList.add('placed');
