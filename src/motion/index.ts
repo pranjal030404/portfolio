@@ -8,7 +8,7 @@ import { initHeroText, initTypewriter, initCounters, splitOnView } from './text'
 import { initParallax, initRail, initGallery, initReadout, initInView } from './scroll';
 import { initMasthead, initNavIndicator, initMenuStagger, initJump } from './nav';
 import { initMarquee, initCloud, initStaggerIndices } from './content';
-import { initCopy, initSheet, initSendTick } from './micro';
+import { initCopy, initSheet, initSendTick, initImageFade } from './micro';
 
 /**
  * Starts the motion layer.
@@ -65,4 +65,5 @@ export function initMotion(): void {
   initCopy();
   initSheet();
   initSendTick();
+  initImageFade();
 }

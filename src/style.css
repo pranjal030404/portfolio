@@ -711,11 +711,20 @@ body.light .terrain { opacity: 0.35; }
   height: 100%;
   object-fit: cover;
   object-position: top;
-  filter: saturate(0.92);
-  transition: filter 0.3s ease, transform 0.5s var(--ease-out);
+  filter: saturate(0.95);
+  opacity: 0;
+  transform: scale(1);
+  transition: transform 0.5s var(--ease-out), opacity 0.4s ease;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
-.case:hover .case-figure img { filter: saturate(1.05); transform: scale(1.03); }
+/* fades in once decoded instead of popping in mid-scroll */
+.case-figure img.is-loaded { opacity: 1; }
+
+/* transform only on hover — animating filter alongside it forces a repaint
+   of the whole bitmap every frame, which is what made this feel laggy */
+.case:hover .case-figure img { transform: scale(1.04); }
 
 .arch { margin-top: 1.25rem; max-width: 30rem; }
 

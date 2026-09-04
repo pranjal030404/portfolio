@@ -46,6 +46,24 @@ export function initCopy(): void {
   });
 }
 
+/* ──────────────────────────────────────────────── screenshot fade-in ── */
+
+/**
+ * Real screenshots fade in once decoded rather than popping in abruptly
+ * mid-scroll (lazy-loaded cards) or mid-open (the sheet's cloned image).
+ */
+function fadeInImage(img: HTMLImageElement): void {
+  if (img.complete && img.naturalWidth > 0) {
+    img.classList.add('is-loaded');
+    return;
+  }
+  img.addEventListener('load', () => img.classList.add('is-loaded'), { once: true });
+}
+
+export function initImageFade(): void {
+  document.querySelectorAll<HTMLImageElement>('.case-figure img, .shot-visual img').forEach(fadeInImage);
+}
+
 /* ──────────────────────────────────────────────────── project sheet ── */
 
 /**
@@ -106,10 +124,11 @@ export function initSheet(): void {
     visual.classList.toggle('has-img', !!cardImg);
     if (cardImg) {
       const img = document.createElement('img');
+      img.decoding = 'async';
       img.src = cardImg.src;
       img.alt = '';
-      img.loading = 'lazy';
       visual.append(img);
+      fadeInImage(img);
     }
 
     const href = shot.dataset.href ?? '';
