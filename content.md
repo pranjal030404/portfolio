@@ -232,11 +232,11 @@ A browser-based meeting application built to explore real-time communication, me
 **Technologies:** JavaScript · WebRTC · MediaRecorder
 **Link:** [GitHub](https://github.com/pranjal030404/Meets_with_recording)
 
-### 06 · AI Recommendation Engine
-**Personal · Python**
-A Python-based recommendation engine built to explore recommendation and ranking concepts.
-**Technology:** Python
-**Link:** [GitHub](https://github.com/pranjal030404/AI-based-recommendation-engine)
+### 06 · 3D Building Layout
+**Personal · JavaScript**
+A 3D building layout project exploring spatial visualization and rendering of structural layouts in the browser.
+**Technology:** JavaScript
+**Link:** [GitHub](https://github.com/pranjal030404/3D_building_layout-.git)
 
 ---
 
@@ -313,8 +313,8 @@ Full-stack platform · Production · React · Node.js · MongoDB
 **05 · WEBRTC · MEDIA — Meet with Recording**
 Personal · JavaScript · JavaScript · MediaRecorder
 
-**06 · PYTHON · ML — Recommendation Engine**
-Personal · Python
+**06 · JAVASCRIPT · 3D — 3D Building Layout**
+Personal · JavaScript
 
 **07 · DASHBOARD · AUTH — CRM / EMS Portal**
 Frontend · Dashboard · React

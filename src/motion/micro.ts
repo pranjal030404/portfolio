@@ -75,6 +75,7 @@ export function initSheet(): void {
   const card = sheet.querySelector<HTMLElement>('.sheet-card')!;
   const title = sheet.querySelector<HTMLElement>('#sheet-title')!;
   const meta = sheet.querySelector<HTMLElement>('.sheet-meta')!;
+  const visual = sheet.querySelector<HTMLElement>('.sheet-visual')!;
   const text = sheet.querySelector<HTMLElement>('.sheet-text')!;
   const go = sheet.querySelector<HTMLAnchorElement>('.sheet-go')!;
   const closeButton = sheet.querySelector<HTMLButtonElement>('.sheet-close')!;
@@ -97,6 +98,19 @@ export function initSheet(): void {
       shot.querySelector('.shot-tech')?.textContent
     ].filter(Boolean).join('  ·  ');
     text.textContent = shot.dataset.text ?? '';
+
+    // real screenshot on the card wins; without one the panel falls back
+    // to the same drawn pattern the card itself shows
+    const cardImg = shot.querySelector<HTMLImageElement>('.shot-visual img');
+    visual.innerHTML = '';
+    visual.classList.toggle('has-img', !!cardImg);
+    if (cardImg) {
+      const img = document.createElement('img');
+      img.src = cardImg.src;
+      img.alt = '';
+      img.loading = 'lazy';
+      visual.append(img);
+    }
 
     const href = shot.dataset.href ?? '';
     go.href = href;
