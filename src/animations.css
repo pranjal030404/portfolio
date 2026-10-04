@@ -210,7 +210,6 @@ main, .masthead, .foot { transition: opacity 0.5s ease; }
   top: 0; left: 0;
   z-index: 300;
   pointer-events: none;
-  mix-blend-mode: difference;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -226,27 +225,35 @@ main, .masthead, .foot { transition: opacity 0.5s ease; }
   will-change: transform;
 }
 
-.cursor-dot { width: 6px; height: 6px; background: #fff; }
+/* a bright accent core */
+.cursor-dot {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  box-shadow: 0 0 10px 2px color-mix(in srgb, var(--accent) 70%, transparent);
+  transition: opacity 0.2s ease, scale 0.25s var(--ease-back);
+}
 
+/* a soft glow that lags behind, like a lantern */
 .cursor-ring {
   display: grid;
   place-items: center;
-  width: 34px; height: 34px;
-  border: 1px solid #fff;
-  transition: width 0.28s var(--ease-back), height 0.28s var(--ease-back),
-              background-color 0.28s ease, border-radius 0.24s ease, opacity 0.2s ease;
+  width: 56px; height: 56px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 38%, transparent) 0%, transparent 70%);
+  transition: width 0.35s var(--ease-back), height 0.35s var(--ease-back),
+              background 0.3s ease, opacity 0.2s ease;
 }
 
-/* over a link or button the ring swells and the dot gets out of the way */
-.cursor.hot .cursor-ring { width: 58px; height: 58px; background: color-mix(in srgb, #fff 14%, transparent); }
-.cursor.hot .cursor-dot  { opacity: 0; }
+/* over a link or button the glow swells and the core grows */
+.cursor.hot .cursor-ring { width: 88px; height: 88px; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 50%, transparent) 0%, transparent 70%); }
+.cursor.hot .cursor-dot  { scale: 1.6; }
 
-/* over running text it becomes a reading bar */
-.cursor.text .cursor-ring { width: 3px; height: 30px; border-radius: 1px; background: #fff; }
-.cursor.text .cursor-dot  { opacity: 0; }
+/* over running text it shrinks to a quiet vertical line */
+.cursor.text .cursor-ring { opacity: 0.4; }
+.cursor.text .cursor-dot  { width: 2px; height: 22px; border-radius: 1px; box-shadow: none; }
 
-/* over something that says what it does */
-.cursor.labelled .cursor-ring { width: 74px; height: 74px; background: var(--accent); border-color: transparent; }
+/* over something that says what it does: a solid disc with the label */
+.cursor.labelled .cursor-ring { width: 72px; height: 72px; background: var(--accent); }
+.cursor.labelled .cursor-dot  { opacity: 0; }
 
 .cursor-label {
   font-family: var(--mono);
@@ -261,15 +268,17 @@ main, .masthead, .foot { transition: opacity 0.5s ease; }
 
 .cursor.labelled .cursor-label { opacity: 1; }
 
-.cursor.down .cursor-ring { scale: 0.82; }
+.cursor.down .cursor-ring { scale: 0.75; }
+.cursor.down .cursor-dot  { scale: 0.7; }
 
-/* the trail — a few dots easing along behind, each slower than the last */
+/* the trail — glowing embers drifting behind, each slower than the last */
 .trail {
   position: fixed;
   top: 0; left: 0;
-  width: 5px; height: 5px;
+  width: 6px; height: 6px;
   border-radius: 50%;
   background: var(--accent);
+  box-shadow: 0 0 8px 1px color-mix(in srgb, var(--accent) 60%, transparent);
   z-index: 299;
   pointer-events: none;
   translate: -50% -50%;
